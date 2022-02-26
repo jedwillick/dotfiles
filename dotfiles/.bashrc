@@ -127,6 +127,7 @@ complete -o default -F _pip_completion pip
 
 alias brc=". ~/.bashrc"
 alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
+alias psu='ps -fu $USER'
 
 if [ -f ~/.wsl_bashrc ]; then
     source ~/.wsl_bashrc
