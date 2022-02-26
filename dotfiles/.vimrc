@@ -30,17 +30,27 @@ highlight ColorColumn ctermbg=8 guibg=lightgrey
 "--------------------------------------------------------------------
 set number                      " Show line numbers
 set wildmenu                    " Turn on the autocomplete menu
-"set mouse=a                     " Enable mouse support
+" set mouse=a                     " Enable mouse support
 set ruler                       " Display the ruler in the bottom right corner
 set cursorline                  " Highlight the current line
 set backspace=indent,eol,start  " Allow backspace to work across lines
 filetype plugin on
 
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLso ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
 call plug#begin()
 Plug 'preservim/nerdcommenter'
 Plug 'rhysd/vim-clang-format'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
 call plug#end()
