@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bak=/tmp/dotfiles.bak/$(date '+%d-%m-%Y_%H.%M.%S')
+bak=backup/$(date '+%d-%m-%Y_%H.%M.%S')
 mkdir -p $bak
 
 for file in dotfiles/.*[^.]; do
