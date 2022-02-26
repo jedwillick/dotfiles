@@ -1,4 +1,4 @@
-$bak = "C:\temp\dotfiles.bak\" + (Get-Date -Format "MM-dd-yyyy_HH.mm.ss")
+$bak = "backup\" + (Get-Date -Format "MM-dd-yyyy_HH.mm.ss")
 
 New-Item -ItemType Directory -Path $bak
 
