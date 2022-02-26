@@ -1,4 +1,4 @@
-" set nocompatible
+set nocompatible
 
 "--------------------------------------------------------------------
 "   HIGHLIGHTING AND SYNTAX
@@ -66,10 +66,12 @@ let g:NERDAltDelims_c = 1
 let g:NERDDefaultAlign = 'left'
 
 let g:clang_format#style_options = {
-            \ "PointerAlignment" : "Left"}
+						\ "UseTab": "Never",
+            \ "IndentWidth": 4,
+            \ "PointerAlignment": "Left"}
 let g:clang_format#auto_format = 1
 " let g:clang_format#detect_style_file = 1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 
-
+set shiftwidth=4
