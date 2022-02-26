@@ -125,15 +125,20 @@ _pip_completion() {
 complete -o default -F _pip_completion pip
 # pip bash completion end
 
+vg() {
+		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+				--verbose --log-file="valgrind-$(basename $1).txt" $@
+}
+
 alias brc=". ~/.bashrc"
-alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
+# alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
 alias psu='ps -fu $USER'
 
 if [ -f ~/.wsl_bashrc ]; then
     source ~/.wsl_bashrc
 fi
 
-# Oh My posh & Utility script.
+# Oh My Posh & Utility script.
 command -v oh-my-posh &>/dev/null
 if [ $? -eq 0 ]; then
     export POSH_THEME=~/.poshthemes/min.omp.json
