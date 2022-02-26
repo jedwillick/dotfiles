@@ -1,0 +1,118 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "darkGray",
+          "properties": {
+            "template": "\u250c"
+          }
+        },
+        {
+          "foreground": "#61AFEF",
+          "properties": {
+            "style": "agnoster_short",
+            "template": " {{ .Path }}",
+            "max_depth": 2,
+            "mapped_locations_enabled": true,
+            "mapped_locations": {
+              "/mnt/c": "C:"
+            }
+          },
+          "style": "plain",
+          "type": "path"
+        },
+        {
+          "foreground": "#DDB15F",
+          "properties": {
+            "branch_ahead_icon": "<#D4AAFC>\u2191</>",
+            "branch_behind_icon": "<#D4AAFC>\u2193</>",
+            "branch_icon": "",
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "template": " \u27e8{{ if .UpstreamURL }}{{ url .HEAD .UpstreamURL }}{{ else }}{{ .HEAD }}{{ end }}{{.BranchStatus}}{{ if .Staging.Changed }} <#D4AAFC>*</>{{ .Staging.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }} <#D4AAFC>!</>{{ .Working.String }}{{ end }}\u27e9"
+          },
+          "style": "plain",
+          "type": "git"
+        },
+        {
+          "foreground": "#E06C75",
+          "properties": {
+            "template": " {{ if le .Percentage 20 }}{{ if ne .Battery.State 3 }}{{ .Percentage }}%{{ end }} {{ end }}"
+          },
+          "style": "plain",
+          "type": "battery"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "#e91e63",
+          "properties": {
+            "template": "{{ .Code }} "
+          },
+          "style": "plain",
+          "type": "exit"
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "#A3BE8C",
+          "properties": {
+            "threshold": 500,
+            "style": "austin",
+            "template": "{{ .FormattedMs }} "
+          }
+        },
+        {
+          "foreground": "#689f38",
+          "properties": {
+            "template": "{{ .CurrentDate | date .Format }}",
+            "time_format": "15:04:05"
+          },
+          "style": "plain",
+          "type": "time"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "darkGray",
+          "properties": {
+            "template": "\u2514 "
+          }
+        },
+        {
+          "foreground": "#ffffff",
+          "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
+          "properties": {
+            "always_enabled": true,
+            "template": "{{ if eq .OS \"windows\"}}\u276f{{ else }}${{ end }}"
+          },
+          "style": "plain",
+          "type": "exit"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "console_title": true,
+  "console_title_style": "template",
+  "console_title_template": "{{ .Shell }} :: {{ .Folder }}",
+  "final_space": true,
+  "osc99": true,
+  "version": 1
+}
