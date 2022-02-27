@@ -17,6 +17,3 @@ for file in dotfiles/.*[^.]; do
     fi
 done
 
-if [[ -z $WSL_DISTRO_NAME ]]; then
-    rm ~/.wsl_bashrc
-fi

@@ -134,8 +134,13 @@ alias brc=". ~/.bashrc"
 # alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
 alias psu='ps -fu $USER'
 
-if [ -f ~/.wsl_bashrc ]; then
-    source ~/.wsl_bashrc
+if [[ -n $WSL_DISTRO_NAME ]]; then
+		export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
+		export WIN_HOME=/mnt/c/Users/$(wslvar USERNAME)
+		export OD=$WIN_HOME/OneDrive
+		export SEM=$OD/UNI/2022/sem-1
+
+		alias clip='clip.exe'
 fi
 
 # Oh My Posh & Utility script.
