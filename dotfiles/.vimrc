@@ -53,7 +53,11 @@ Plug 'rhysd/vim-clang-format'
 " Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
+Plug 'preservim/nerdtree'
 call plug#end()
+
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
 
 set laststatus=2
 set noshowmode
@@ -66,9 +70,9 @@ let g:NERDAltDelims_c = 1
 let g:NERDDefaultAlign = 'left'
 
 let g:clang_format#style_options = {
-						\ "UseTab": "Never",
-            \ "IndentWidth": 4,
-            \ "PointerAlignment": "Left"}
+	    \ "UseTab": "Never",
+	    \ "IndentWidth": 4,
+	    \ "PointerAlignment": "Left"}
 let g:clang_format#auto_format = 1
 " let g:clang_format#detect_style_file = 1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>

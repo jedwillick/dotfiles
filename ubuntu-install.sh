@@ -3,7 +3,7 @@
 sudo add-apt-repository -y ppa:git-core/ppa
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay
+sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake
 
 pip install --upgrade setuptools tqdm autopep8
 
