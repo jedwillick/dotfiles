@@ -56,7 +56,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 call plug#end()
 
-nnoremap <C-n> :NERDTree<CR>
+" nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 
 set laststatus=2
