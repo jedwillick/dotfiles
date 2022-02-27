@@ -133,6 +133,7 @@ vg() {
 alias brc=". ~/.bashrc"
 # alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
 alias psu='ps -fu $USER'
+alias sudo='sudo '
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
 		export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
@@ -142,6 +143,10 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
 
 		alias clip='clip.exe'
 fi
+
+cless () {
+		pygmentize -g -P style=monokai "$1" | less -R
+}
 
 # Oh My Posh & Utility script.
 command -v oh-my-posh &>/dev/null
