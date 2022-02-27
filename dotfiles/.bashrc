@@ -144,9 +144,12 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
 		alias clip='clip.exe'
 fi
 
-cless () {
-		pygmentize -g -P style=monokai "$1" | less -R
-}
+command -v pygmentize &>/dev/null
+if [ $? -eq 0 ]; then
+		alias pyg='pygmentize -g -P style=monokai'
+		export LESS=R
+		export LESSOPEN='|pygmentize -g -P style=monokai %s'
+fi
 
 # Oh My Posh & Utility script.
 command -v oh-my-posh &>/dev/null
