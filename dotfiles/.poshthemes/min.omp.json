@@ -17,6 +17,7 @@
           "properties": {
             "style": "agnoster_short",
             "template": " {{ .Path }}",
+            "hide_root_location": false,
             "max_depth": 2,
             "mapped_locations_enabled": true,
             "mapped_locations": {
