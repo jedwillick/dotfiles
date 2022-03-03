@@ -5,7 +5,7 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake
 
-pip install --upgrade setuptools tqdm autopep8 Pygments
+pip install --upgrade pip setuptools tqdm autopep8 Pygments
 
 # Install Oh-My-Posh
 sudo wget -q --show-progress https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh

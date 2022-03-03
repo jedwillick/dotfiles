@@ -126,29 +126,31 @@ complete -o default -F _pip_completion pip
 # pip bash completion end
 
 vg() {
-		valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-				--verbose --log-file="valgrind-$(basename $1).txt" $@
+    valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+        --verbose --log-file="valgrind-$(basename $1).txt" $@
 }
 
 alias brc=". ~/.bashrc"
 # alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
 alias psu='ps -fu $USER'
 alias sudo='sudo '
+export LESS=RF
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
-		export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
-		export WIN_HOME=/mnt/c/Users/$(wslvar USERNAME)
-		export OD=$WIN_HOME/OneDrive
-		export SEM=$OD/UNI/2022/sem-1
+    export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
+    export WIN_HOME=/mnt/c/Users/$(wslvar USERNAME)
+    export OD=$WIN_HOME/OneDrive
+    export SEM=$OD/UNI/2022/sem-1
 
-		alias clip='clip.exe'
+    alias clip='clip.exe'
 fi
 
 command -v pygmentize &>/dev/null
 if [ $? -eq 0 ]; then
-		alias pyg='pygmentize -g -P style=monokai'
-		export LESS=R
-		export LESSOPEN='|pygmentize -g -P style=monokai %s'
+    alias pyg='pygmentize -g -P style=monokai'
+		cless() {
+				 pygmentize -g -P style=monokai $1 | less
+		}
 fi
 
 # Oh My Posh & Utility script.
