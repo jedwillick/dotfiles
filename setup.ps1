@@ -1,4 +1,11 @@
-#Requires -RunAsAdministrator
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    $cmd = "powershell"
+    if ($PSVersionTable.PSEdition -eq "Core") {
+        $cmd = "pwsh"
+    }
+    Start-Process $cmd -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"cd '$pwd'; & '$PSCommandPath';`"";
+    exit;
+}
 
 $bak = "backup\" + (Get-Date -Format "MM-dd-yyyy_HH.mm.ss")
 
