@@ -135,6 +135,8 @@ alias brc=". ~/.bashrc"
 alias psu='ps -fu $USER'
 alias sudo='sudo '
 export LESS=RF
+shopt -s autocd
+
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
     export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
