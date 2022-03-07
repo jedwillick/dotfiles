@@ -134,9 +134,12 @@ alias brc=". ~/.bashrc"
 # alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt'
 alias psu='ps -fu $USER'
 alias sudo='sudo '
+alias svn-ignore='svn propedit svn:ignore .'
 export LESS=RF
 shopt -s autocd
 
+# UNI
+export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
     export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
