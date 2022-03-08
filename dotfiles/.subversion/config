@@ -1,2 +1,4 @@
 [helpers]
 editor-cmd = vim
+diff-cmd = diff
+diff-extensions = -u -p --color=always
