@@ -116,15 +116,6 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# pip bash completion start
-_pip_completion() {
-    COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
-        COMP_CWORD=$COMP_CWORD \
-        PIP_AUTO_COMPLETE=1 $1 2>/dev/null))
-}
-complete -o default -F _pip_completion pip
-# pip bash completion end
-
 vg() {
     valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
         --verbose --log-file="valgrind-$(basename $1).txt" $@
@@ -138,11 +129,16 @@ alias svn-ignore='svn propedit svn:ignore .'
 export LESS=RF
 shopt -s autocd
 
-# UNI
 export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 
-if [[ -n $WSL_DISTRO_NAME ]]; then
+if [[ $USER == "s4717148" ]]; then
+    export CSSE2310=/local/courses/csse2310
+else
+    eval "$(ssh-agent -s)"
     export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
+fi
+
+if [[ -n $WSL_DISTRO_NAME ]]; then
     export WIN_HOME=/mnt/c/Users/$(wslvar USERNAME)
     export OD=$WIN_HOME/OneDrive
     export SEM=$OD/UNI/2022/sem-1
@@ -150,17 +146,15 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
     alias clip='clip.exe'
 fi
 
-command -v pygmentize &>/dev/null
-if [ $? -eq 0 ]; then
+if command -v pygmentize &>/dev/null; then
     alias pyg='pygmentize -g -P style=monokai'
-		cless() {
-				 pygmentize -g -P style=monokai $1 | less
-		}
+    cless() {
+        pygmentize -g -P style=monokai $1 | less
+    }
 fi
 
 # Oh My Posh & Utility script.
-command -v oh-my-posh &>/dev/null
-if [ $? -eq 0 ]; then
+if command -v oh-my-posh &>/dev/null; then
     export POSH_THEME=~/.poshthemes/min.omp.json
     eval "$(oh-my-posh --init --shell bash --config $POSH_THEME)"
 
@@ -169,22 +163,14 @@ if [ $? -eq 0 ]; then
     }
 fi
 
-#golang
-if [ -d /usr/local/go/bin ]; then
-    export PATH=$PATH:/usr/local/go/bin
-fi
+[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
+[[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
+[[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
+[[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Exercism
-if [ -f ~/.config/exercism/exercism_completion.bash ]; then
-    source ~/.config/exercism/exercism_completion.bash
-fi
-
-# ghcup-env
-if [ -f ~/.ghcup/env ]; then
-    source ~/.ghcup/env
-fi
-
-# homebrew
-if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
+_pip_completion() {
+    COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
+        COMP_CWORD=$COMP_CWORD \
+        PIP_AUTO_COMPLETE=1 $1 2>/dev/null))
+}
+complete -o default -F _pip_completion pip

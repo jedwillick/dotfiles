@@ -3,7 +3,10 @@
 sudo add-apt-repository -y ppa:git-core/ppa
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake
+sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake clang-format-12
+
+sudo ln -si clang-format-12 clang-format
+sudo ln -si clang-format-diff-12 clang-format-diff
 
 pip install --upgrade pip setuptools tqdm autopep8 Pygments
 
