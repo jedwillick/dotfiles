@@ -5,8 +5,8 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake clang-format-12 subversion
 
-sudo ln -si clang-format-12 clang-format
-sudo ln -si clang-format-diff-12 clang-format-diff
+file=$(command -v clang-format-12) && sudo ln -sf clang-format-12 ${file%-12}
+file=$(command -v clang-format-diff-12) && sudo ln -sf clang-format-diff-12 ${file%-12}
 
 pip install --upgrade pip setuptools tqdm autopep8 Pygments
 
