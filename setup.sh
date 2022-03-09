@@ -6,6 +6,7 @@ mkdir -p $bak
 for file in dotfiles/.*[^.]; do
     base=$(basename $file)
     if [[ -d $file ]]; then
+        mkdir -p ~/${file#dotfiles/}
         for sub in ${file}/*; do
             link=~/${sub#dotfiles/}
             mkdir -p $bak/$base && cp $link $_ 2>/dev/null | true
@@ -16,4 +17,3 @@ for file in dotfiles/.*[^.]; do
         ln -sf $(pwd)/$file ~/$base
     fi
 done
-
