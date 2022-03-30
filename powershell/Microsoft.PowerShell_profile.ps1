@@ -9,7 +9,7 @@ function Edit-PoshTheme {
 Set-Alias theme Edit-PoshTheme
 
 
-function Backup-Onedrive([array]$folders = @("UNI", "Programming"), [switch]$usb = $false) {
+function Backup-Onedrive([array]$folders = @("UNI", "Programming", "Tutoring"), [switch]$usb = $false) {
     if ($usb -AND -NOT (Get-PSDrive F -ErrorAction SilentlyContinue)) {
         Write-Error "USB (F:) not found :(" -ErrorAction Stop
     }
