@@ -3,3 +3,5 @@
 	name = jedwillick
 [init]
 	defaultBranch = main
+[core]
+	editor = vim

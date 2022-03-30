@@ -1,0 +1,6 @@
+pip
+setuptools
+tqdm
+autopep8
+Pygments
+black

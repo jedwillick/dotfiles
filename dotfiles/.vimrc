@@ -54,7 +54,10 @@ Plug 'rhysd/vim-clang-format'
 Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
+Plug 'mhinz/vim-startify'
 call plug#end()
+
+let g:startify_bookmarks = [ '~/.vimrc', '~/.bashrc' ]
 
 " nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
@@ -72,11 +75,13 @@ let g:NERDDefaultAlign = 'left'
 let g:clang_format#style_options = {
       \ "UseTab": "Never",
       \ "IndentWidth": 4,
+      \ "DerivePointerAlignment": "false",
       \ "PointerAlignment": "Left",
       \ "AlignConsecutiveMacros": "true"}
 let g:clang_format#auto_format = 1
-" let g:clang_format#detect_style_file = 1
+let g:clang_format#detect_style_file = 1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 
+set tabstop=8
 set shiftwidth=4

@@ -8,7 +8,7 @@ sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay
 file=$(command -v clang-format-12) && sudo ln -sf clang-format-12 ${file%-12}
 file=$(command -v clang-format-diff-12) && sudo ln -sf clang-format-diff-12 ${file%-12}
 
-pip install --upgrade pip setuptools tqdm autopep8 Pygments
+pip install --upgrade -r pip-packages.txt
 
 # Install Oh-My-Posh
 sudo wget -q --show-progress https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
