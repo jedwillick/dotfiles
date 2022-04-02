@@ -3,7 +3,7 @@
 sudo add-apt-repository -y ppa:git-core/ppa
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake clang-format-12 subversion
+sudo apt install -y git build-essential jq python3-pip zip unzip valgrind cowsay cmake clang-format-12 subversion dos2unix
 
 file=$(command -v clang-format-12) && sudo ln -sf clang-format-12 ${file%-12}
 file=$(command -v clang-format-diff-12) && sudo ln -sf clang-format-diff-12 ${file%-12}
