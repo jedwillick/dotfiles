@@ -1,5 +1,5 @@
-$env:POSH_THEME = "$env:USERPROFILE\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
-oh-my-posh --init --shell pwsh --config $env:POSH_THEME | Invoke-Expression
+$env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
+oh-my-posh init pwsh | Invoke-Expression
 
 function Edit-PoshTheme {
     omputils theme $args 
