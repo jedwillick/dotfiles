@@ -55,6 +55,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'mhinz/vim-startify'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 call plug#end()
 
 let g:startify_bookmarks = [ '~/.vimrc', '~/.bashrc' ]
