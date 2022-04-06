@@ -156,7 +156,7 @@ fi
 # Oh My Posh & Utility script.
 if command -v oh-my-posh &>/dev/null; then
     export POSH_THEME=~/.poshthemes/min.omp.json
-    eval "$(oh-my-posh --init --shell bash --config $POSH_THEME)"
+    eval "$(oh-my-posh init bash)"
 
     theme() {
         omputils theme "$@" && source ~/.bashrc
