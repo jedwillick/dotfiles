@@ -134,7 +134,7 @@ export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 if [[ $USER == "s4717148" ]]; then
     export CSSE2310=/local/courses/csse2310
 else
-    eval "$(ssh-agent -s)" &>/dev/null
+    ps -p $SSH_AGENT_PID &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
     export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
 fi
 
