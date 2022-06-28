@@ -1,0 +1,7 @@
+[user]
+	email = jwillick@me.com
+	name = jedwillick
+[init]
+	defaultBranch = main
+[core]
+	editor = vim
