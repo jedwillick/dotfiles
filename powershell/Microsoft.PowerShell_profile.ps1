@@ -1,6 +1,7 @@
 $env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
 oh-my-posh init pwsh | Invoke-Expression
 
+Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 function Edit-PoshTheme {
     omputils theme $args 
     . $PROFILE
