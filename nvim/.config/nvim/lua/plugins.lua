@@ -1,0 +1,94 @@
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]])
+
+return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+
+  use {'lewis6991/impatient.nvim', config = [[require('impatient')]]}
+
+  use 'tomasr/molokai'
+  use 'folke/tokyonight.nvim'
+
+  use {
+    'goolord/alpha-nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = [[require('config/alpha')]]
+  }
+
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    requires = {'RRethy/nvim-treesitter-endwise'},
+    run = ':TSUpdate',
+    config = [[require('config/treesitter')]],
+  }
+
+  use {
+    "neovim/nvim-lspconfig",
+    requires = {"williamboman/nvim-lsp-installer"},
+    after = "coq_nvim",
+    config = [[require('config/lsp')]]
+  }
+
+  use {
+    "ms-jpq/coq_nvim",
+    requires = {
+      {"ms-jpq/coq.artifacts", branch = "artifacts"},
+      {"ms-jpq/coq.thirdparty", branch = "3p"},
+    },
+    config = [[vim.g.coq_settings = { auto_start = 'shut-up'}]]
+  }
+
+  use {
+    'mhartington/formatter.nvim',
+    config = [[require('config/formatter')]]
+  }
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  }
+
+  use {
+    'akinsho/bufferline.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = [[require("config/bufferline")]]
+  }
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = [[require('config/lualine')]]
+  }
+
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = [[require('colorizer').setup()]],
+  }
+
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = [[require('config/indent')]],
+  }
+
+  use {
+    'vim-utils/vim-man',
+    config = [[nmap("<leader>m", "<Plug>(Vman)")]]
+  }
+
+  if BOOTSTRAP then
+    require('packer').sync()
+  end
+end)
+
