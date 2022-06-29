@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import ctypes
 import platform
 import shutil
 import subprocess
@@ -33,7 +34,21 @@ def setup_linux():
 
 
 def setup_windows():
-    ...
+    if not ctypes.windll.shell32.IsUserAnAdmin():
+        print("Must be run as admin")
+        BACK.rmdir()
+        sys.exit(1)
+
+    p = subprocess.run(
+        ["pwsh.exe", "-c", "$PROFILE"],
+        capture_output=True,
+        text=True,
+    )
+    profile = Path(p.stdout.strip())
+    if profile.exists():
+        shutil.copy(profile, BACK / profile.name)
+        profile.unlink()
+    profile.symlink_to(Path(f"powershell/{profile.name}").resolve())
 
 
 if __name__ == "__main__":
