@@ -1,7 +1,7 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  BOOTSTRAP = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
 end
 
 vim.cmd([[
@@ -14,7 +14,7 @@ vim.cmd([[
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
-  use {'lewis6991/impatient.nvim', config = [[require('impatient')]]}
+  use { 'lewis6991/impatient.nvim', config = [[require('impatient')]] }
 
   use 'tomasr/molokai'
   use 'folke/tokyonight.nvim'
@@ -27,30 +27,31 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    requires = {'RRethy/nvim-treesitter-endwise'},
+    requires = { 'RRethy/nvim-treesitter-endwise' },
     run = ':TSUpdate',
     config = [[require('config/treesitter')]],
   }
 
   use {
     "neovim/nvim-lspconfig",
-    requires = {"williamboman/nvim-lsp-installer"},
-    after = "coq_nvim",
+    requires = { "williamboman/nvim-lsp-installer" },
+    after = { "coq_nvim", "null-ls.nvim" },
     config = [[require('config/lsp')]]
   }
 
   use {
     "ms-jpq/coq_nvim",
     requires = {
-      {"ms-jpq/coq.artifacts", branch = "artifacts"},
-      {"ms-jpq/coq.thirdparty", branch = "3p"},
+      { "ms-jpq/coq.artifacts", branch = "artifacts" },
+      { "ms-jpq/coq.thirdparty", branch = "3p" },
     },
+    run = ":COQdeps",
     config = [[vim.g.coq_settings = { auto_start = 'shut-up'}]]
   }
 
   use {
-    'mhartington/formatter.nvim',
-    config = [[require('config/formatter')]]
+    "jose-elias-alvarez/null-ls.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
   }
 
   use {
@@ -63,7 +64,7 @@ return require('packer').startup(function(use)
   use {
     'akinsho/bufferline.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
-    config = [[require("config/bufferline")]]
+    config = [[require("config/bufferline")]],
   }
 
   use {
@@ -87,8 +88,24 @@ return require('packer').startup(function(use)
     config = [[nmap("<leader>m", "<Plug>(Vman)")]]
   }
 
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-ui-select.nvim'
+    },
+    config = [[require('config/telescope')]]
+  }
+
+  use {
+    'ms-jpq/chadtree',
+    branch = 'chad',
+    run = { 'python3 -m chadtree deps', ':CHADdeps' },
+    config = [[nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})]]
+  }
+
+
   if BOOTSTRAP then
     require('packer').sync()
   end
 end)
-

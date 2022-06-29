@@ -1,4 +1,3 @@
-if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     $cmd = "powershell"
     if ($PSVersionTable.PSEdition -eq "Core") {
         $cmd = "pwsh"

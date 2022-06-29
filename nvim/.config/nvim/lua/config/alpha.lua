@@ -2,26 +2,37 @@ local alpha = require('alpha')
 local startify = require('alpha.themes.startify')
 
 local function version()
-  local version = vim.version()
-  local print_version = "v" .. version.major .. '.' .. version.minor .. '.' .. version.patch
-  local datetime = os.date('%Y/%m/%d %H:%M:%S')
+  local v = vim.version()
 
-  return "Neovim " .. "v" .. version.major .. '.' .. version.minor .. '.' .. version.patch
+  return "Neovim " .. "v" .. v.major .. '.' .. v.minor .. '.' .. v.patch
 end
 
-local s = startify.section
+local sect = startify.section
 
-s.bottom_buttons.val = {
-  startify.button("c", "Neovim Config", ":e ~/.config/nvim/init.lua<cr>"),
+sect.top_buttons.val = {
+  startify.button("e", "New File", ":ene <BAR> startinsert <CR>"),
+  startify.button("f", "Find File", ":Telescope find_files<CR>")
 }
 
-s.footer.val = {
+sect.bottom_buttons.val = {
+  startify.button("c", "Neovim Config", ":e ~/.config/nvim/init.lua<cr>"),
+  startify.button("q", "Quit Neovim", ":qa<CR>"),
+}
+
+sect.footer.val = {
   {
-    type = 'padding', 
-    val = 1 
+    type = 'padding',
+    val = 1
   },
-  { 
-    type = 'text', 
+  {
+    type = 'text',
+    val = "Loaded " .. #vim.tbl_keys(packer_plugins) .. " plugins",
+    opts = {
+      position = "left"
+    }
+  },
+  {
+    type = 'text',
     val = version(),
     opts = {
       position = 'left'

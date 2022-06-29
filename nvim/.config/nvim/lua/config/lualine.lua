@@ -16,12 +16,12 @@ local function get_version()
   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
   local str = ''
   if buf_ft == "python" then
-    str = capture_version({"python3 --version", "python --version"})
+    str = capture_version({ "python3 --version", "python --version" })
     str = vim.trim(vim.split(str, " ")[2])
   elseif buf_ft == "make" then
-    str = capture_version({"make --version"})
+    str = capture_version({ "make --version" })
   elseif buf_ft == "c" or buf_ft == "cpp" then
-    str = capture_version({"gcc --version"})
+    str = capture_version({ "gcc --version" })
     str = string.gsub(str, "%b() ", "")
   end
   return str
@@ -31,15 +31,15 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
     disabled_filetypes = {},
     always_divide_middle = true,
     globalstatus = false,
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch', 'diff', 'diagnostics' },
     lualine_c = {
       {
         'filename',
@@ -76,17 +76,17 @@ require('lualine').setup {
         end,
       }
     },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' }
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
+    lualine_c = { 'filename' },
+    lualine_x = { 'location' },
     lualine_y = {},
     lualine_z = {}
   },
   tabline = {},
-  extensions = {"man"}
+  extensions = { "man", "chadtree" }
 }

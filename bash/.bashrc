@@ -115,50 +115,52 @@ fi
 vg() {
   valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
     --verbose --log-file="valgrind-$(basename $1).txt" $@
+}
+
+mesg n
+shopt -s autocd
+
+alias brc=". ~/.bashrc"
+alias sudo='sudo '
+alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
+alias drd='valgrind --tool=drd --first-race-only=yes --exclusive-threshold=15 -s'
+alias helgrind='valgrind --tool=helgrind -s'
+alias psu='ps -u $USER'
+alias pgu='pgrep -u $USER'
+alias pku='pkill -u $USER'
+alias svn-ignore='svn propedit svn:ignore .'
+alias diff='diff --color=always'
+alias ...="../../"
+alias ....="../../../"
+
+export LESS=RF
+export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
+
+if [[ $USER == "s4717148" ]]; then
+  export CSSE2310=/local/courses/csse2310
+  alias fzf="fzf --preview 'cat {}'"
+else
+  pgrep -u $USER ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
+  export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
+  alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+fi
+
+if [[ -n $WSL_DISTRO_NAME ]]; then
+  export WIN_USER="$(wslvar USERNAME)"
+  export WIN_HOME=/mnt/c/Users/$WIN_USER
+  export OD=$WIN_HOME/OneDrive
+  export SEM=$OD/UNI/2022/sem-1
+  export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin"
+
+  alias clip='/mnt/c/Windows/system32/clip.exe'
+fi
+
+if command -v pygmentize &>/dev/null; then
+  alias pyg='pygmentize -g -P style=monokai'
+  cless() {
+    pygmentize -g -P style=monokai $1 | less
   }
-
-  mesg n
-  shopt -s autocd
-
-  alias brc=". ~/.bashrc"
-  alias sudo='sudo '
-  alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
-  alias drd='valgrind --tool=drd --first-race-only=yes --exclusive-threshold=15 -s'
-  alias helgrind='valgrind --tool=helgrind -s'
-  alias psu='ps -u $USER'
-  alias pgu='pgrep -u $USER'
-  alias pku='pkill -u $USER'
-  alias svn-ignore='svn propedit svn:ignore .'
-  alias diff='diff --color=always'
-
-  export LESS=RF
-  export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
-
-  if [[ $USER == "s4717148" ]]; then
-    export CSSE2310=/local/courses/csse2310
-    alias fzf="fzf --preview 'cat {}'"
-  else
-    pgrep -u $USER ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
-    export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
-    alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
-  fi
-
-  if [[ -n $WSL_DISTRO_NAME ]]; then
-    export WIN_USER="$(wslvar USERNAME)"
-    export WIN_HOME=/mnt/c/Users/$WIN_USER
-    export OD=$WIN_HOME/OneDrive
-    export SEM=$OD/UNI/2022/sem-1
-    export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin"
-
-    alias clip='/mnt/c/Windows/system32/clip.exe'
-  fi
-
-  if command -v pygmentize &>/dev/null; then
-    alias pyg='pygmentize -g -P style=monokai'
-    cless() {
-      pygmentize -g -P style=monokai $1 | less
-    }
-  fi
+fi
 
 # Oh My Posh & Utility script.
 if command -v oh-my-posh &>/dev/null; then
@@ -170,7 +172,7 @@ if command -v oh-my-posh &>/dev/null; then
   }
 fi
 
-[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
+[[ -d /usr/local/go/bin ]] && export GOPATH=$HOME/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 [[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
 [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -196,5 +198,5 @@ _fzf_comprun() {
 }
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion

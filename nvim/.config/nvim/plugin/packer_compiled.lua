@@ -87,6 +87,12 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
+  chadtree = {
+    config = { 'nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})' },
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/chadtree",
+    url = "https://github.com/ms-jpq/chadtree"
+  },
   ["coq.artifacts"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/coq.artifacts",
@@ -101,12 +107,6 @@ _G.packer_plugins = {
     after = { "nvim-lspconfig" },
     loaded = true,
     only_config = true
-  },
-  ["formatter.nvim"] = {
-    config = { "require('config/formatter')" },
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/formatter.nvim",
-    url = "https://github.com/mhartington/formatter.nvim"
   },
   ["impatient.nvim"] = {
     config = { "require('impatient')" },
@@ -130,6 +130,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/molokai",
     url = "https://github.com/tomasr/molokai"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-colorizer.lua"] = {
     config = { "require('colorizer').setup()" },
@@ -171,6 +176,22 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["telescope-ui-select.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
+    url = "https://github.com/nvim-telescope/telescope-ui-select.nvim"
+  },
+  ["telescope.nvim"] = {
+    config = { "require('config/telescope')" },
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
   ["tokyonight.nvim"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
@@ -185,10 +206,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: formatter.nvim
-time([[Config for formatter.nvim]], true)
-require('config/formatter')
-time([[Config for formatter.nvim]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('config/treesitter')
@@ -197,10 +214,10 @@ time([[Config for nvim-treesitter]], false)
 time([[Config for nvim-colorizer.lua]], true)
 require('colorizer').setup()
 time([[Config for nvim-colorizer.lua]], false)
--- Config for: vim-man
-time([[Config for vim-man]], true)
-nmap("<leader>m", "<Plug>(Vman)")
-time([[Config for vim-man]], false)
+-- Config for: coq_nvim
+time([[Config for coq_nvim]], true)
+vim.g.coq_settings = { auto_start = 'shut-up'}
+time([[Config for coq_nvim]], false)
 -- Config for: indent-blankline.nvim
 time([[Config for indent-blankline.nvim]], true)
 require('config/indent')
@@ -209,10 +226,18 @@ time([[Config for indent-blankline.nvim]], false)
 time([[Config for impatient.nvim]], true)
 require('impatient')
 time([[Config for impatient.nvim]], false)
+-- Config for: chadtree
+time([[Config for chadtree]], true)
+nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})
+time([[Config for chadtree]], false)
 -- Config for: lualine.nvim
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config/alpha')
+time([[Config for alpha-nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
@@ -221,16 +246,17 @@ time([[Config for bufferline.nvim]], false)
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\0025\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config/alpha')
-time([[Config for alpha-nvim]], false)
--- Config for: coq_nvim
-time([[Config for coq_nvim]], true)
-vim.g.coq_settings = { auto_start = 'shut-up'}
-time([[Config for coq_nvim]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require('config/telescope')
+time([[Config for telescope.nvim]], false)
+-- Config for: vim-man
+time([[Config for vim-man]], true)
+nmap("<leader>m", "<Plug>(Vman)")
+time([[Config for vim-man]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
+vim.cmd [[ packadd null-ls.nvim ]]
 vim.cmd [[ packadd nvim-lspconfig ]]
 
 -- Config for: nvim-lspconfig
