@@ -1,7 +1,9 @@
 local ft = require("formatter.filetypes")
+local util = require "formatter.util"
 
 require("formatter").setup {
   logging = true,
+  log_level = vim.log.levels.WARN,
   filetype = {
     c = {
       ft.c.clangformat
@@ -12,6 +14,22 @@ require("formatter").setup {
     go = {
       ft.go.gofmt
     },
+    sh = {
+      function()
+        return {
+          exe = "shfmt",
+          args = {
+            "-i",
+            "2",
+            "-ci",
+            "-bn",
+            "--filename",
+            util.escape_path(util.get_current_buffer_file_path()),
+          },
+          stdin = true,
+        }
+      end
+    },
     ["*"] = {
       ft.any.remove_trailing_whitespace
     }
@@ -20,8 +38,8 @@ require("formatter").setup {
 
 vim.cmd([[
 augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
+autocmd!
+autocmd BufWritePost * Format
 augroup END
 ]])
 
