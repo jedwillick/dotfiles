@@ -202,30 +202,39 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/vim-man",
     url = "https://github.com/vim-utils/vim-man"
+  },
+  ["vim-startuptime"] = {
+    commands = { "StartupTime" },
+    config = { "vim.g.startuptime_tries = 10" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/vim-startuptime",
+    url = "https://github.com/dstein64/vim-startuptime"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('config/treesitter')
-time([[Config for nvim-treesitter]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require('config/telescope')
+time([[Config for telescope.nvim]], false)
 -- Config for: nvim-colorizer.lua
 time([[Config for nvim-colorizer.lua]], true)
 require('colorizer').setup()
 time([[Config for nvim-colorizer.lua]], false)
--- Config for: coq_nvim
-time([[Config for coq_nvim]], true)
-vim.g.coq_settings = { auto_start = 'shut-up'}
-time([[Config for coq_nvim]], false)
+-- Config for: vim-man
+time([[Config for vim-man]], true)
+nmap("<leader>m", "<Plug>(Vman)")
+time([[Config for vim-man]], false)
 -- Config for: indent-blankline.nvim
 time([[Config for indent-blankline.nvim]], true)
 require('config/indent')
 time([[Config for indent-blankline.nvim]], false)
--- Config for: impatient.nvim
-time([[Config for impatient.nvim]], true)
-require('impatient')
-time([[Config for impatient.nvim]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config/alpha')
+time([[Config for alpha-nvim]], false)
 -- Config for: chadtree
 time([[Config for chadtree]], true)
 nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})
@@ -234,10 +243,10 @@ time([[Config for chadtree]], false)
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config/alpha')
-time([[Config for alpha-nvim]], false)
+-- Config for: impatient.nvim
+time([[Config for impatient.nvim]], true)
+require('impatient')
+time([[Config for impatient.nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
@@ -246,14 +255,14 @@ time([[Config for bufferline.nvim]], false)
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\0025\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require('config/telescope')
-time([[Config for telescope.nvim]], false)
--- Config for: vim-man
-time([[Config for vim-man]], true)
-nmap("<leader>m", "<Plug>(Vman)")
-time([[Config for vim-man]], false)
+-- Config for: coq_nvim
+time([[Config for coq_nvim]], true)
+vim.g.coq_settings = { auto_start = 'shut-up'}
+time([[Config for coq_nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('config/treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd null-ls.nvim ]]
@@ -263,6 +272,12 @@ vim.cmd [[ packadd nvim-lspconfig ]]
 require('config/lsp')
 
 time([[Sequenced loading]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+time([[Defining lazy-load commands]], false)
+
 if should_profile then save_profiles() end
 
 end)

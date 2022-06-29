@@ -9,6 +9,9 @@ end
 
 local sect = startify.section
 
+table.insert(sect.header.val, "")
+table.insert(sect.header.val, os.date())
+
 sect.top_buttons.val = {
   startify.button("e", "New File", ":ene <BAR> startinsert <CR>"),
   startify.button("f", "Find File", ":Telescope find_files<CR>")

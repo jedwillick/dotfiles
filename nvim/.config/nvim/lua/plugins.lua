@@ -103,9 +103,11 @@ return require('packer').startup(function(use)
     run = { 'python3 -m chadtree deps', ':CHADdeps' },
     config = [[nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})]]
   }
-
+  use { 'dstein64/vim-startuptime', cmd = 'StartupTime', config = [[vim.g.startuptime_tries = 10]] }
 
   if BOOTSTRAP then
     require('packer').sync()
   end
+
+
 end)

@@ -59,6 +59,7 @@ if __name__ == "__main__":
         "Microsoft.WindowsTerminal.Preview",
         "Valve.Steam",
         "JetBrains.Toolbox",
+        "Notepad++.Notepad++",
     ]
 
     with mp.Pool() as p:
