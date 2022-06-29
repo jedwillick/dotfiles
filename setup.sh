@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-command -v stow &>/dev/null || echo "Stow not installed" && exit 1
+command -v stow &>/dev/null || (echo "Stow not installed" && exit 1)
 
 IGNORE=(
   "backup/"
@@ -13,5 +13,5 @@ for d in */; do
   if [[ " ${IGNORE[*]} " =~ " ${d} " ]]; then
     continue
   fi
-  stow $d
+  stow -v $d
 done
