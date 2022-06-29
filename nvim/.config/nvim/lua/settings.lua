@@ -1,14 +1,15 @@
-local opt = vim.opt
+local o = vim.opt
 local g = vim.g
 
 g.mapleader = [[ ]]
 
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.tabstop = 8
-opt.number = true
-opt.wildmenu = true
-opt.termguicolors = true
+o.expandtab = true
+o.shiftwidth = 2
+o.tabstop = 8
+o.number = true
+o.wildmenu = true
+o.termguicolors = true
+o.clipboard = 'unnamedplus'
 
 g.tokyonight_style = "storm"
 g.tokyonight_italic_keywords = false
