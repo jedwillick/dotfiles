@@ -109,7 +109,9 @@
         },
         {
           "foreground": "#ffffff",
-          "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
+          "foreground_templates": [
+            "{{ if ne .Code 0 }}#e91e63{{ end }}"
+          ],
           "properties": {
             "always_enabled": true
           },

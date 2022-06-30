@@ -153,7 +153,14 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export WIN_HOME=/mnt/c/Users/$WIN_USER
   export OD=$WIN_HOME/OneDrive
   export SEM=$OD/UNI/2022/sem-1
-  export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin"
+  export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Git/cmd"
+
+  explorer() {
+    local dest
+    [[ -n "$1" ]] && dest=$(wslpath -w "$1") || dest="."
+    /mnt/c/windows/explorer.exe "$dest"
+    return 0
+  }
 fi
 
 if command -v pygmentize &>/dev/null; then
