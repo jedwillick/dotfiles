@@ -41,7 +41,7 @@
         {
           "foreground": "#E06C75",
           "style": "plain",
-          "template": " {{ if le .Percentage 20 }}{{ if ne .Battery.State 3 }}{{ .Percentage }}%{{ end }} {{ end }}",
+          "template": " {{ if le .Percentage 20 }}{{ if ne .State 3 }}{{ .Percentage }}%{{ end }} {{ end }}",
           "type": "battery"
         },
         {
@@ -109,9 +109,7 @@
         },
         {
           "foreground": "#ffffff",
-          "foreground_templates": [
-            "{{ if ne .Code 0 }}#e91e63{{ end }}"
-          ],
+          "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
           "properties": {
             "always_enabled": true
           },
