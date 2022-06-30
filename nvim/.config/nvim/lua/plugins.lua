@@ -16,7 +16,6 @@ return require('packer').startup(function(use)
 
   use { 'lewis6991/impatient.nvim', config = [[require('impatient')]] }
 
-  use 'tomasr/molokai'
   use 'folke/tokyonight.nvim'
 
   use {
@@ -56,9 +55,7 @@ return require('packer').startup(function(use)
 
   use {
     'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
+    config = [[require("Comment").setup()]]
   }
 
   use {
@@ -103,11 +100,31 @@ return require('packer').startup(function(use)
     run = { 'python3 -m chadtree deps', ':CHADdeps' },
     config = [[nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})]]
   }
-  use { 'dstein64/vim-startuptime', cmd = 'StartupTime', config = [[vim.g.startuptime_tries = 10]] }
+
+  use { 'dstein64/vim-startuptime',
+    cmd = 'StartupTime',
+    config = [[vim.g.startuptime_tries = 10]]
+  }
+
+  use {
+    'AndrewRadev/sideways.vim',
+    cmd = { "SidewaysLeft", "SidewaysRight" },
+    setup = function()
+      nmap("<leader>h", ":SidewaysLeft<CR>", { noremap = true })
+      nmap("<leader>l", ":SidewaysRight<CR>", { noremap = true })
+    end
+  }
+
+  use {
+    'mbbill/undotree',
+    cmd = "UndotreeToggle",
+    setup = [[nmap("<leader>u", ":UndotreeToggle<CR>", { noremap = true })]],
+    config = [[vim.g.undotree_SetFocusWhenToggle = 1]]
+
+  }
 
   if BOOTSTRAP then
     require('packer').sync()
   end
-
 
 end)

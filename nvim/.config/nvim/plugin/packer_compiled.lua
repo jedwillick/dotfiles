@@ -70,7 +70,7 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
-    config = { "\27LJ\2\0025\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0" },
+    config = { 'require("Comment").setup()' },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
@@ -126,11 +126,6 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
-  molokai = {
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/molokai",
-    url = "https://github.com/tomasr/molokai"
-  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
@@ -181,6 +176,14 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["sideways.vim"] = {
+    commands = { "SidewaysLeft", "SidewaysRight" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/sideways.vim",
+    url = "https://github.com/AndrewRadev/sideways.vim"
+  },
   ["telescope-ui-select.nvim"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
@@ -196,6 +199,15 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
+  },
+  undotree = {
+    commands = { "UndotreeToggle" },
+    config = { "vim.g.undotree_SetFocusWhenToggle = 1" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/undotree",
+    url = "https://github.com/mbbill/undotree"
   },
   ["vim-man"] = {
     config = { 'nmap("<leader>m", "<Plug>(Vman)")' },
@@ -215,6 +227,14 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Setup for: sideways.vim
+time([[Setup for sideways.vim]], true)
+try_loadstring("\27LJ\2\2‰\1\0\0\4\0\a\0\v6\0\0\0'\1\1\0'\2\2\0005\3\3\0B\0\4\0016\0\0\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\1\fnoremap\2\23:SidewaysRight<CR>\14<leader>l\1\0\1\fnoremap\2\22:SidewaysLeft<CR>\14<leader>h\tnmap\0", "setup", "sideways.vim")
+time([[Setup for sideways.vim]], false)
+-- Setup for: undotree
+time([[Setup for undotree]], true)
+nmap("<leader>u", ":UndotreeToggle<CR>", { noremap = true })
+time([[Setup for undotree]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 require('config/telescope')
@@ -243,26 +263,26 @@ time([[Config for chadtree]], false)
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: impatient.nvim
-time([[Config for impatient.nvim]], true)
-require('impatient')
-time([[Config for impatient.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('config/treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
 time([[Config for bufferline.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\0025\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+require("Comment").setup()
 time([[Config for Comment.nvim]], false)
 -- Config for: coq_nvim
 time([[Config for coq_nvim]], true)
 vim.g.coq_settings = { auto_start = 'shut-up'}
 time([[Config for coq_nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('config/treesitter')
-time([[Config for nvim-treesitter]], false)
+-- Config for: impatient.nvim
+time([[Config for impatient.nvim]], true)
+require('impatient')
+time([[Config for impatient.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd null-ls.nvim ]]
@@ -275,7 +295,10 @@ time([[Sequenced loading]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file SidewaysRight lua require("packer.load")({'sideways.vim'}, { cmd = "SidewaysRight", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file SidewaysLeft lua require("packer.load")({'sideways.vim'}, { cmd = "SidewaysLeft", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles() end

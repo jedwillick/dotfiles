@@ -25,13 +25,7 @@ def winget(package):
     if "No installed package" in p.stdout:
         p = winget_cmd("install", package)
 
-    if "Successfully installed" in p.stdout:
-        # We dont want the loading bar or other information
-        out = "Successfully installed"
-    else:
-        # Filter out escape codes that messes with output
-        out = " ".join(word for word in p.stdout.split() if word.isalnum())
-
+    out = " ".join(word for word in p.stdout.splitlines()[-1].split() if word.isalnum())
     print(f"{package:<30} {out}")
     return p.returncode
 
