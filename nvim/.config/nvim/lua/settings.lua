@@ -11,6 +11,21 @@ o.wildmenu = true
 o.termguicolors = true
 o.clipboard = 'unnamedplus'
 
+-- Only needed if xclip is installed
+-- g.clipboard = {
+--   name = "win32yank-wsl",
+--   copy = {
+--     ["+"] = "win32yank.exe -i --crlf",
+--     ["*"] = "win32yank.exe -i --crlf"
+--   },
+--   paste = {
+--     ["+"] = "win32yank.exe -o --lf",
+--     ["*"] = "win32yank.exe -o --lf"
+--   },
+--   cache_enable = 0,
+-- }
+
+
 g.tokyonight_style = "storm"
 g.tokyonight_italic_keywords = false
 g.tokyonight_italic_comments = false

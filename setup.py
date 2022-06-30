@@ -23,18 +23,23 @@ def setup_linux():
             if f.is_dir():
                 continue
             old = Path.home() / Path(*f.parts[1:])
+
             if not old.exists():
+                # Remove dangling symlinks
+                if old.is_symlink():
+                    old.unlink()
                 continue
+
             (BACK / f.parent).mkdir(parents=True, exist_ok=True)
             shutil.copy(old, BACK / f)
             old.unlink()
 
         # Symlinking dotfiles with stow
-        sp.run(["stow", "-v", str(p)])
+        sp.run(["stow", "--no-folding", "-v", str(p)])
 
 
 def setup_windows():
-    if not ctypes.windll.shell32.IsUserAnAdmin():
+    if not ctypes.windll.shell32.IsUserAnAdmin():  # pyright: ignore
         print("Must be run as admin")
         BACK.rmdir()
         sys.exit(1)
