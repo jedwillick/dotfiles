@@ -3,7 +3,7 @@
 import ctypes
 import platform
 import shutil
-import subprocess
+import subprocess as sp
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -30,7 +30,7 @@ def setup_linux():
             old.unlink()
 
         # Symlinking dotfiles with stow
-        subprocess.run(["stow", "-v", str(p)])
+        sp.run(["stow", "-v", str(p)])
 
 
 def setup_windows():
@@ -39,7 +39,7 @@ def setup_windows():
         BACK.rmdir()
         sys.exit(1)
 
-    p = subprocess.run(
+    p = sp.run(
         ["pwsh.exe", "-c", "$PROFILE"],
         capture_output=True,
         text=True,
