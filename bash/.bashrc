@@ -130,6 +130,9 @@ alias pgu='pgrep -u $USER'
 alias pku='pkill -u $USER'
 alias svn-ignore='svn propedit svn:ignore .'
 alias diff='diff --color=always'
+alias yank='win32yank.exe -i'
+alias put='win32yank.exe -o'
+
 alias ...="../../"
 alias ....="../../../"
 
@@ -151,8 +154,6 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export OD=$WIN_HOME/OneDrive
   export SEM=$OD/UNI/2022/sem-1
   export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin"
-
-  alias clip='/mnt/c/Windows/system32/clip.exe'
 fi
 
 if command -v pygmentize &>/dev/null; then
