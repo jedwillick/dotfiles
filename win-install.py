@@ -54,6 +54,7 @@ if __name__ == "__main__":
         "Valve.Steam",
         "JetBrains.Toolbox",
         "Notepad++.Notepad++",
+        "elvirbrk.notehighlight2016",
     ]
 
     with mp.Pool() as p:
