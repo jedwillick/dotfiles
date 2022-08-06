@@ -191,5 +191,20 @@ if __name__ == "__main__":
             "Can be passed up to 2 times with increasing verbositiy."
         ),
     )
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="Clean up all backup files.",
+    )
+
     args = parser.parse_args()
-    Setup(**vars(args))
+    if args.clean:
+        shutil.rmtree("backup", ignore_errors=True)
+        if args.verbose:
+            print("Removed all backups.")
+        sys.exit(0)
+
+    args = vars(args)
+    args.pop("clean")
+    Setup(**args)

@@ -115,13 +115,17 @@ null_ls.setup {
     },
     null_fmt.gofmt,
     null_fmt.black,
-    null_fmt.isort,
+    null_fmt.isort.with {
+      extra_args = { "--profile=black" }
+    },
     null_fmt.prettier,
     null_fmt.trim_whitespace,
 
     null_act.gitsigns,
 
-    null_diag.flake8,
+    null_diag.flake8.with {
+      extra_args = { "--max-line-length=88", "--ignore=E203,W503" }
+    },
     null_diag.markdownlint
   },
 
