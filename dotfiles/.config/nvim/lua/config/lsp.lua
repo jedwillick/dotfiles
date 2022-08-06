@@ -1,12 +1,15 @@
-require("nvim-lsp-installer").setup {
-  automatic_installation = true,
+require("mason").setup {
   ui = {
     icons = {
-      server_installed = "✓",
-      server_pending = "➜",
-      server_uninstalled = "✗"
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
     }
   }
+}
+
+require("mason-lspconfig").setup {
+  automatic_installation = true,
 }
 
 -- Mappings.
@@ -117,6 +120,9 @@ null_ls.setup {
     null_fmt.trim_whitespace,
 
     null_act.gitsigns,
+
+    null_diag.flake8,
+    null_diag.markdownlint
   },
 
   -- you can reuse a shared lspconfig on_attach callback here

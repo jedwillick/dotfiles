@@ -93,6 +93,12 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/chadtree",
     url = "https://github.com/ms-jpq/chadtree"
   },
+  ["copilot.vim"] = {
+    config = { "\27LJ\2\2„\1\0\0\4\0\a\0\n6\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\3\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\timap\23copilot_no_tab_map\6g\bvim\0" },
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/copilot.vim",
+    url = "https://github.com/github/copilot.vim"
+  },
   ["coq.artifacts"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/coq.artifacts",
@@ -105,8 +111,11 @@ _G.packer_plugins = {
   },
   coq_nvim = {
     after = { "nvim-lspconfig" },
+    config = { "vim.g.coq_settings = { auto_start = 'shut-up'}" },
     loaded = true,
-    only_config = true
+    only_config = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/coq_nvim",
+    url = "https://github.com/ms-jpq/coq_nvim"
   },
   ["impatient.nvim"] = {
     config = { "require('impatient')" },
@@ -126,6 +135,21 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["markdown-preview.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
+    url = "https://github.com/iamcco/markdown-preview.nvim"
+  },
+  ["mason-lspconfig.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+    url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
@@ -136,11 +160,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
-  },
-  ["nvim-lsp-installer"] = {
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     config = { "require('config/lsp')" },
@@ -196,6 +215,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["tokyonight.nvim"] = {
+    config = { "\27LJ\2\2ÿ\1\0\0\2\0\n\0\0216\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0+\1\1\0=\1\4\0006\0\0\0009\0\1\0+\1\1\0=\1\5\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0006\0\0\0009\0\b\0'\1\t\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\1\5\0\0\aqf\15vista_kind\rterminal\vpacker\24tokyonight_sidebars\31tokyonight_italic_comments\31tokyonight_italic_keywords\nstorm\21tokyonight_style\6g\bvim\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
@@ -235,10 +255,10 @@ time([[Setup for sideways.vim]], false)
 time([[Setup for undotree]], true)
 nmap("<leader>u", ":UndotreeToggle<CR>", { noremap = true })
 time([[Setup for undotree]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require('config/telescope')
-time([[Config for telescope.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('config/treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Config for: nvim-colorizer.lua
 time([[Config for nvim-colorizer.lua]], true)
 require('colorizer').setup()
@@ -251,22 +271,30 @@ time([[Config for vim-man]], false)
 time([[Config for indent-blankline.nvim]], true)
 require('config/indent')
 time([[Config for indent-blankline.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config/alpha')
-time([[Config for alpha-nvim]], false)
 -- Config for: chadtree
 time([[Config for chadtree]], true)
 nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})
 time([[Config for chadtree]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config/alpha')
+time([[Config for alpha-nvim]], false)
+-- Config for: coq_nvim
+time([[Config for coq_nvim]], true)
+vim.g.coq_settings = { auto_start = 'shut-up'}
+time([[Config for coq_nvim]], false)
+-- Config for: copilot.vim
+time([[Config for copilot.vim]], true)
+try_loadstring("\27LJ\2\2„\1\0\0\4\0\a\0\n6\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\3\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\timap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
+time([[Config for copilot.vim]], false)
 -- Config for: lualine.nvim
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('config/treesitter')
-time([[Config for nvim-treesitter]], false)
+-- Config for: impatient.nvim
+time([[Config for impatient.nvim]], true)
+require('impatient')
+time([[Config for impatient.nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
@@ -275,14 +303,14 @@ time([[Config for bufferline.nvim]], false)
 time([[Config for Comment.nvim]], true)
 require("Comment").setup()
 time([[Config for Comment.nvim]], false)
--- Config for: coq_nvim
-time([[Config for coq_nvim]], true)
-vim.g.coq_settings = { auto_start = 'shut-up'}
-time([[Config for coq_nvim]], false)
--- Config for: impatient.nvim
-time([[Config for impatient.nvim]], true)
-require('impatient')
-time([[Config for impatient.nvim]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require('config/telescope')
+time([[Config for telescope.nvim]], false)
+-- Config for: tokyonight.nvim
+time([[Config for tokyonight.nvim]], true)
+try_loadstring("\27LJ\2\2ÿ\1\0\0\2\0\n\0\0216\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0+\1\1\0=\1\4\0006\0\0\0009\0\1\0+\1\1\0=\1\5\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0006\0\0\0009\0\b\0'\1\t\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\1\5\0\0\aqf\15vista_kind\rterminal\vpacker\24tokyonight_sidebars\31tokyonight_italic_comments\31tokyonight_italic_keywords\nstorm\21tokyonight_style\6g\bvim\0", "config", "tokyonight.nvim")
+time([[Config for tokyonight.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd null-ls.nvim ]]
