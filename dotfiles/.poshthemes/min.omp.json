@@ -62,6 +62,52 @@
           "properties": {
             "fetch_status": true
           }
+        },
+        {
+          "type": "c",
+          "style": "plain",
+          "template": " {{ .Cmd }} {{ .Full }} ",
+          "properties": {
+            "compiler_priority": "gcc"
+          }
+        },
+        {
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#100e23",
+          "background": "#906cff",
+          "template": " \ue235 {{ .Full }} ",
+          "properties": {
+            "display_mode": "context"
+          }
+        },
+        {
+          "type": "lua",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "white",
+          "background": "blue",
+          "template": " \ue620 {{ .Executable }} {{ .Full }} ",
+          "properties": {
+            "preferred_executable": "lua"
+          }
+        },
+        {
+          "type": "countdown",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "white",
+          "background": "blue",
+          "template": " \ue620 {{ .FormattedMs }}",
+          "properties": {
+            "time": {
+              "year": "2022",
+              "month": "12",
+              "day": "24"
+            },
+            "style": "round"
+          }
         }
       ],
       "type": "prompt"

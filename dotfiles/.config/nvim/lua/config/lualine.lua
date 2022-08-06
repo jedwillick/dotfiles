@@ -1,28 +1,35 @@
-local function capture_version(cmds)
-  for _, cmd in ipairs(cmds) do
-    local f = io.popen(cmd, 'r')
-    if f ~= nil then
-      local s = f:read('*l')
-      if s ~= nil then
-        f:close()
-        return s
-      end
+local function capture_version(cmd)
+  local f = io.popen(cmd, 'r')
+  if f ~= nil then
+    local s = f:read('*l')
+    f:close()
+    if s ~= nil then
+      return s
     end
   end
   return ''
 end
 
+local cache = {}
+
 local function get_version()
   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-  local str = ''
+  local str = cache[buf_ft]
+  if str ~= nil then
+    return str
+  end
+  str = ''
   if buf_ft == "python" then
-    str = capture_version({ "python3 --version", "python --version" })
+    str = capture_version("python3 --version")
     str = vim.trim(vim.split(str, " ")[2])
   elseif buf_ft == "make" then
-    str = capture_version({ "make --version" })
+    str = capture_version("make --version")
   elseif buf_ft == "c" or buf_ft == "cpp" then
-    str = capture_version({ "gcc --version" })
+    str = capture_version("gcc --version")
     str = string.gsub(str, "%b() ", "")
+  end
+  if str ~= '' then
+    cache[buf_ft] = str
   end
   return str
 end
@@ -74,6 +81,13 @@ require('lualine').setup {
           end
           return msg
         end,
+      },
+      {
+        function()
+          -- return vim.api.nvim_exec("Copilot status", true)
+          return vim.api.nvim_exec([["call copilot#Enabled()"]], true)
+        end
+
       }
     },
     lualine_y = { 'progress' },

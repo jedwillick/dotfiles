@@ -4,6 +4,7 @@ python3 -m pip install --upgrade pip
 pip install --upgrade -r pip-packages.txt
 
 source "$NVM_DIR/nvm.sh"
-nvm install node
+nvm install 17
+nvm use 17
 
-npm install -g tree-sitter-cli prettier neovim
+npm install --location=global tree-sitter-cli prettier neovim markdownlint markdownlint-cli

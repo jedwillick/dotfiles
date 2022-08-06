@@ -16,7 +16,16 @@ return require('packer').startup(function(use)
 
   use { 'lewis6991/impatient.nvim', config = [[require('impatient')]] }
 
-  use 'folke/tokyonight.nvim'
+  use {
+    'folke/tokyonight.nvim',
+    config = function()
+      vim.g.tokyonight_style = "storm"
+      vim.g.tokyonight_italic_keywords = false
+      vim.g.tokyonight_italic_comments = false
+      vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+      vim.cmd('colorscheme tokyonight')
+    end
+  }
 
   use {
     'goolord/alpha-nvim',
@@ -33,7 +42,7 @@ return require('packer').startup(function(use)
 
   use {
     "neovim/nvim-lspconfig",
-    requires = { "williamboman/nvim-lsp-installer" },
+    requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
     after = { "coq_nvim", "null-ls.nvim" },
     config = [[require('config/lsp')]]
   }
@@ -121,6 +130,19 @@ return require('packer').startup(function(use)
     setup = [[nmap("<leader>u", ":UndotreeToggle<CR>", { noremap = true })]],
     config = [[vim.g.undotree_SetFocusWhenToggle = 1]]
 
+  }
+
+  use {
+    "github/copilot.vim",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      imap("<C-j>", [[copilot#Accept("\<CR>")]], { silent = true, script = true, expr = true })
+    end
+  }
+
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
   }
 
   if BOOTSTRAP then

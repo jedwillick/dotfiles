@@ -112,11 +112,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-vg() {
-  valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-    --verbose --log-file="valgrind-$(basename $1).txt" $@
-}
-
 mesg n
 shopt -s autocd
 
@@ -129,18 +124,15 @@ alias psu='ps -u $USER'
 alias pgu='pgrep -u $USER'
 alias pku='pkill -u $USER'
 alias svn-ignore='svn propedit svn:ignore .'
-alias diff='diff --color=always'
-alias yank='win32yank.exe -i'
-alias put='win32yank.exe -o'
+alias diff='diff --color=auto'
 
 alias ...="../../"
 alias ....="../../../"
 
 export LESS=RF
-export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
+# export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 
 if [[ $USER == "s4717148" ]]; then
-  export CSSE2310=/local/courses/csse2310
   alias fzf="fzf --preview 'cat {}'"
 else
   pgrep -u $USER ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
@@ -152,13 +144,15 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export WIN_USER="$(wslvar USERNAME)"
   export WIN_HOME=/mnt/c/Users/$WIN_USER
   export OD=$WIN_HOME/OneDrive
-  export SEM=$OD/UNI/2022/sem-1
-  export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Git/cmd"
+  export SEM=$OD/UNI/2022/sem-2
+  # export PATH=$PATH:"/mnt/c/Users/${WIN_USER}/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Git/cmd"
+  alias yank='win32yank.exe -i'
+  alias put='win32yank.exe -o'
 
   explorer() {
     local dest
     [[ -n "$1" ]] && dest=$(wslpath -w "$1") || dest="."
-    /mnt/c/windows/explorer.exe "$dest"
+    /mnt/c/Windows/explorer.exe "$dest"
     return 0
   }
 fi
