@@ -25,7 +25,7 @@ def winget(package):
     if "No installed package" in p.stdout:
         p = winget_cmd("install", package)
 
-    out = " ".join(word for word in p.stdout.splitlines()[-1].split() if word.isalnum())
+    out = p.stdout.strip().splitlines()[-1].strip()
     print(f"{package:<30} {out}")
     return p.returncode
 

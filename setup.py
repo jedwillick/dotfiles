@@ -1,21 +1,45 @@
 #!/usr/bin/env python3
 
 import argparse
-import ctypes
+import os
 import platform
 import shutil
 import subprocess as sp
 import sys
 from datetime import datetime
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from typing import Union
 
 LINUX = "Linux"
 WINDOWS = "Windows"
 
+V1 = 1
+V2 = 2
+
 
 class UnsupportedOS(Exception):
     ...
+
+
+def check_symlink():
+    with NamedTemporaryFile() as tmp1, NamedTemporaryFile() as tmp2:
+        os.remove(tmp2.name)
+        try:
+            os.symlink(tmp1.name, tmp2.name)
+        except OSError:
+            print(
+                "You do not have symlink permissions.\n"
+                "Either run as admin or enable developer mode.",
+            )
+            sys.exit(1)
+        finally:
+            # This wasn't being done by the context manager
+            os.remove(tmp2.name)
+
+
+def dotfile_to_realpath(dotfile: Path):
+    return Path.home() / Path(*dotfile.parts[1:])
 
 
 class Setup:
@@ -63,17 +87,17 @@ class Setup:
                     parents=True,
                     exist_ok=True,
                 )
-                self.vprint(3, f"Backing up: {dst} -> {self.backup / src}")
+                self.vprint(V2, f"Backing up: {dst} -> {self.backup / src}")
                 shutil.copy(dst, self.backup / src)
 
-            self.vprint(3, f"Removing: {dst}")
+            self.vprint(V1 if self.remove else V2, f"Removing: {dst}")
             dst.unlink()
 
         if self.remove:
             return  # Only remove the links
 
         src = src.resolve()
-        self.vprint(1, f"Symlinking: {dst} -> {src}")
+        self.vprint(V1, f"Symlinking: {dst} -> {src}")
         dst.symlink_to(src)
 
     def setup_linux(self):
@@ -81,18 +105,17 @@ class Setup:
         for file in self.dotfiles.glob("**/*"):
             if not set(file.parts).isdisjoint(self.exclude):
                 continue
-            dest = Path.home() / Path(*file.parts[1:])
+            dest = dotfile_to_realpath(file)
             if file.is_dir():
-                self.vprint(2, f"Making Dir: {dest}")
+                self.vprint(V2, f"Making Dir: {dest}")
                 dest.mkdir(parents=True, exist_ok=True)
                 continue
             # symlink with backup.
             self.symlink(file, dest)
 
     def setup_windows(self):
-        if not ctypes.windll.shell32.IsUserAnAdmin():  # pyright: ignore
-            print("Must be run as admin")
-            sys.exit(1)
+        # Checking for symlink permissions
+        check_symlink()
 
         p = sp.run(
             ["pwsh.exe", "-c", "$PROFILE"],
@@ -101,6 +124,33 @@ class Setup:
         )
         profile = Path(p.stdout.strip())
         self.symlink(Path(f"powershell/{profile.name}"), profile)
+
+        INCLUDE = (
+            ".gitconfig",
+            ".poshthemes",
+            ".ssh",
+            ".vimrc",
+        )
+
+        poshThemesPath = os.getenv("POSH_THEMES_PATH")
+        poshThemesPath = Path(poshThemesPath) if poshThemesPath else None
+        for file in self.dotfiles.glob("**/*"):
+            parts = set(file.parts)
+            if not parts.isdisjoint(self.exclude) or parts.isdisjoint(INCLUDE):
+                continue
+
+            if ".poshthemes" in parts:
+                if poshThemesPath is None:
+                    continue
+                dest = poshThemesPath if file.is_dir() else poshThemesPath / file.name
+            else:
+                dest = dotfile_to_realpath(file)
+            if file.is_dir():
+                self.vprint(V2, f"Making Dir: {dest}")
+                dest.mkdir(parents=True, exist_ok=True)
+                continue
+
+            self.symlink(file, dest)
 
 
 if __name__ == "__main__":
@@ -138,7 +188,7 @@ if __name__ == "__main__":
         action="count",
         help=(
             "Print verbose output."
-            "Can be passed up to 3 times with increasing verbositiy."
+            "Can be passed up to 2 times with increasing verbositiy."
         ),
     )
     args = parser.parse_args()
