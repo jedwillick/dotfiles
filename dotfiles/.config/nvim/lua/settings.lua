@@ -1,7 +1,8 @@
 local o = vim.opt
 local g = vim.g
 
-g.mapleader = [[ ]]
+g.mapleader = " "
+g.c_syntax_for_h = 1
 
 o.expandtab = true
 o.shiftwidth = 2

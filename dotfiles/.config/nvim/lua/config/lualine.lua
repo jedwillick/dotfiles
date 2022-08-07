@@ -1,37 +1,43 @@
-local function capture_version(cmd)
-  local f = io.popen(cmd, 'r')
-  if f ~= nil then
-    local s = f:read('*l')
-    f:close()
-    if s ~= nil then
-      return s
+local Job = require('plenary.job')
+
+local function capture_version(opts)
+  local exe = opts.exe or error('exe is required')
+  local args = opts.args or { "--version" }
+  local pattern = opts.pattern or '%d+%.%d+%.%d+'
+  local prepend_exe = opts.prepend_exe or false
+
+  local out = {}
+  Job:new({
+    command = exe,
+    args = args,
+    on_stdout = function(_, line)
+      table.insert(out, line)
+    end,
+  }):sync()
+
+  for _, line in ipairs(out) do
+    local version = line:match(pattern)
+    if version then
+      return prepend_exe and exe .. ' ' .. version or version
     end
   end
   return ''
 end
 
-local cache = {}
+-- Map filetypes to fetch versions.
+local switch = {
+  python = { exe = "python3" },
+  c = { exe = "gcc", prepend_exe = true },
+  make = { exe = "make" }
+}
 
 local function get_version()
   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-  local str = cache[buf_ft]
-  if str ~= nil then
-    return str
+  local opts = switch[buf_ft]
+  if opts then
+    return capture_version(opts)
   end
-  str = ''
-  if buf_ft == "python" then
-    str = capture_version("python3 --version")
-    str = vim.trim(vim.split(str, " ")[2])
-  elseif buf_ft == "make" then
-    str = capture_version("make --version")
-  elseif buf_ft == "c" or buf_ft == "cpp" then
-    str = capture_version("gcc --version")
-    str = string.gsub(str, "%b() ", "")
-  end
-  if str ~= '' then
-    cache[buf_ft] = str
-  end
-  return str
+  return ''
 end
 
 require('lualine').setup {
@@ -82,13 +88,6 @@ require('lualine').setup {
           return msg
         end,
       },
-      {
-        function()
-          -- return vim.api.nvim_exec("Copilot status", true)
-          return vim.api.nvim_exec([["call copilot#Enabled()"]], true)
-        end
-
-      }
     },
     lualine_y = { 'progress' },
     lualine_z = { 'location' }
