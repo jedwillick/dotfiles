@@ -132,7 +132,8 @@ alias ....="../../../"
 export LESS=RF
 # export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 
-if [[ $USER == "s4717148" ]]; then
+if [[ -z $SSH_CONNECTION ]]; then
+  export CSSE2310=/local/courses/csse2310
   alias fzf="fzf --preview 'cat {}'"
 else
   pgrep -u $USER ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
