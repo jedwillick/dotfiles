@@ -117,14 +117,16 @@ shopt -s autocd
 
 alias brc=". ~/.bashrc"
 alias sudo='sudo '
-alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
-alias drd='valgrind --tool=drd --first-race-only=yes --exclusive-threshold=15 -s'
-alias helgrind='valgrind --tool=helgrind -s'
 alias psu='ps -u $USER'
 alias pgu='pgrep -u $USER'
 alias pku='pkill -u $USER'
 alias svn-ignore='svn propedit svn:ignore .'
 alias diff='diff --color=auto'
+
+# valgrind
+alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
+alias drd='valgrind --tool=drd --first-race-only=yes --exclusive-threshold=15 -s'
+alias helgrind='valgrind --tool=helgrind -s'
 
 alias ...="../../"
 alias ....="../../../"
@@ -132,7 +134,7 @@ alias ....="../../../"
 export LESS=RF
 # export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
 
-if [[ -z $SSH_CONNECTION ]]; then
+if [[ -n $SSH_CONNECTION ]]; then
   export CSSE2310=/local/courses/csse2310
   alias fzf="fzf --preview 'cat {}'"
 else
