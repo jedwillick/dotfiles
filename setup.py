@@ -81,15 +81,15 @@ class Setup:
             print(*args, **kwargs)
 
     def symlink(self, src, dst):
-        if dst.exists():
-            if self.backup:
-                (self.backup / src.parent).mkdir(
-                    parents=True,
-                    exist_ok=True,
-                )
-                self.vprint(V2, f"Backing up: {dst} -> {self.backup / src}")
-                shutil.copy(dst, self.backup / src)
+        if dst.exists() and self.backup:
+            (self.backup / src.parent).mkdir(
+                parents=True,
+                exist_ok=True,
+            )
+            self.vprint(V2, f"Backing up: {dst} -> {self.backup / src}")
+            shutil.copy(dst, self.backup / src)
 
+        if dst.exists() or dst.is_symlink():
             self.vprint(V1 if self.remove else V2, f"Removing: {dst}")
             dst.unlink()
 
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     if args.clean:
         shutil.rmtree("backup", ignore_errors=True)
         if args.verbose:
-            print("Removed all backups.")
+            print("Removed backups.")
         sys.exit(0)
 
     args = vars(args)
