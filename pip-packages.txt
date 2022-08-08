@@ -1,3 +1,4 @@
+wheel
 setuptools
 tqdm
 autopep8
@@ -5,4 +6,4 @@ Pygments
 black
 isort
 flake8
-pynvim
+pip-autoremove
