@@ -28,7 +28,7 @@ if ($null -eq (Get-Command "winget" -ErrorAction SilentlyContinue)) {
 Write-Host "Installing winget packages..."
 $PACKAGES | Foreach-Object -ThrottleLimit 5 -Parallel {
     $out = winget upgrade --accept-package-agreements --accept-source-agreements $_
-    $last = $out.Trim() -split '\r?\n' | Select-Object -Last 1
+    $last = $out.Trim() -split '\r?\n' | Select-Object -Last 2
     if ($last | Select-String -Pattern "No installed package") {
         $out = winget install --accept-package-agreements --accept-source-agreements $_
         $last = $out.Trim() -split '\r?\n' | Select-Object -Last 2
