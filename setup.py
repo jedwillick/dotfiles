@@ -4,7 +4,7 @@ import argparse
 import os
 import platform
 import shutil
-import subprocess as sp
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -82,14 +82,12 @@ class Setup:
             print(*args, **kwargs)
 
     def backup_(self, src: Path):
-        if not src.exists():
+        if not src.exists() or src.is_dir():
             return
         dst = self.backupRoot / src.relative_to(Path.home())
-        if src.is_dir():
-            dst.mkdir(parents=True, exist_ok=True)
-        else:
-            self.vprint(V1, f"Backing up: {src} -> {dst}")
-            shutil.copy(src, dst)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        self.vprint(V1, f"Backing up: {src} -> {dst}")
+        shutil.copy(src, dst)
 
     def force_(self, target):
         if target.is_dir():
@@ -151,7 +149,7 @@ class Setup:
         # Checking for symlink permissions
         check_symlink()
 
-        p = sp.run(
+        p = subprocess.run(
             ["pwsh.exe", "-c", "$PROFILE"],
             capture_output=True,
             text=True,
