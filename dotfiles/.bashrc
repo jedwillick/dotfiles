@@ -1,4 +1,5 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# shellcheck shell=bash
+# ~/.bashrc: executed by bash(1) for non-login shells.bashr
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -138,13 +139,14 @@ if [[ -n $SSH_CONNECTION ]]; then
   export CSSE2310=/local/courses/csse2310
   alias fzf="fzf --preview 'cat {}'"
 else
-  pgrep -u $USER ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
+  pgrep -u "$USER" ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
   export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
   alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 fi
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  export WIN_USER="$(wslvar USERNAME)"
+  WIN_USER="$(wslvar USERNAME)"
+  export WIN_USER
   export WIN_HOME=/mnt/c/Users/$WIN_USER
   export OD=$WIN_HOME/OneDrive
   export SEM=$OD/UNI/2022/sem-2
@@ -163,10 +165,11 @@ fi
 if command -v pygmentize &>/dev/null; then
   alias pyg='pygmentize -g -P style=monokai'
   cless() {
-    pygmentize -g -P style=monokai $1 | less
+    pygmentize -g -P style=monokai "$1" | less
   }
 fi
 
+export PROMPT_COMMAND="printf '\e[5 q'"
 # Oh My Posh & Utility script.
 if command -v oh-my-posh &>/dev/null; then
   export POSH_THEME=~/.poshthemes/min.omp.json
@@ -177,11 +180,10 @@ if command -v oh-my-posh &>/dev/null; then
   }
 fi
 
-[[ -d /usr/local/go/bin ]] && export GOPATH=$HOME/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+[[ -d /usr/local/go/bin ]] && export GOPATH=~/.local/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 [[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
-[[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 _pip_completion() {
   COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
@@ -203,5 +205,5 @@ _fzf_comprun() {
 }
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
