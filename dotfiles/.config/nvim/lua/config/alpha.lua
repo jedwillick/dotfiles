@@ -1,9 +1,9 @@
-local alpha = require('alpha')
-local startify = require('alpha.themes.startify')
+local alpha = require("alpha")
+local startify = require("alpha.themes.startify")
 
 local function version()
   local v = vim.version()
-  return "Neovim " .. "v" .. v.major .. '.' .. v.minor .. '.' .. v.patch
+  return "Neovim " .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch
 end
 
 local sect = startify.section
@@ -13,7 +13,7 @@ table.insert(sect.header.val, os.date())
 
 sect.top_buttons.val = {
   startify.button("e", "New File", ":ene <BAR> startinsert <CR>"),
-  startify.button("f", "Find File", ":Telescope find_files<CR>")
+  startify.button("f", "Find File", ":Telescope find_files<CR>"),
 }
 
 sect.bottom_buttons.val = {
@@ -23,25 +23,25 @@ sect.bottom_buttons.val = {
 
 sect.footer.val = {
   {
-    type = 'padding',
-    val = 1
+    type = "padding",
+    val = 1,
   },
   {
-    type = 'text',
+    type = "text",
     val = "Loaded " .. #vim.tbl_keys(packer_plugins) .. " plugins",
     opts = {
-      position = "left"
-    }
+      position = "left",
+    },
   },
   {
-    type = 'text',
+    type = "text",
     val = version(),
     opts = {
-      position = 'left'
-    }
+      position = "left",
+    },
   },
 }
 
 alpha.setup(startify.config)
 
-nmap("<c-n>", ":Alpha<cr>", { noremap = true })
+vim.keymap.set("n", "<c-n>", ":Alpha<cr>")

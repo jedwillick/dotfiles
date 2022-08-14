@@ -88,13 +88,16 @@ _G.packer_plugins = {
     url = "https://github.com/akinsho/bufferline.nvim"
   },
   chadtree = {
-    config = { 'nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})' },
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/chadtree",
+    commands = { "CHADopen" },
+    config = { "\27LJ\2\2Å\1\0\0\4\0\a\0\n5\0\1\0005\1\0\0=\1\2\0006\1\3\0009\1\4\0019\1\5\1'\2\6\0\18\3\0\0B\1\3\1K\0\1\0\22chadtree_settings\17nvim_set_var\bapi\bvim\20keymap.tertiary\1\0\0\1\3\0\0\n<c-t>\18<middlemouse>\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/chadtree",
     url = "https://github.com/ms-jpq/chadtree"
   },
   ["copilot.vim"] = {
-    config = { "\27LJ\2\2Ñ\1\0\0\4\0\a\0\n6\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\3\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\timap\23copilot_no_tab_map\6g\bvim\0" },
+    config = { "\27LJ\2\2Œ\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
@@ -110,8 +113,8 @@ _G.packer_plugins = {
     url = "https://github.com/ms-jpq/coq.thirdparty"
   },
   coq_nvim = {
-    after = { "nvim-lspconfig" },
-    config = { "vim.g.coq_settings = { auto_start = 'shut-up'}" },
+    after = { "mason.nvim" },
+    config = { "\27LJ\2\2û\1\0\0\3\0\a\0\f6\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\1B\0\2\1K\0\1\0\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0" },
     loaded = true,
     only_config = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/coq_nvim",
@@ -124,7 +127,7 @@ _G.packer_plugins = {
     url = "https://github.com/lewis6991/impatient.nvim"
   },
   ["indent-blankline.nvim"] = {
-    config = { "require('config/indent')" },
+    config = { "\27LJ\2\2∞\1\0\0\3\0\n\0\0186\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0005\1\t\0B\0\2\1K\0\1\0\1\0\1\25space_char_blankline\6 \nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
@@ -136,8 +139,10 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["markdown-preview.nvim"] = {
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
   ["mason-lspconfig.nvim"] = {
@@ -146,8 +151,11 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
   ["mason.nvim"] = {
+    config = { "require('config/lsp')" },
+    load_after = {},
     loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    needs_bufread = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
   ["null-ls.nvim"] = {
@@ -162,11 +170,8 @@ _G.packer_plugins = {
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-lspconfig"] = {
-    config = { "require('config/lsp')" },
-    load_after = {},
     loaded = true,
-    needs_bufread = false,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/nvim-lspconfig",
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-treesitter"] = {
@@ -203,6 +208,21 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/opt/sideways.vim",
     url = "https://github.com/AndrewRadev/sideways.vim"
   },
+  ["telescope-file-browser.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
+    url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  },
+  ["telescope-fzf-native.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
+    url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+  },
+  ["telescope-project.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-project.nvim",
+    url = "https://github.com/nvim-telescope/telescope-project.nvim"
+  },
   ["telescope-ui-select.nvim"] = {
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/telescope-ui-select.nvim",
@@ -229,12 +249,6 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/opt/undotree",
     url = "https://github.com/mbbill/undotree"
   },
-  ["vim-man"] = {
-    config = { 'nmap("<leader>m", "<Plug>(Vman)")' },
-    loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/vim-man",
-    url = "https://github.com/vim-utils/vim-man"
-  },
   ["vim-startuptime"] = {
     commands = { "StartupTime" },
     config = { "vim.g.startuptime_tries = 10" },
@@ -249,11 +263,15 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Setup for: sideways.vim
 time([[Setup for sideways.vim]], true)
-try_loadstring("\27LJ\2\2â\1\0\0\4\0\a\0\v6\0\0\0'\1\1\0'\2\2\0005\3\3\0B\0\4\0016\0\0\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\1\fnoremap\2\23:SidewaysRight<CR>\14<leader>l\1\0\1\fnoremap\2\22:SidewaysLeft<CR>\14<leader>h\tnmap\0", "setup", "sideways.vim")
+try_loadstring("\27LJ\2\2ç\1\0\0\4\0\b\0\0156\0\0\0009\0\1\0009\0\2\0'\1\3\0'\2\4\0'\3\5\0B\0\4\0016\0\0\0009\0\1\0009\0\2\0'\1\3\0'\2\6\0'\3\a\0B\0\4\1K\0\1\0\23:SidewaysRight<CR>\14<leader>l\22:SidewaysLeft<CR>\14<leader>h\6n\bset\vkeymap\bvim\0", "setup", "sideways.vim")
 time([[Setup for sideways.vim]], false)
+-- Setup for: chadtree
+time([[Setup for chadtree]], true)
+vim.keymap.set("n", "<leader>t", ":CHADopen<cr>")
+time([[Setup for chadtree]], false)
 -- Setup for: undotree
 time([[Setup for undotree]], true)
-nmap("<leader>u", ":UndotreeToggle<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
 time([[Setup for undotree]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
@@ -263,38 +281,30 @@ time([[Config for nvim-treesitter]], false)
 time([[Config for nvim-colorizer.lua]], true)
 require('colorizer').setup()
 time([[Config for nvim-colorizer.lua]], false)
--- Config for: vim-man
-time([[Config for vim-man]], true)
-nmap("<leader>m", "<Plug>(Vman)")
-time([[Config for vim-man]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-require('config/indent')
-time([[Config for indent-blankline.nvim]], false)
--- Config for: chadtree
-time([[Config for chadtree]], true)
-nmap("<leader>t", "<cmd>CHADopen<cr>", {noremap=true})
-time([[Config for chadtree]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config/alpha')
-time([[Config for alpha-nvim]], false)
 -- Config for: coq_nvim
 time([[Config for coq_nvim]], true)
-vim.g.coq_settings = { auto_start = 'shut-up'}
+try_loadstring("\27LJ\2\2û\1\0\0\3\0\a\0\f6\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\1B\0\2\1K\0\1\0\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0", "config", "coq_nvim")
 time([[Config for coq_nvim]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+try_loadstring("\27LJ\2\2∞\1\0\0\3\0\n\0\0186\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0005\1\t\0B\0\2\1K\0\1\0\1\0\1\25space_char_blankline\6 \nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0", "config", "indent-blankline.nvim")
+time([[Config for indent-blankline.nvim]], false)
+-- Config for: impatient.nvim
+time([[Config for impatient.nvim]], true)
+require('impatient')
+time([[Config for impatient.nvim]], false)
 -- Config for: copilot.vim
 time([[Config for copilot.vim]], true)
-try_loadstring("\27LJ\2\2Ñ\1\0\0\4\0\a\0\n6\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\3\0'\1\4\0'\2\5\0005\3\6\0B\0\4\1K\0\1\0\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\timap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
+try_loadstring("\27LJ\2\2Œ\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\3\texpr\2\vscript\2\vsilent\2\28copilot#Accept(\"\\<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
 time([[Config for copilot.vim]], false)
 -- Config for: lualine.nvim
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: impatient.nvim
-time([[Config for impatient.nvim]], true)
-require('impatient')
-time([[Config for impatient.nvim]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('config/alpha')
+time([[Config for alpha-nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
@@ -314,9 +324,9 @@ time([[Config for tokyonight.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd null-ls.nvim ]]
-vim.cmd [[ packadd nvim-lspconfig ]]
+vim.cmd [[ packadd mason.nvim ]]
 
--- Config for: nvim-lspconfig
+-- Config for: mason.nvim
 require('config/lsp')
 
 time([[Sequenced loading]], false)
@@ -327,8 +337,16 @@ pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file SidewaysRight lua 
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file StartupTime lua require("packer.load")({'vim-startuptime'}, { cmd = "StartupTime", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file SidewaysLeft lua require("packer.load")({'sideways.vim'}, { cmd = "SidewaysLeft", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CHADopen lua require("packer.load")({'chadtree'}, { cmd = "CHADopen", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)
