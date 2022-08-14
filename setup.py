@@ -46,25 +46,30 @@ class Setup:
     def __init__(
         self,
         dotfiles: Union[str, Path],
-        remove=False,
-        exclude=[],
+        link=True,
+        force=False,
         backup=False,
+        exclude=None,
         verbose=0,
     ):
         self.dotfiles = Path(dotfiles)
         if not self.dotfiles.exists() or not self.dotfiles.is_dir():
             raise NotADirectoryError(f"{self.dotfiles} is not a directory")
 
-        if backup:
-            self.backup = Path(f"backup/{datetime.today():%d-%m-%Y_%H.%M.%S}")
-        else:
-            self.backup = None
-
-        self.exclude = exclude
-        self.remove = remove
+        self.backup = backup
+        self.backupRoot = Path(f"backup/{datetime.today():%d-%m-%Y_%H.%M.%S}")
+        self.exclude = exclude if exclude else []
+        self.force = force
+        self.link = link
         self.verbose = verbose
-
         self.os = platform.system()
+        self.setup()
+
+    def __str__(self):
+        members = ", ".join(f"{k}={v}" for k, v in self.__dict__.items())
+        return f"{self.__class__.__name__}({members})"
+
+    def setup(self):
         if self.os == LINUX:
             self.setup_linux()
         elif self.os == WINDOWS:
@@ -72,33 +77,67 @@ class Setup:
         else:
             raise UnsupportedOS(f"{self.os} is not supported")
 
-    def __str__(self):
-        members = ", ".join(f"{k}={v}" for k, v in self.__dict__.items())
-        return f"{self.__class__.__name__}({members})"
-
     def vprint(self, level: int, *args, **kwargs):
         if self.verbose >= level:
             print(*args, **kwargs)
 
-    def symlink(self, src, dst):
-        if dst.exists() and self.backup:
-            (self.backup / src.parent).mkdir(
-                parents=True,
-                exist_ok=True,
-            )
-            self.vprint(V2, f"Backing up: {dst} -> {self.backup / src}")
-            shutil.copy(dst, self.backup / src)
+    def backup_(self, src: Path):
+        if not src.exists():
+            return
+        dst = self.backupRoot / src.relative_to(Path.home())
+        if src.is_dir():
+            dst.mkdir(parents=True, exist_ok=True)
+        else:
+            self.vprint(V1, f"Backing up: {src} -> {dst}")
+            shutil.copy(src, dst)
 
-        if dst.exists() or dst.is_symlink():
-            self.vprint(V1 if self.remove else V2, f"Removing: {dst}")
-            dst.unlink()
+    def force_(self, target):
+        if target.is_dir():
+            return
+        if target.exists() or target.is_symlink():
+            self.vprint(V1, f"Removing: {target}")
+            target.unlink()
 
-        if self.remove:
-            return  # Only remove the links
-
+    def link_(self, src, dst):
         src = src.resolve()
         self.vprint(V1, f"Symlinking: {dst} -> {src}")
-        dst.symlink_to(src)
+        try:
+            dst.symlink_to(src)
+        except FileExistsError:
+            print(
+                f"{dst} already exists.",
+                "If you want to overwrite it rerun with --force.",
+                file=sys.stderr,
+            )
+
+    def mkdir(self, target):
+        if not self.link:
+            return
+        if not target.exists():
+            self.vprint(V1, f"Making Dir: {target}")
+            target.mkdir(parents=True)
+
+    def setup_dotfile(self, src, dst):
+        if self.backup:
+            self.backup_(dst)
+
+        if self.force:
+            self.force_(dst)
+
+        if not dst.parent.is_dir():
+            print(
+                f"{dst.parent} is not a directory",
+                "If you want to overwrite it rerun with --force.",
+                file=sys.stderr,
+            )
+            return
+
+        if src.is_dir():
+            self.mkdir(dst)
+            return
+
+        if self.link:
+            self.link_(src, dst)
 
     def setup_linux(self):
         # Backing up files
@@ -106,12 +145,7 @@ class Setup:
             if not set(file.parts).isdisjoint(self.exclude):
                 continue
             dest = dotfile_to_realpath(file)
-            if file.is_dir():
-                self.vprint(V2, f"Making Dir: {dest}")
-                dest.mkdir(parents=True, exist_ok=True)
-                continue
-            # symlink with backup.
-            self.symlink(file, dest)
+            self.setup_dotfile(file, dest)
 
     def setup_windows(self):
         # Checking for symlink permissions
@@ -123,7 +157,7 @@ class Setup:
             text=True,
         )
         profile = Path(p.stdout.strip())
-        self.symlink(Path(f"powershell/{profile.name}"), profile)
+        self.setup_dotfile(Path(f"powershell/{profile.name}"), profile)
 
         INCLUDE = (
             ".gitconfig",
@@ -145,12 +179,8 @@ class Setup:
                 dest = poshThemesPath if file.is_dir() else poshThemesPath / file.name
             else:
                 dest = dotfile_to_realpath(file)
-            if file.is_dir():
-                self.vprint(V2, f"Making Dir: {dest}")
-                dest.mkdir(parents=True, exist_ok=True)
-                continue
 
-            self.symlink(file, dest)
+            self.setup_dotfile(file, dest)
 
 
 if __name__ == "__main__":
@@ -170,15 +200,22 @@ if __name__ == "__main__":
         help="Exclude files/folders from setup",
     )
     parser.add_argument(
-        "-r",
-        "--remove",
+        "-f",
+        "--force",
         action="store_true",
-        help="Remove all links to the dotfiles instead of creating them",
+        help="Remove all existing files.",
     )
     parser.add_argument(
-        "-b",
-        "--backup",
-        action="store_true",
+        "--no-link",
+        dest="link",
+        action="store_false",
+        help="Don't symlink the dotfiles. "
+        "Useful if you just wish to backup or unlink them",
+    )
+    parser.add_argument(
+        "--no-backup",
+        dest="backup",
+        action="store_false",
         help="Backup old files",
     )
     parser.add_argument(
@@ -187,7 +224,7 @@ if __name__ == "__main__":
         default=0,
         action="count",
         help=(
-            "Print verbose output."
+            "Print verbose output. "
             "Can be passed up to 2 times with increasing verbositiy."
         ),
     )
