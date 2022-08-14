@@ -39,36 +39,11 @@
           "type": "git"
         },
         {
-          "foreground": "#E06C75",
-          "style": "plain",
-          "template": " {{ if le .Percentage 20 }}{{ if ne .State 3 }}{{ .Percentage }}%{{ end }} {{ end }}",
-          "type": "battery"
-        },
-        {
-          "foreground": "#DDB15F",
-          "properties": {
-            "fetch_info": true,
-            "fetch_status": true,
-            "last_change_style": "round",
-            "template": " {{ if .UpstreamURL }}{{ url \"svn\" .UpstreamURL }}{{ else }}svn{{ end }}\u27e8{{ .HEAD }}-{{ .BASE }}-{{ .COMMITTED }}{{ if .Status.Changed }} {{ .Status.String }}{{ end }} {{ .LastChange }}\u27e9"
-          },
-          "style": "plain",
-          "type": "subversion"
-        },
-        {
           "type": "svn",
           "style": "plain",
           "foreground": "#DDB15F",
           "properties": {
             "fetch_status": true
-          }
-        },
-        {
-          "type": "c",
-          "style": "plain",
-          "template": " {{ .Cmd }} {{ .Full }} ",
-          "properties": {
-            "compiler_priority": "gcc"
           }
         },
         {
@@ -83,31 +58,10 @@
           }
         },
         {
-          "type": "lua",
-          "style": "powerline",
-          "powerline_symbol": "\ue0b0",
-          "foreground": "white",
-          "background": "blue",
-          "template": " \ue620 {{ .Executable }} {{ .Full }} ",
-          "properties": {
-            "preferred_executable": "lua"
-          }
-        },
-        {
-          "type": "countdown",
-          "style": "powerline",
-          "powerline_symbol": "\ue0b0",
-          "foreground": "white",
-          "background": "blue",
-          "template": " \ue620 {{ .FormattedMs }}",
-          "properties": {
-            "time": {
-              "year": "2022",
-              "month": "12",
-              "day": "24"
-            },
-            "style": "round"
-          }
+          "foreground": "#E06C75",
+          "style": "plain",
+          "template": " {{ if le .Percentage 20 }}{{ if ne .State 3 }}{{ .Percentage }}%{{ end }} {{ end }}",
+          "type": "battery"
         }
       ],
       "type": "prompt"
@@ -169,6 +123,5 @@
   ],
   "console_title_template": "{{ .Shell }} :: {{ .Folder }}",
   "final_space": true,
-  "osc99": true,
   "version": 2
 }
