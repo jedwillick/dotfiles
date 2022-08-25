@@ -61,6 +61,7 @@ return require("packer").startup(function(use)
       vim.g.coq_settings = { auto_start = "shut-up" }
       require("coq_3p") {
         { src = "copilot", short_name = "COP", accept_key = "<c-j>" },
+        { src = "nvimlua", short_name = "nLUA", conf_only = false },
       }
     end,
   }
@@ -87,9 +88,13 @@ return require("packer").startup(function(use)
     config = [[require('config/lualine')]],
   }
 
+  local colorizerFileTypes = { "css", "javascript", "html", "json", "yaml", "toml" }
   use {
     "norcalli/nvim-colorizer.lua",
-    config = [[require('colorizer').setup()]],
+    cmd = "ColorizerToggle",
+    ft = colorizerFileTypes,
+    setup = [[vim.keymap.set("n", "<leader>ct", "<cmd>ColorizerToggle<cr>")]],
+    config = [[require("colorizer").setup(colorizerFileTypes)]],
   }
 
   use {
@@ -97,11 +102,8 @@ return require("packer").startup(function(use)
     config = function()
       vim.opt.list = true
       vim.opt.listchars:append("space:⋅")
-      -- vim.opt.listchars:append("tab:→  ")
-
-      require("indent_blankline").setup {
-        space_char_blankline = " ",
-      }
+      -- vim.opt.listchars:append("tab:ﲖ  ")
+      require("indent_blankline").setup()
     end,
   }
 
@@ -153,7 +155,12 @@ return require("packer").startup(function(use)
     "github/copilot.vim",
     config = function()
       vim.g.copilot_no_tab_map = true
-      vim.keymap.set("i", "<C-j>", [[copilot#Accept("\<CR>")]], { silent = true, script = true, expr = true })
+      vim.keymap.set(
+        "i",
+        "<C-j>",
+        [[copilot#Accept("<CR>")]],
+        { silent = true, script = true, expr = true, replace_keycodes = false }
+      )
       vim.g.copilot_filetypes = {
         TelescopePrompt = false,
       }
