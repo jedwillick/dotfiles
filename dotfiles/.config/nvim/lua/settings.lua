@@ -3,6 +3,7 @@ local g = vim.g
 
 g.mapleader = " "
 g.c_syntax_for_h = 1
+g.omni_sql_default_compl_type = "syntax"
 
 opt.expandtab = true
 opt.shiftwidth = 2

@@ -12,6 +12,7 @@ set("n", "<leader>fw", builtin.grep_string)
 set("n", "<leader>fg", builtin.live_grep)
 set("n", "<leader>fb", builtin.buffers)
 set("n", "<leader>fs", builtin.current_buffer_fuzzy_find)
+set("n", "<leader>ft", builtin.filetypes)
 set("n", "z=", builtin.spell_suggest)
 
 set("n", "<leader>fh", function()
