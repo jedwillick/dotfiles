@@ -113,10 +113,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-mesg n
+mesg n &>/dev/null || true
 shopt -s autocd
 
-alias brc=". ~/.bashrc"
+alias brc='source ~/.bashrc'
 alias sudo='sudo '
 alias psu='ps -u $USER'
 alias pgu='pgrep -u $USER'
@@ -129,8 +129,8 @@ alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
 alias drd='valgrind --tool=drd --first-race-only=yes --exclusive-threshold=15 -s'
 alias helgrind='valgrind --tool=helgrind -s'
 
-alias ...="../../"
-alias ....="../../../"
+alias ...='cd ../../'
+alias ....='cd ../../../'
 
 export LESS=RF
 # export CSSE2310_SVN="https://source.eait.uq.edu.au/svn/csse2310-sem1-s4717148/"
