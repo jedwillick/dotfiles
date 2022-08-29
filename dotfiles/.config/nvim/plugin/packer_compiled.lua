@@ -70,15 +70,17 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
-    config = { 'require("Comment").setup()' },
+    config = { "\27LJ\2\2`\0\0\2\0\6\0\v6\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0K\0\1\0\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
   ["alpha-nvim"] = {
     config = { "require('config/alpha')" },
+    load_after = {},
     loaded = true,
-    path = "/home/jed/.local/share/nvim/site/pack/packer/start/alpha-nvim",
+    needs_bufread = false,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/opt/alpha-nvim",
     url = "https://github.com/goolord/alpha-nvim"
   },
   ["bufferline.nvim"] = {
@@ -151,6 +153,7 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
   ["mason.nvim"] = {
+    after = { "alpha-nvim" },
     config = { "require('config/lsp')" },
     load_after = {},
     loaded = true,
@@ -296,25 +299,21 @@ time([[Config for indent-blankline.nvim]], false)
 time([[Config for impatient.nvim]], true)
 require('impatient')
 time([[Config for impatient.nvim]], false)
--- Config for: copilot.vim
-time([[Config for copilot.vim]], true)
-try_loadstring("\27LJ\2\2ß\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\4\texpr\2\vscript\2\21replace_keycodes\1\vsilent\2\27copilot#Accept(\"<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
-time([[Config for copilot.vim]], false)
 -- Config for: lualine.nvim
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('config/alpha')
-time([[Config for alpha-nvim]], false)
+-- Config for: copilot.vim
+time([[Config for copilot.vim]], true)
+try_loadstring("\27LJ\2\2ß\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\4\texpr\2\vscript\2\21replace_keycodes\1\vsilent\2\27copilot#Accept(\"<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
+time([[Config for copilot.vim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
 time([[Config for bufferline.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
-require("Comment").setup()
+try_loadstring("\27LJ\2\2`\0\0\2\0\6\0\v6\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0K\0\1\0\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
 -- Config for: tokyonight.nvim
 time([[Config for tokyonight.nvim]], true)
@@ -331,6 +330,11 @@ vim.cmd [[ packadd mason.nvim ]]
 
 -- Config for: mason.nvim
 require('config/lsp')
+
+vim.cmd [[ packadd alpha-nvim ]]
+
+-- Config for: alpha-nvim
+require('config/alpha')
 
 time([[Sequenced loading]], false)
 
