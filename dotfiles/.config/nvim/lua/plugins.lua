@@ -30,6 +30,7 @@ return require("packer").startup(function(use)
   use {
     "goolord/alpha-nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
+    after = { "mason.nvim" },
     config = [[require('config/alpha')]],
   }
 
@@ -73,7 +74,11 @@ return require("packer").startup(function(use)
 
   use {
     "numToStr/Comment.nvim",
-    config = [[require("Comment").setup()]],
+    config = function()
+      require("Comment").setup()
+      local ft = require("Comment.ft")
+      ft.plsql = "-- %s"
+    end,
   }
 
   use {

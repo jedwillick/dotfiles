@@ -3,7 +3,17 @@ local startify = require("alpha.themes.startify")
 
 local function version()
   local v = vim.version()
-  return "Neovim " .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch
+  return "Neovim v" .. v.major .. "." .. v.minor .. "." .. v.patch
+end
+
+local function loaded()
+  return "Loaded "
+    .. #vim.tbl_keys(packer_plugins)
+    .. " plugins, "
+    .. #require("lspconfig.util").available_servers() + #require("null-ls").get_sources()
+    .. " LSP sources, "
+    .. #require("nvim-treesitter.parsers").available_parsers()
+    .. " TS parsers"
 end
 
 local sect = startify.section
@@ -28,17 +38,11 @@ sect.footer.val = {
   },
   {
     type = "text",
-    val = "Loaded " .. #vim.tbl_keys(packer_plugins) .. " plugins",
-    opts = {
-      position = "left",
-    },
+    val = loaded(),
   },
   {
     type = "text",
     val = version(),
-    opts = {
-      position = "left",
-    },
   },
 }
 

@@ -56,7 +56,7 @@ end
 local servers = {
   bashls = { cmd_env = { SHELLCHECK_PATH = "" } },
   clangd = {},
-  golangci_lint_ls = {},
+  gopls = {},
   jsonls = {},
   sumneko_lua = {
     settings = {
@@ -113,6 +113,7 @@ null_ls.setup {
     diag.shellcheck.with(shellcheck),
 
     fmt.gofmt,
+    diag.golangci_lint,
 
     -- Python
     fmt.black,
@@ -137,3 +138,13 @@ null_ls.setup {
   -- you can reuse a shared lspconfig on_attach callback here
   on_attach = on_attach,
 }
+
+-- Auto-install null-ls sources
+local mr = require("mason-registry")
+local sources = null_ls.get_sources()
+for _, source in ipairs(sources) do
+  local ok, p = pcall(mr.get_package, source.name)
+  if ok and not p:is_installed() then
+    p:install()
+  end
+end
