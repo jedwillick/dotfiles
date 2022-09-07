@@ -19,10 +19,14 @@ return require("packer").startup(function(use)
   use {
     "folke/tokyonight.nvim",
     config = function()
-      vim.g.tokyonight_style = "storm"
-      vim.g.tokyonight_italic_keywords = false
-      vim.g.tokyonight_italic_comments = false
-      vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+      require("tokyonight").setup {
+        style = "storm",
+        styles = {
+          keywords = "NONE",
+          comments = "NONE",
+        },
+        sidebars = { "qf", "vista_kind", "terminal", "packer", "chadtree" },
+      }
       vim.cmd("colorscheme tokyonight")
     end,
   }
