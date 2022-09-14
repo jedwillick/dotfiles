@@ -39,6 +39,7 @@ install_apt() {
     traceroute
     ncdu
     universal-ctags
+    bear
   )
 
   $APT install software-properties-common
@@ -56,12 +57,12 @@ install_apt() {
 install_debs() {
   DEBS=(
     'https://github.com/sharkdp/fd/releases/latest/download/fd_8.4.0_amd64.deb'
-    'https://github.com/sharkdp/bat/releases/latest/download/bat_0.21.0_amd64.deb'
+    'https://github.com/sharkdp/bat/releases/latest/download/bat_0.22.0_amd64.deb'
     'https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_13.0.0_amd64.deb'
     'https://github.com/sharkdp/hyperfine/releases/latest/download/hyperfine_1.14.0_amd64.deb'
-    'https://github.com/cli/cli/releases/latest/download/gh_2.14.4_linux_amd64.deb'
+    'https://github.com/sharkdp/hexyl/releases/latest/download/hexyl_0.10.0_amd64.deb'
+    'https://github.com/cli/cli/releases/latest/download/gh_2.15.0_linux_amd64.deb'
   )
-
   for deb in "${DEBS[@]}"; do
     dest="$TMP/$(basename "$deb")"
     $WGET "$deb" -O "$dest" && $APT install "$dest"
@@ -126,7 +127,7 @@ install_wsl() {
 
   # WIN32 Yank for Nvim
   $WGET https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip -O "$TMP/win32yank.zip"
-  unzip -p "$TMP/win32yank.zip" win32yank.exe >"$TMP/win32yank.exe"
+  unzip -p "$TMP/win32yank.zip" win32yank.exe > "$TMP/win32yank.exe"
   chmod +x "$TMP/win32yank.exe"
   sudo mv "$TMP/win32yank.exe" /usr/local/bin/
 }
