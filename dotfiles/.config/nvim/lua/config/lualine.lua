@@ -45,6 +45,31 @@ local function get_version()
   return ""
 end
 
+local function ft_upper()
+  return vim.api.nvim_buf_get_option(0, "filetype"):upper()
+end
+
+local help_man = {
+  filetypes = { "help", "man" },
+  sections = {
+    lualine_a = { ft_upper },
+    lualine_b = { { "filename", file_status = false } },
+    lualine_y = { "progress" },
+    lualine_z = { "location" },
+  },
+  inactive_sections = {
+    lualine_c = {
+      ft_upper,
+      { "filename", file_status = false },
+    },
+    lualine_x = { "progress", "location" },
+  },
+}
+
+local function in_width()
+  return vim.fn.winwidth(0) > 80
+end
+
 require("lualine").setup {
   options = {
     icons_enabled = true,
@@ -57,7 +82,11 @@ require("lualine").setup {
   },
   sections = {
     lualine_a = { "mode" },
-    lualine_b = { "branch", "diff", "diagnostics" },
+    lualine_b = {
+      "branch",
+      { "diff", cond = in_width },
+      { "diagnostics", cond = in_width },
+    },
     lualine_c = {
       {
         "filename",
@@ -67,6 +96,13 @@ require("lualine").setup {
           readonly = " [-]",
           unnamed = "[No Name]",
         },
+        fmt = function(filename)
+          if vim.fn.winwidth(0) > 110 then
+            return filename
+          end
+
+          return filename:match("^.+/(.+)$") or filename
+        end,
       },
     },
     lualine_x = {
@@ -82,6 +118,7 @@ require("lualine").setup {
       "filetype",
       { -- Version
         get_version,
+        cond = in_width,
       },
       { -- LSP server name
         function()
@@ -99,6 +136,7 @@ require("lualine").setup {
           end
           return msg
         end,
+        cond = in_width,
       },
       {
         function()
@@ -106,6 +144,7 @@ require("lualine").setup {
             return [[ﯙ]]
           end
         end,
+        cond = in_width,
       },
     },
     lualine_y = { "progress" },
@@ -115,10 +154,10 @@ require("lualine").setup {
     lualine_a = {},
     lualine_b = {},
     lualine_c = { "filename" },
-    lualine_x = { "location" },
+    lualine_x = { "progress", "location" },
     lualine_y = {},
     lualine_z = {},
   },
   tabline = {},
-  extensions = { "man", "chadtree" },
+  extensions = { help_man, "chadtree" },
 }
