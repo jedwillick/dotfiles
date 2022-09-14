@@ -24,8 +24,8 @@ class UnsupportedOS(Exception):
 
 def check_symlink():
     with NamedTemporaryFile() as tmp1, NamedTemporaryFile() as tmp2:
-        os.remove(tmp2.name)
         try:
+            os.remove(tmp2.name)
             os.symlink(tmp1.name, tmp2.name)
         except OSError:
             print(
