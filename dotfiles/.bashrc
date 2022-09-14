@@ -113,7 +113,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-mesg n &>/dev/null || true
+mesg n &> /dev/null || true
 shopt -s autocd
 
 alias brc='source ~/.bashrc'
@@ -139,7 +139,7 @@ if [[ -n $SSH_CONNECTION ]]; then
   export CSSE2310=/local/courses/csse2310
   alias fzf="fzf --preview 'cat {}'"
 else
-  pgrep -u "$USER" ssh-agent &>/dev/null || eval "$(ssh-agent -s)" &>/dev/null
+  pgrep -u "$USER" ssh-agent &> /dev/null || eval "$(ssh-agent -s)" &> /dev/null
   export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
   alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 fi
@@ -162,7 +162,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   }
 fi
 
-if command -v pygmentize &>/dev/null; then
+if command -v pygmentize &> /dev/null; then
   alias pyg='pygmentize -g -P style=monokai'
   cless() {
     pygmentize -g -P style=monokai "$1" | less
@@ -171,7 +171,7 @@ fi
 
 export PROMPT_COMMAND="printf '\e[5 q'"
 # Oh My Posh & Utility script.
-if command -v oh-my-posh &>/dev/null; then
+if command -v oh-my-posh &> /dev/null; then
   export POSH_THEME=~/.poshthemes/min.omp.json
   eval "$(oh-my-posh init bash)"
 
@@ -188,7 +188,7 @@ fi
 _pip_completion() {
   COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
     COMP_CWORD=$COMP_CWORD \
-    PIP_AUTO_COMPLETE=1 $1 2>/dev/null))
+    PIP_AUTO_COMPLETE=1 $1 2> /dev/null))
 }
 complete -o default -F _pip_completion pip
 
