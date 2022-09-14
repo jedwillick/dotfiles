@@ -40,6 +40,7 @@ telescope.setup {
         ["<esc>"] = actions.close,
       },
     },
+    path_display = { "truncate" },
     prompt_prefix = "  ",
     layout_config = {
       horizontal = {

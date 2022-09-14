@@ -246,7 +246,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["tokyonight.nvim"] = {
-    config = { "\27LJ\2\2ä\1\0\0\3\0\v\0\0156\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0" },
+    config = { "\27LJ\2\2ô\1\0\0\3\0\v\0\0196\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
@@ -322,7 +322,7 @@ try_loadstring("\27LJ\2\2`\0\0\2\0\6\0\v6\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016
 time([[Config for Comment.nvim]], false)
 -- Config for: tokyonight.nvim
 time([[Config for tokyonight.nvim]], true)
-try_loadstring("\27LJ\2\2ä\1\0\0\3\0\v\0\0156\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0", "config", "tokyonight.nvim")
+try_loadstring("\27LJ\2\2ô\1\0\0\3\0\v\0\0196\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0", "config", "tokyonight.nvim")
 time([[Config for tokyonight.nvim]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)

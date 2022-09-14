@@ -28,6 +28,7 @@ return require("packer").startup(function(use)
         sidebars = { "qf", "vista_kind", "terminal", "packer", "chadtree" },
       }
       vim.cmd("colorscheme tokyonight")
+      vim.cmd("colorscheme tokyonight") -- Need to set it twice for bufferline
     end,
   }
 
