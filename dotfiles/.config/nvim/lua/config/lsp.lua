@@ -55,9 +55,10 @@ end
 
 local servers = {
   bashls = { cmd_env = { SHELLCHECK_PATH = "" } },
-  clangd = {},
+  clangd = { capabilities = { offsetEncoding = "utf-8" } },
   gopls = {},
   jsonls = {},
+  pyright = {},
   sumneko_lua = {
     settings = {
       Lua = {
@@ -80,7 +81,6 @@ local servers = {
       },
     },
   },
-  pyright = {},
   vimls = {},
   yamlls = {},
 }
@@ -90,11 +90,10 @@ local coq = require("coq")
 
 local baseConfig = {
   on_attach = on_attach,
-  capabilities = coq.lsp_ensure_capabilities { offsetEncoding = { "utf-16" } },
 }
 
 for lsp, config in pairs(servers) do
-  lspconfig[lsp].setup(vim.tbl_deep_extend("keep", config, baseConfig))
+  lspconfig[lsp].setup(coq.lsp_ensure_capabilities(vim.tbl_deep_extend("keep", config, baseConfig)))
 end
 
 local null_ls = require("null-ls")
@@ -107,7 +106,7 @@ local shellcheck = { extra_args = { "--exclude=1090,1091" } }
 null_ls.setup {
   sources = {
     fmt.shfmt.with {
-      extra_args = { "-i", "2", "-ci", "-bn" },
+      extra_args = { "--indent=2", "--case-indent", "--binary-next-line", "--space-redirects" },
     },
     act.shellcheck.with(shellcheck),
     diag.shellcheck.with(shellcheck),
