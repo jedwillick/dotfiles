@@ -1,9 +1,11 @@
+$env:SEM = "~\OneDrive\UNI\2022\sem-2"
+
 $env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
 oh-my-posh init pwsh | Invoke-Expression
 
 Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 function Edit-PoshTheme {
-    omputils theme $args 
+    omputils theme $args
     . $PROFILE
 }
 
@@ -13,7 +15,7 @@ function Backup-Onedrive([array]$folders = @("UNI", "Programming", "Tutoring"), 
     if ($usb -AND -NOT (Get-PSDrive F -ErrorAction SilentlyContinue)) {
         Write-Error "USB (F:) not found :(" -ErrorAction Stop
     }
-    
+
     foreach ($folder in $folders) {
         Write-Output "BACKING UP $folder to Desktop"
         xcopy.exe $env:OneDrive\$folder $env:USERPROFILE\Desktop\$folder /d /y /s /e
