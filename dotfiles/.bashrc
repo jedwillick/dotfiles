@@ -65,7 +65,6 @@ alias ....='cd ../../../'
 
 export LESS=RF
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-export DOTFILES="$HOME/dotfiles"
 
 if [[ -n $SSH_CONNECTION ]]; then
   mesg n &> /dev/null || true
@@ -92,7 +91,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   }
 fi
 
-source "$DOTFILES/scripts/sh/util.sh"
+source ~/.local/share/util.sh
 
 if exists bat; then
   alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"

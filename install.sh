@@ -2,11 +2,7 @@
 
 set -eu
 
-if [[ -z ${DOTFILES-} ]]; then
-  export DOTFILES="$HOME/dotfiles"
-fi
-
-source "$DOTFILES/scripts/sh/util.sh"
+source ~/.local/share/util.sh
 
 declare TMP
 readonly WGET="wget -q --show-progress"
