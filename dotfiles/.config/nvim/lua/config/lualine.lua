@@ -39,10 +39,7 @@ local switch = {
 local function get_version()
   local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
   local opts = switch[buf_ft]
-  if opts then
-    return capture_version(opts)
-  end
-  return ""
+  return opts and capture_version(opts) or ""
 end
 
 local function ft_upper()

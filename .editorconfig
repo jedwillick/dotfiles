@@ -1,0 +1,33 @@
+root = true
+
+[*]
+indent_size = 2
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+; shfmt
+switch_case_indent = true
+space_redirects = true
+binary_next_line = true
+
+[{*.go,go.mod}]
+indent_size = tab
+indent_style = tab
+
+[{Makefile,makefile}]
+indent_size = tab
+indent_style = tab
+
+[{*.py,*/py/*}]
+indent_size = 4
+
+[{*.c,*.h}]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.ps1]
+indent_size = 4
+end_of_line = crlf

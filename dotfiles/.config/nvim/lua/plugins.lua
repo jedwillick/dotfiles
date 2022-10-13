@@ -4,12 +4,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
   BOOTSTRAP = fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
 end
 
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = vim.api.nvim_create_augroup("packer_user_config", {}),
+  desc = "Automatically recompile packer.",
+  pattern = "plugins.lua",
+  command = "source | PackerCompile",
+})
 
 return require("packer").startup(function(use)
   use { "wbthomason/packer.nvim" }
@@ -46,13 +46,29 @@ return require("packer").startup(function(use)
     config = [[require('config/treesitter')]],
   }
 
+  use { "folke/lua-dev.nvim", config = [[require("lua-dev").setup()]] }
+
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup {
+        window = { relative = "editor" },
+        text = { spinner = "dots" },
+      }
+      -- HACK to stop error when exiting
+      vim.api.nvim_create_autocmd("VimLeavePre", { command = [[silent! FidgetClose]] })
+    end,
+  }
+
   use {
     "williamboman/mason.nvim",
     requires = {
       "neovim/nvim-lspconfig",
       "williamboman/mason-lspconfig.nvim",
+      "b0o/schemastore.nvim",
+      -- "p00f/clangd_extensions.nvim",
     },
-    after = { "coq_nvim", "null-ls.nvim" },
+    after = { "coq_nvim", "null-ls.nvim", "lua-dev.nvim", "fidget.nvim" },
     config = [[require('config/lsp')]],
   }
 
@@ -67,7 +83,7 @@ return require("packer").startup(function(use)
       vim.g.coq_settings = { auto_start = "shut-up" }
       require("coq_3p") {
         { src = "copilot", short_name = "COP", accept_key = "<c-j>" },
-        { src = "nvimlua", short_name = "nLUA", conf_only = false },
+        -- { src = "nvimlua", short_name = "nLUA", conf_only = false },
       }
     end,
   }
@@ -83,12 +99,14 @@ return require("packer").startup(function(use)
       require("Comment").setup()
       local ft = require("Comment.ft")
       ft.plsql = "-- %s"
+      ft.c = "// %s"
+      ft.editorconfig = "; %s"
     end,
   }
 
   use {
     "akinsho/bufferline.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    requires = { "kyazdani42/nvim-web-devicons" },
     config = [[require("config/bufferline")]],
   }
 
@@ -112,8 +130,11 @@ return require("packer").startup(function(use)
     config = function()
       vim.opt.list = true
       vim.opt.listchars:append("space:⋅")
-      -- vim.opt.listchars:append("tab:ﲖ  ")
-      require("indent_blankline").setup()
+      require("indent_blankline").setup {
+        char = "▏",
+        show_trailing_blankline_indent = false,
+        show_current_context = true,
+      }
     end,
   }
 
@@ -184,6 +205,30 @@ return require("packer").startup(function(use)
     end,
     ft = { "markdown" },
   }
+
+  use {
+    "gpanders/editorconfig.nvim",
+    config = function()
+      vim.api.nvim_create_user_command("EditorConfigConfig", function()
+        vim.pretty_print(vim.b.editorconfig)
+      end, { desc = "Show the editorconfig conifg" })
+
+      local reload = function()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          require("editorconfig").config(buf)
+        end
+      end
+      vim.api.nvim_create_user_command("EditorConfigReload", reload, { desc = "Reload editorconfig" })
+      vim.api.nvim_create_autocmd("BufWritePost", {
+        group = vim.api.nvim_create_augroup("editorconfig", { clear = false }),
+        desc = "Automatically reload editorconfig",
+        pattern = ".editorconfig",
+        callback = reload,
+      })
+    end,
+  }
+
+  use { "folke/which-key.nvim", config = [[require("which-key").setup()]] }
 
   if BOOTSTRAP then
     require("packer").sync()
