@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$DOTFILES/scripts/sh/util.sh"
+source ~/.local/share/util.sh
 
 # Temp directory that will be populated after arguments have been parsed.
 # And be automatically deleted upon exit.

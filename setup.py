@@ -203,10 +203,9 @@ class Setup:
         for file in scripts.glob("*/*"):
             if self.is_excluded(file):
                 continue
-            if not os.access(file, os.X_OK):
-                log.debug(f"Skipping... non-executable {file}", prefix="SCRIPT")
-                continue
-            dest = Path("~/.local/bin").expanduser() / file.name
+            dest = Path.home() / ".local"
+            dest /= "bin" if os.access(file, os.X_OK) else "share"
+            dest /= file.name
             self.mkdir(dest.parent)
             self.setup_dotfile(file, dest)
 
