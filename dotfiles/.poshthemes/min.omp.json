@@ -47,17 +47,6 @@
           }
         },
         {
-          "type": "python",
-          "style": "powerline",
-          "powerline_symbol": "\ue0b0",
-          "foreground": "#100e23",
-          "background": "#906cff",
-          "template": " \ue235 {{ .Full }} ",
-          "properties": {
-            "display_mode": "context"
-          }
-        },
-        {
           "foreground": "#E06C75",
           "style": "plain",
           "template": " {{ if le .Percentage 20 }}{{ if ne .State 3 }}{{ .Percentage }}%{{ end }} {{ end }}",

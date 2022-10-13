@@ -3,7 +3,7 @@ local startify = require("alpha.themes.startify")
 
 local function version()
   local v = vim.version()
-  return "Neovim v" .. v.major .. "." .. v.minor .. "." .. v.patch
+  return v and string.format("Neovim v%s.%s.%s", v.major, v.minor, v.patch) or ""
 end
 
 local function loaded()

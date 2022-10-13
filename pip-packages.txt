@@ -1,7 +1,6 @@
 wheel
 setuptools
 tqdm
-autopep8
 Pygments
 black
 isort

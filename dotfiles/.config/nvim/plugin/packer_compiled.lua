@@ -75,7 +75,7 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
-    config = { "\27LJ\2\2`\0\0\2\0\6\0\v6\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0K\0\1\0\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0" },
+    config = { "\27LJ\2\2ä\1\0\0\2\0\n\0\0156\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0'\1\a\0=\1\6\0'\1\t\0=\1\b\0K\0\1\0\t; %s\17editorconfig\n// %s\6c\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
@@ -121,11 +121,25 @@ _G.packer_plugins = {
   },
   coq_nvim = {
     after = { "mason.nvim" },
-    config = { "\27LJ\2\2–\1\0\0\3\0\b\0\0146\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\0015\2\a\0>\2\2\1B\0\2\1K\0\1\0\1\0\3\bsrc\fnvimlua\15short_name\tnLUA\14conf_only\1\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0" },
+    config = { "\27LJ\2\2û\1\0\0\3\0\a\0\f6\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\1B\0\2\1K\0\1\0\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0" },
     loaded = true,
     only_config = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/coq_nvim",
     url = "https://github.com/ms-jpq/coq_nvim"
+  },
+  ["editorconfig.nvim"] = {
+    config = { "\27LJ\2\2C\0\0\2\0\4\0\a6\0\0\0009\0\1\0006\1\0\0009\1\2\0019\1\3\1B\0\2\1K\0\1\0\17editorconfig\6b\17pretty_print\bvimÅ\1\0\0\a\0\a\0\0166\0\0\0006\1\1\0009\1\2\0019\1\3\1B\1\1\0A\0\0\4X\3\6Ä6\5\4\0'\6\5\0B\5\2\0029\5\6\5\18\6\4\0B\5\2\1E\3\3\3R\3¯\127K\0\1\0\vconfig\17editorconfig\frequire\19nvim_list_bufs\bapi\bvim\vipairs§\3\1\0\a\0\17\0\0306\0\0\0009\0\1\0009\0\2\0'\1\3\0003\2\4\0005\3\5\0B\0\4\0013\0\6\0006\1\0\0009\1\1\0019\1\2\1'\2\a\0\18\3\0\0005\4\b\0B\1\4\0016\1\0\0009\1\1\0019\1\t\1'\2\n\0005\3\14\0006\4\0\0009\4\1\0049\4\v\4'\5\f\0005\6\r\0B\4\3\2=\4\15\3=\0\16\3B\1\3\1K\0\1\0\rcallback\ngroup\1\0\2\fpattern\18.editorconfig\tdesc&Automatically reload editorconfig\1\0\1\nclear\1\17editorconfig\24nvim_create_augroup\17BufWritePost\24nvim_create_autocmd\1\0\1\tdesc\24Reload editorconfig\23EditorConfigReload\0\1\0\1\tdesc!Show the editorconfig conifg\0\23EditorConfigConfig\29nvim_create_user_command\bapi\bvim\0" },
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/editorconfig.nvim",
+    url = "https://github.com/gpanders/editorconfig.nvim"
+  },
+  ["fidget.nvim"] = {
+    after = { "mason.nvim" },
+    config = { "\27LJ\2\2Ÿ\1\0\0\3\0\r\0\0176\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\1\v\0005\2\f\0B\0\3\1K\0\1\0\1\0\1\fcommand\24silent! FidgetClose\16VimLeavePre\24nvim_create_autocmd\bapi\bvim\ttext\1\0\1\fspinner\tdots\vwindow\1\0\0\1\0\1\rrelative\veditor\nsetup\vfidget\frequire\0" },
+    loaded = true,
+    only_config = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/fidget.nvim",
+    url = "https://github.com/j-hui/fidget.nvim"
   },
   ["impatient.nvim"] = {
     config = { "require('impatient')" },
@@ -134,10 +148,18 @@ _G.packer_plugins = {
     url = "https://github.com/lewis6991/impatient.nvim"
   },
   ["indent-blankline.nvim"] = {
-    config = { "\27LJ\2\2í\1\0\0\3\0\t\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0B\0\1\1K\0\1\0\nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0" },
+    config = { "\27LJ\2\2ÿ\1\0\0\3\0\n\0\0186\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0005\1\t\0B\0\2\1K\0\1\0\1\0\3\25show_current_context\2#show_trailing_blankline_indent\1\tchar\b‚ñè\nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0" },
     loaded = true,
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
+  ["lua-dev.nvim"] = {
+    after = { "mason.nvim" },
+    config = { 'require("lua-dev").setup()' },
+    loaded = true,
+    only_config = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/lua-dev.nvim",
+    url = "https://github.com/folke/lua-dev.nvim"
   },
   ["lualine.nvim"] = {
     config = { "require('config/lualine')" },
@@ -211,6 +233,11 @@ _G.packer_plugins = {
     path = "/home/jed/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["schemastore.nvim"] = {
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/schemastore.nvim",
+    url = "https://github.com/b0o/schemastore.nvim"
+  },
   ["sideways.vim"] = {
     commands = { "SidewaysLeft", "SidewaysRight" },
     loaded = false,
@@ -268,6 +295,12 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/home/jed/.local/share/nvim/site/pack/packer/opt/vim-startuptime",
     url = "https://github.com/dstein64/vim-startuptime"
+  },
+  ["which-key.nvim"] = {
+    config = { 'require("which-key").setup()' },
+    loaded = true,
+    path = "/home/jed/.local/share/nvim/site/pack/packer/start/which-key.nvim",
+    url = "https://github.com/folke/which-key.nvim"
   }
 }
 
@@ -292,42 +325,58 @@ time([[Setup for nvim-colorizer.lua]], false)
 time([[Config for telescope.nvim]], true)
 require('config/telescope')
 time([[Config for telescope.nvim]], false)
+-- Config for: which-key.nvim
+time([[Config for which-key.nvim]], true)
+require("which-key").setup()
+time([[Config for which-key.nvim]], false)
 -- Config for: coq_nvim
 time([[Config for coq_nvim]], true)
-try_loadstring("\27LJ\2\2–\1\0\0\3\0\b\0\0146\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\0015\2\a\0>\2\2\1B\0\2\1K\0\1\0\1\0\3\bsrc\fnvimlua\15short_name\tnLUA\14conf_only\1\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0", "config", "coq_nvim")
+try_loadstring("\27LJ\2\2û\1\0\0\3\0\a\0\f6\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\4\0'\1\5\0B\0\2\0024\1\3\0005\2\6\0>\2\1\1B\0\2\1K\0\1\0\1\0\3\bsrc\fcopilot\15short_name\bCOP\15accept_key\n<c-j>\vcoq_3p\frequire\1\0\1\15auto_start\fshut-up\17coq_settings\6g\bvim\0", "config", "coq_nvim")
 time([[Config for coq_nvim]], false)
 -- Config for: indent-blankline.nvim
 time([[Config for indent-blankline.nvim]], true)
-try_loadstring("\27LJ\2\2í\1\0\0\3\0\t\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0B\0\1\1K\0\1\0\nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0", "config", "indent-blankline.nvim")
+try_loadstring("\27LJ\2\2ÿ\1\0\0\3\0\n\0\0186\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0009\0\3\0\18\1\0\0009\0\4\0'\2\5\0B\0\3\0016\0\6\0'\1\a\0B\0\2\0029\0\b\0005\1\t\0B\0\2\1K\0\1\0\1\0\3\25show_current_context\2#show_trailing_blankline_indent\1\tchar\b‚ñè\nsetup\21indent_blankline\frequire\14space:‚ãÖ\vappend\14listchars\tlist\bopt\bvim\0", "config", "indent-blankline.nvim")
 time([[Config for indent-blankline.nvim]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\2ä\1\0\0\2\0\n\0\0156\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0'\1\a\0=\1\6\0'\1\t\0=\1\b\0K\0\1\0\t; %s\17editorconfig\n// %s\6c\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
 -- Config for: impatient.nvim
 time([[Config for impatient.nvim]], true)
 require('impatient')
 time([[Config for impatient.nvim]], false)
+-- Config for: lua-dev.nvim
+time([[Config for lua-dev.nvim]], true)
+require("lua-dev").setup()
+time([[Config for lua-dev.nvim]], false)
+-- Config for: editorconfig.nvim
+time([[Config for editorconfig.nvim]], true)
+try_loadstring("\27LJ\2\2C\0\0\2\0\4\0\a6\0\0\0009\0\1\0006\1\0\0009\1\2\0019\1\3\1B\0\2\1K\0\1\0\17editorconfig\6b\17pretty_print\bvimÅ\1\0\0\a\0\a\0\0166\0\0\0006\1\1\0009\1\2\0019\1\3\1B\1\1\0A\0\0\4X\3\6Ä6\5\4\0'\6\5\0B\5\2\0029\5\6\5\18\6\4\0B\5\2\1E\3\3\3R\3¯\127K\0\1\0\vconfig\17editorconfig\frequire\19nvim_list_bufs\bapi\bvim\vipairs§\3\1\0\a\0\17\0\0306\0\0\0009\0\1\0009\0\2\0'\1\3\0003\2\4\0005\3\5\0B\0\4\0013\0\6\0006\1\0\0009\1\1\0019\1\2\1'\2\a\0\18\3\0\0005\4\b\0B\1\4\0016\1\0\0009\1\1\0019\1\t\1'\2\n\0005\3\14\0006\4\0\0009\4\1\0049\4\v\4'\5\f\0005\6\r\0B\4\3\2=\4\15\3=\0\16\3B\1\3\1K\0\1\0\rcallback\ngroup\1\0\2\fpattern\18.editorconfig\tdesc&Automatically reload editorconfig\1\0\1\nclear\1\17editorconfig\24nvim_create_augroup\17BufWritePost\24nvim_create_autocmd\1\0\1\tdesc\24Reload editorconfig\23EditorConfigReload\0\1\0\1\tdesc!Show the editorconfig conifg\0\23EditorConfigConfig\29nvim_create_user_command\bapi\bvim\0", "config", "editorconfig.nvim")
+time([[Config for editorconfig.nvim]], false)
 -- Config for: lualine.nvim
 time([[Config for lualine.nvim]], true)
 require('config/lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: copilot.vim
-time([[Config for copilot.vim]], true)
-try_loadstring("\27LJ\2\2ﬂ\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\4\texpr\2\vscript\2\21replace_keycodes\1\vsilent\2\27copilot#Accept(\"<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
-time([[Config for copilot.vim]], false)
+-- Config for: fidget.nvim
+time([[Config for fidget.nvim]], true)
+try_loadstring("\27LJ\2\2Ÿ\1\0\0\3\0\r\0\0176\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0009\0\n\0'\1\v\0005\2\f\0B\0\3\1K\0\1\0\1\0\1\fcommand\24silent! FidgetClose\16VimLeavePre\24nvim_create_autocmd\bapi\bvim\ttext\1\0\1\fspinner\tdots\vwindow\1\0\0\1\0\1\rrelative\veditor\nsetup\vfidget\frequire\0", "config", "fidget.nvim")
+time([[Config for fidget.nvim]], false)
 -- Config for: bufferline.nvim
 time([[Config for bufferline.nvim]], true)
 require("config/bufferline")
 time([[Config for bufferline.nvim]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\2`\0\0\2\0\6\0\v6\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\1\3\0B\0\2\2'\1\5\0=\1\4\0K\0\1\0\n-- %s\nplsql\15Comment.ft\nsetup\fComment\frequire\0", "config", "Comment.nvim")
-time([[Config for Comment.nvim]], false)
--- Config for: tokyonight.nvim
-time([[Config for tokyonight.nvim]], true)
-try_loadstring("\27LJ\2\2Ù\1\0\0\3\0\v\0\0196\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0", "config", "tokyonight.nvim")
-time([[Config for tokyonight.nvim]], false)
+-- Config for: copilot.vim
+time([[Config for copilot.vim]], true)
+try_loadstring("\27LJ\2\2ﬂ\1\0\0\5\0\v\0\0176\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\3\0009\0\4\0'\1\5\0'\2\6\0'\3\a\0005\4\b\0B\0\5\0016\0\0\0009\0\1\0005\1\n\0=\1\t\0K\0\1\0\1\0\1\20TelescopePrompt\1\22copilot_filetypes\1\0\4\texpr\2\vscript\2\21replace_keycodes\1\vsilent\2\27copilot#Accept(\"<CR>\")\n<C-j>\6i\bset\vkeymap\23copilot_no_tab_map\6g\bvim\0", "config", "copilot.vim")
+time([[Config for copilot.vim]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('config/treesitter')
 time([[Config for nvim-treesitter]], false)
+-- Config for: tokyonight.nvim
+time([[Config for tokyonight.nvim]], true)
+try_loadstring("\27LJ\2\2Ù\1\0\0\3\0\v\0\0196\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\4\0=\2\5\0015\2\6\0=\2\a\1B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\0016\0\b\0009\0\t\0'\1\n\0B\0\2\1K\0\1\0\27colorscheme tokyonight\bcmd\bvim\rsidebars\1\6\0\0\aqf\15vista_kind\rterminal\vpacker\rchadtree\vstyles\1\0\2\rcomments\tNONE\rkeywords\tNONE\1\0\1\nstyle\nstorm\nsetup\15tokyonight\frequire\0", "config", "tokyonight.nvim")
+time([[Config for tokyonight.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd null-ls.nvim ]]
@@ -358,9 +407,9 @@ vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
 vim.cmd [[au FileType html ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "html" }, _G.packer_plugins)]]
-vim.cmd [[au FileType css ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "css" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType toml ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "toml" }, _G.packer_plugins)]]
+vim.cmd [[au FileType css ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "css" }, _G.packer_plugins)]]
 vim.cmd [[au FileType javascript ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "javascript" }, _G.packer_plugins)]]
 vim.cmd [[au FileType yaml ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "yaml" }, _G.packer_plugins)]]
 vim.cmd [[au FileType json ++once lua require("packer.load")({'nvim-colorizer.lua'}, { ft = "json" }, _G.packer_plugins)]]

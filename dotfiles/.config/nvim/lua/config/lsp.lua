@@ -43,6 +43,7 @@ local on_attach = function(client, bufnr)
 
   if client.supports_method("textDocument/formatting") then
     set("n", "<leader>bf", lsp_formatting, bufopts)
+    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = augroup,
       buffer = bufnr,
@@ -57,24 +58,24 @@ local servers = {
   bashls = { cmd_env = { SHELLCHECK_PATH = "" } },
   clangd = { capabilities = { offsetEncoding = "utf-8" } },
   gopls = {},
-  jsonls = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  },
   pyright = {},
   sumneko_lua = {
     settings = {
       Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = "LuaJIT",
-        },
         diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { "vim" },
+          unusedLocalExclude = { "_*" },
         },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
+        format = {
+          enable = false,
         },
-        -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {
           enable = false,
         },
@@ -103,11 +104,35 @@ local act = null_ls.builtins.code_actions
 
 local shellcheck = { extra_args = { "--exclude=1090,1091" } }
 
+local with_root_file = function(...)
+  local files = { ... }
+  return function(utils)
+    return utils.root_has_file(files)
+  end
+end
+
+local without_root_file = function(...)
+  local files = { ... }
+  return function(utils)
+    return not utils.root_has_file(files)
+  end
+end
+
+local with_editorconfig = with_root_file(".editorconfig")
+local without_editorconifg = without_root_file(".editorconfig")
+
 null_ls.setup {
+  on_attach = on_attach,
+  root_dir = require("null-ls.utils").root_pattern(".null-ls-root", "Makefile", ".git", ".editorconfig", ".svn"),
   sources = {
-    fmt.shfmt.with {
+    fmt.shfmt.with { -- If no editorconifg these defaults will be used.
       extra_args = { "--indent=2", "--case-indent", "--binary-next-line", "--space-redirects" },
+      condition = without_editorconifg,
     },
+    fmt.shfmt.with {
+      condition = with_editorconfig,
+    },
+
     act.shellcheck.with(shellcheck),
     diag.shellcheck.with(shellcheck),
 
@@ -123,26 +148,33 @@ null_ls.setup {
       extra_args = { "--max-line-length=88", "--ignore=E203,W503" },
     },
 
-    fmt.prettier,
-    fmt.stylua,
-    fmt.clang_format,
-    fmt.trim_whitespace,
+    fmt.stylua.with {
+      condition = with_root_file { "stylua.toml", ".stylua.toml" },
+    },
 
+    fmt.clang_format,
     -- null_act.gitsigns,
 
     diag.markdownlint,
     fmt.markdownlint,
-  },
+    fmt.prettier,
 
-  -- you can reuse a shared lspconfig on_attach callback here
-  on_attach = on_attach,
+    diag.editorconfig_checker.with {
+      command = "editorconfig-checker",
+      condition = with_editorconfig,
+    },
+    fmt.trim_whitespace.with {
+      condition = without_editorconifg,
+      disabled_filetypes = { "markdown" },
+    },
+  },
 }
 
 -- Auto-install null-ls sources
 local mr = require("mason-registry")
 local sources = null_ls.get_sources()
 for _, source in ipairs(sources) do
-  local ok, p = pcall(mr.get_package, source.name)
+  local ok, p = pcall(mr.get_package, source.name:gsub("_", "-"))
   if ok and not p:is_installed() then
     p:install()
   end

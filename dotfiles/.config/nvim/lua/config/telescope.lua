@@ -97,7 +97,7 @@ telescope.setup {
     },
     project = {
       base_dirs = {
-        "~",
+        "~/dev",
       },
       mappings = {
         i = {

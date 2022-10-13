@@ -2,44 +2,52 @@
 
 set -eu
 
-WGET="wget -q --show-progress"
-APT="sudo apt -y"
+if [[ -z ${DOTFILES-} ]]; then
+  export DOTFILES="$HOME/dotfiles"
+fi
 
-TMP=$(mktemp -d)
-chmod 777 "$TMP"
+source "$DOTFILES/scripts/sh/util.sh"
 
-trap 'rm -rf "$TMP"' EXIT
+declare TMP
+readonly WGET="wget -q --show-progress"
+readonly APT="sudo apt -y -qq"
 
 install_apt() {
-  ppas=(
+  if ! exists apt; then
+    echo "apt not found... skipping"
+    return
+  fi
+
+  local ppas=(
     git-core/ppa
     neovim-ppa/unstable # Neovim nightly
   )
-  packages=(
-    git
+  local packages=(
+    bear
     build-essential
-    jq
-    python3-pip
-    zip
-    unzip
-    valgrind
-    cowsay
     cmake
-    subversion
+    cowsay
+    curl
     dos2unix
+    git
+    jq
+    manpages-posix
     ncat
+    ncdu
+    neovim
+    net-tools
+    python3
+    python3-pip
     python3-venv
     sqlite3
-    curl
-    wget
-    neovim
-    stow
-    tree
-    net-tools
+    subversion
     traceroute
-    ncdu
+    tree
     universal-ctags
-    bear
+    unzip
+    valgrind
+    wget
+    zip
   )
 
   $APT install software-properties-common
@@ -55,22 +63,25 @@ install_apt() {
 }
 
 install_debs() {
-  DEBS=(
-    'https://github.com/sharkdp/fd/releases/latest/download/fd_8.4.0_amd64.deb'
-    'https://github.com/sharkdp/bat/releases/latest/download/bat_0.22.0_amd64.deb'
-    'https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_13.0.0_amd64.deb'
-    'https://github.com/sharkdp/hyperfine/releases/latest/download/hyperfine_1.14.0_amd64.deb'
-    'https://github.com/sharkdp/hexyl/releases/latest/download/hexyl_0.10.0_amd64.deb'
-    'https://github.com/cli/cli/releases/latest/download/gh_2.15.0_linux_amd64.deb'
+  if ! exists apt; then
+    echo "apt not found... skipping"
+    return
+  fi
+  local repos=(
+    'BurntSushi/ripgrep'
+    'cli/cli'
+    'sharkdp/bat'
+    'sharkdp/fd'
+    'sharkdp/hexyl'
+    'sharkdp/hyperfine'
   )
-  for deb in "${DEBS[@]}"; do
-    dest="$TMP/$(basename "$deb")"
-    $WGET "$deb" -O "$dest" && $APT install "$dest"
+  for repo in "${repos[@]}"; do
+    install-from-github -s deb "$repo"
   done
 }
 
 install_nvm() {
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  $WGET -O- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
   if [[ -z "${NVM_DIR:-}" ]]; then
     export NVM_DIR="$HOME/.nvm"
   fi
@@ -78,34 +89,25 @@ install_nvm() {
 
   nvm install 17
   nvm use 17
-  npm install --location=global tree-sitter-cli prettier neovim markdownlint markdownlint-cli
+  npm install --location=global tree-sitter-cli neovim
 }
 
 install_go() {
-  GO="go1.18.4.linux-amd64.tar.gz"
+  GO="go1.19.2.linux-amd64.tar.gz"
   $WGET https://go.dev/dl/$GO -O "$TMP/$GO"
   sudo rm -rf /usr/local/go
   sudo tar -C /usr/local -xzf "$TMP/$GO"
-
-  GO=/usr/local/go/bin/go
-  if [[ -z "${GOPATH-}" ]]; then
-    export GOPATH=~/.local/go
-  fi
-
-  $GO install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
 
 install_ohmyposh() {
-  # Install Oh-My-Posh
-  $WGET https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O "$TMP/oh-my-posh"
-  sudo mv "$TMP/oh-my-posh" /usr/local/bin/oh-my-posh
-  sudo chmod +x /usr/local/bin/oh-my-posh
+  install-from-github -s binary "jandedobbeleer/oh-my-posh"
+  sudo mv "$HOME/.local/bin/oh-my-posh" /usr/local/bin/oh-my-posh
 
   # Oh-My-Posh Themes
   mkdir -p ~/.poshthemes
   $WGET https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
   unzip -oqq ~/.poshthemes/themes.zip -d ~/.poshthemes
-  chmod u+rw ~/.poshthemes/*.json
+  chmod u+rw ~/.poshthemes/*.omp.*
   rm ~/.poshthemes/themes.zip
 }
 
@@ -121,8 +123,8 @@ install_fzf() {
 install_wsl() {
   # WSL Only
   if [[ -z "${WSL_DISTRO_NAME-}" ]]; then
-    echo "Not running on WSL"
-    return 1
+    echo "Not running on WSL... skipping"
+    return
   fi
 
   # WIN32 Yank for Nvim
@@ -137,45 +139,67 @@ install_pip() {
   pip install --upgrade -r pip-packages.txt pynvim
 }
 
-case "${1-}" in
-  apt)
-    install_apt
-    ;;
-  debs)
-    install_debs
-    ;;
-  nvm)
-    install_nvm
-    ;;
-  go)
-    install_go
-    ;;
-  ohmyposh)
-    install_ohmyposh
-    ;;
-  fzf)
-    install_fzf
-    ;;
-  wsl)
-    install_wsl
-    ;;
-  pip)
-    install_pip
-    ;;
-  all)
-    install_apt
-    install_debs
-    install_nvm
-    install_go
-    install_ohmyposh
-    install_fzf
-    install_wsl
-    install_pip
-    ;;
-  *)
-    echo "Usage: $0 {apt|debs|nvm|go|ohmyposh|fzf|wsl|pip|all}"
-    exit 1
-    ;;
-esac
+show_help() {
+  cat << EOF
+USAGE: $0 [-h] [INSTALL]...
 
-exit 0
+If no INSTALL is specified then all will be run.
+INSTALL can be any of:
+  - apt         Install apt packages.
+  - debs        Install deb packages from github.
+  - fzf         Install fzf a fuzzy finder.
+  - go          Install Golang.
+  - nvm         Install Node Version Manager.
+  - ohmyposh    Install Oh-My-Posh a prompt theme manager.
+  - pip         Install pip packages.
+  - wsl         Install WSL specific things, such as win32yank.
+
+OPTIONS:
+  -h, --help  Show this help message and exit.
+EOF
+}
+
+main() {
+  local validOptions=(
+    apt
+    debs
+    fzf
+    go
+    nvm
+    ohmyposh
+    pip
+    wsl
+  )
+
+  for arg in "$@"; do
+    if [[ "$arg" == "-h" || "$arg" == "--help" ]]; then
+      show_help
+      exit 0
+    fi
+
+    # shellcheck disable=2076
+    if [[ ! " ${validOptions[*]} " =~ " ${arg} " ]]; then
+      echo "Invalid option: $arg" >&2
+      echo "Usage: $0 [-h] [$(
+        IFS='|'
+        printf "%s" "${validOptions[*]}"
+      )]..." >&2
+      exit 1
+    fi
+  done
+
+  if [[ $# -eq 0 ]]; then
+    set -- "${validOptions[@]}"
+  fi
+
+  TMP=$(mktemp -d)
+  readonly TMP
+  chmod 777 "$TMP"
+  trap 'rm -rf "$TMP"' EXIT
+
+  for arg in "$@"; do
+    "install_$arg"
+  done
+}
+
+main "$@"

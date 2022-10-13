@@ -1,4 +1,3 @@
 [helpers]
-editor-cmd = vim
 diff-cmd = diff
 diff-extensions = --color=always

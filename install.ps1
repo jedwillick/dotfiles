@@ -14,25 +14,25 @@ function WingetCmd([string]$package) {
 
 function InstallWinget() {
     $PACKAGES = @(
-        "Google.Chrome",
-        "Git.Git",
         "Discord.Discord",
+        "Git.Git",
+        "Google.Chrome",
         "JanDeDobbeleer.OhMyPosh",
+        "JetBrains.Toolbox",
         "Microsoft.Office",
         "Microsoft.OneDrive",
-        "Spotify.Spotify",
-        "Zoom.Zoom",
-        "Python.Python.3",
         "Microsoft.PowerToys",
         "Microsoft.VisualStudioCode",
-        "NickeManarin.ScreenToGif",
         "Microsoft.WindowsTerminal.Preview",
-        "Valve.Steam",
-        "JetBrains.Toolbox",
+        "NickeManarin.ScreenToGif",
         "Notepad++.Notepad++",
-        "elvirbrk.notehighlight2016",
-        "PuTTY.PuTTY",
         "Oracle.VirtualBox"
+        "PuTTY.PuTTY",
+        "Python.Python.3",
+        "Spotify.Spotify",
+        "Valve.Steam",
+        "Zoom.Zoom",
+        "elvirbrk.notehighlight2016",
     )
     $funcDef = ${function:WingetCmd}.ToString()
     Write-Host "Installing winget packages..."
