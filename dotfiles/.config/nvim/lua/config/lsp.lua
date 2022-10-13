@@ -167,6 +167,7 @@ null_ls.setup {
       condition = without_editorconifg,
       disabled_filetypes = { "markdown" },
     },
+    fmt.trim_newlines,
   },
 }
 
