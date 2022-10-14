@@ -46,7 +46,7 @@ return require("packer").startup(function(use)
     config = [[require('config/treesitter')]],
   }
 
-  use { "folke/lua-dev.nvim", config = [[require("lua-dev").setup()]] }
+  use { "folke/neodev.nvim", config = [[require("neodev").setup()]] }
 
   use {
     "j-hui/fidget.nvim",
@@ -68,7 +68,7 @@ return require("packer").startup(function(use)
       "b0o/schemastore.nvim",
       -- "p00f/clangd_extensions.nvim",
     },
-    after = { "coq_nvim", "null-ls.nvim", "lua-dev.nvim", "fidget.nvim" },
+    after = { "coq_nvim", "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
     config = [[require('config/lsp')]],
   }
 
