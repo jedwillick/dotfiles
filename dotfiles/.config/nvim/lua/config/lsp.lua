@@ -120,10 +120,17 @@ end
 
 local with_editorconfig = with_root_file(".editorconfig")
 local without_editorconifg = without_root_file(".editorconfig")
-
+local stylua = { "stylua.toml", ".stylua.toml" }
 null_ls.setup {
   on_attach = on_attach,
-  root_dir = require("null-ls.utils").root_pattern(".null-ls-root", "Makefile", ".git", ".editorconfig", ".svn"),
+  root_dir = require("null-ls.utils").root_pattern(
+    ".null-ls-root",
+    ".git",
+    ".svn",
+    "Makefile",
+    ".editorconfig",
+    stylua
+  ),
   sources = {
     fmt.shfmt.with { -- If no editorconifg these defaults will be used.
       extra_args = { "--indent=2", "--case-indent", "--binary-next-line", "--space-redirects" },
@@ -149,11 +156,10 @@ null_ls.setup {
     },
 
     fmt.stylua.with {
-      condition = with_root_file { "stylua.toml", ".stylua.toml" },
+      condition = with_root_file(stylua),
     },
 
     fmt.clang_format,
-    -- null_act.gitsigns,
 
     diag.markdownlint,
     fmt.markdownlint,
