@@ -92,7 +92,9 @@ def check_symlink():
 
 
 def dotfile_to_realpath(dotfile: Path):
-    return Path.home() / Path(*dotfile.parts[1:])
+    parts = dotfile.parts
+    dotfile = Path.home() / Path(*parts[1:])
+    return dotfile.with_suffix("") if parts[-2] == "bin" else dotfile
 
 
 class Setup:
@@ -197,18 +199,6 @@ class Setup:
         if not self.is_excluded(editorconfig):
             self.setup_dotfile(editorconfig, Path.home() / editorconfig)
 
-        scripts = Path("scripts")
-        # Scripts are separated based in filetype
-        # E.g. all shell script are in scripts/sh/*
-        for file in scripts.glob("*/*"):
-            if self.is_excluded(file):
-                continue
-            dest = Path.home() / ".local"
-            dest /= "bin" if os.access(file, os.X_OK) else "share"
-            dest /= file.name
-            self.mkdir(dest.parent)
-            self.setup_dotfile(file, dest)
-
     def setup_windows(self):
         # Checking for symlink permissions
         check_symlink()
@@ -241,7 +231,6 @@ class Setup:
                 dest = poshThemesPath if file.is_dir() else poshThemesPath / file.name
             else:
                 dest = dotfile_to_realpath(file)
-
             self.setup_dotfile(file, dest)
 
 
