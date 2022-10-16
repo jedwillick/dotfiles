@@ -2,6 +2,8 @@
 
 source ~/.local/share/util.sh
 
+readonly PROG="${0##*/}"
+
 # Temp directory that will be populated after arguments have been parsed.
 # And be automatically deleted upon exit.
 declare TMP
@@ -110,7 +112,7 @@ install_from_github() {
 
 show_help() {
   cat << EOF
-USAGE: $0 [OPTIONS].. REPO
+USAGE: $PROG [OPTIONS].. REPO
 
 Install github releases with the user/repo syntax
 
@@ -128,9 +130,9 @@ main() {
   local tag="latest"
   local name=""
 
-  options=$(getopt -l "help,debug,source:,tag:,name:" -o "hds:t:n:" -- "$@")
-  eval set -- "$options"
+  options=$(getopt -n "$PROG" -l "help,debug,source:,tag:,name:" -o "hds:t:n:" -- "$@") || exit 1
 
+  eval set -- "$options"
   while true; do
     case "$1" in
       -h | --help)
