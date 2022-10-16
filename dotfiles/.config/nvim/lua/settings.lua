@@ -1,22 +1,19 @@
-local opt = vim.opt
-local g = vim.g
+vim.g.mapleader = " "
+vim.g.c_syntax_for_h = 1
+vim.g.omni_sql_default_compl_type = "syntax"
+vim.g.omni_sql_no_default_maps = 1
 
-g.mapleader = " "
-g.c_syntax_for_h = 1
-g.omni_sql_default_compl_type = "syntax"
-g.omni_sql_no_default_maps = 1
-
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.tabstop = 4
-opt.number = true
-opt.relativenumber = true
-opt.wildmenu = true
-opt.termguicolors = true
-opt.clipboard = "unnamedplus"
-opt.cursorline = true
-opt.mouse = ""
-opt.signcolumn = "yes"
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.wildmenu = true
+vim.opt.termguicolors = true
+vim.opt.clipboard = "unnamedplus"
+vim.opt.cursorline = true
+vim.opt.mouse = ""
+vim.opt.signcolumn = "yes"
 
 vim.filetype.add {
   extension = {
@@ -46,11 +43,12 @@ end, {})
 vim.api.nvim_create_user_command("ToggleEvent", toggleEvent, { nargs = 1, complete = "event" })
 
 vim.keymap.set("n", "<leader>m", function()
+  ---@diagnostic disable-next-line: undefined-field
   if vim.opt.mouse:get().a then
-    opt.mouse = ""
+    vim.opt.mouse = ""
     vim.notify("Mouse disabled")
   else
-    opt.mouse = "a"
+    vim.opt.mouse = "a"
     vim.notify("Mouse enabled")
   end
 end)
