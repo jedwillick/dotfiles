@@ -114,5 +114,5 @@ require("lualine").setup {
     lualine_z = {},
   },
   tabline = {},
-  extensions = { help_man, "chadtree" },
+  extensions = { help_man, "neo-tree" },
 }

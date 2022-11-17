@@ -38,11 +38,13 @@ telescope.setup {
       i = {
         ["<C-s>"] = actions.select_vertical,
         ["<esc>"] = actions.close,
+        ["<C-Down>"] = actions.cycle_history_next,
+        ["<C-Up>"] = actions.cycle_history_prev,
       },
     },
     path_display = { "truncate" },
-    prompt_prefix = "  ",
     layout_config = {
+      prompt_position = "top",
       horizontal = {
         preview_width = 0.55,
         results_width = 0.8,
@@ -54,6 +56,11 @@ telescope.setup {
       height = 0.80,
       preview_cutoff = 120,
     },
+    layout_strategy = "horizontal",
+    sorting_strategy = "ascending",
+    prompt_prefix = " ",
+    selection_caret = " ",
+    winblend = 0,
     vimgrep_arguments = {
       "rg",
       "--color=never",
@@ -64,6 +71,8 @@ telescope.setup {
       "--smart-case",
       "--follow",
       "--hidden",
+      "--glob=!.git",
+      "--glob=!.svn",
     },
   },
   pickers = {
