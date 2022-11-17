@@ -17,6 +17,19 @@ return require("packer").startup(function(use)
   use { "lewis6991/impatient.nvim", config = [[require('impatient')]] }
 
   use {
+    "~/dev/version.nvim",
+    config = function()
+      require("version").setup {
+        filetypes = {
+          c = {
+            prepend_exe = true,
+          },
+        },
+      }
+    end,
+  }
+
+  use {
     "folke/tokyonight.nvim",
     config = function()
       require("tokyonight").setup {
@@ -41,7 +54,7 @@ return require("packer").startup(function(use)
 
   use {
     "nvim-treesitter/nvim-treesitter",
-    requires = { "RRethy/nvim-treesitter-endwise" },
+    requires = { "RRethy/nvim-treesitter-endwise", "nvim-treesitter/playground" },
     run = ":TSUpdate",
     config = [[require('config/treesitter')]],
   }

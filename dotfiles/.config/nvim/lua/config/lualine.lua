@@ -1,47 +1,3 @@
-local Job = require("plenary.job")
-
-local function capture_version(opts)
-  local exe = opts.exe
-  local args = opts.args or { "--version" }
-  local pattern = opts.pattern or "%d+%.%d+%.%d+"
-  local prepend_exe = opts.prepend_exe or false
-
-  if exe == nil then
-    error("exe is required")
-    return ""
-  end
-
-  local out = {}
-  Job:new({
-    command = exe,
-    args = args,
-    on_stdout = function(_, line)
-      table.insert(out, line)
-    end,
-  }):sync()
-
-  for _, line in ipairs(out) do
-    local version = line:match(pattern)
-    if version then
-      return prepend_exe and exe .. " " .. version or version
-    end
-  end
-  return ""
-end
-
--- Map filetypes to fetch versions.
-local switch = {
-  python = { exe = "python3" },
-  c = { exe = "gcc", prepend_exe = true },
-  make = { exe = "make" },
-}
-
-local function get_version()
-  local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-  local opts = switch[buf_ft]
-  return opts and capture_version(opts) or ""
-end
-
 local function ft_upper()
   return vim.api.nvim_buf_get_option(0, "filetype"):upper()
 end
@@ -114,7 +70,9 @@ require("lualine").setup {
       },
       "filetype",
       { -- Version
-        get_version,
+        function()
+          return require("version").get_version()
+        end,
         cond = in_width,
       },
       { -- LSP server name
