@@ -117,7 +117,7 @@ export VISUAL=$EDITOR
 
 # Oh My Posh Prompt
 if exists oh-my-posh; then
-  export POSH_THEME=~/.poshthemes/min.omp.json
+  export POSH_THEME=~/.poshthemes/basic.omp.json
   eval "$(oh-my-posh init bash)"
 
   theme() {
