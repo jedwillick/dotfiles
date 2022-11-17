@@ -165,15 +165,10 @@ null_ls.setup {
     fmt.markdownlint,
     fmt.prettier,
 
-    diag.editorconfig_checker.with {
-      command = "editorconfig-checker",
-      condition = with_editorconfig,
-    },
     fmt.trim_whitespace.with {
       condition = without_editorconifg,
       disabled_filetypes = { "markdown" },
     },
-    fmt.trim_newlines,
   },
 }
 
