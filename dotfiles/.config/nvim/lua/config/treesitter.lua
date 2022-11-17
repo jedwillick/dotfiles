@@ -8,6 +8,7 @@ require("nvim-treesitter.configs").setup {
     -- disable = { "python" },
   },
   endwise = { enable = true },
+  playground = { enable = true },
 }
 
 vim.opt.foldmethod = "expr"
