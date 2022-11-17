@@ -1,13 +1,12 @@
 require("bufferline").setup {
   options = {
     numbers = "buffer_id",
-    ---@diagnostic disable-next-line: assign-type-mismatch
     diagnostics = "nvim_lsp",
     always_show_bufferline = false,
     offsets = {
       {
-        filetype = "CHADTree",
-        text = "File Explorer",
+        filetype = "neo-tree",
+        text = "Neo Tree",
         highlight = "Directory",
         text_align = "left",
       },

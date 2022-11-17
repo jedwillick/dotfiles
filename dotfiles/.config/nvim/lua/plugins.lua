@@ -31,18 +31,7 @@ return require("packer").startup(function(use)
 
   use {
     "folke/tokyonight.nvim",
-    config = function()
-      require("tokyonight").setup {
-        style = "storm",
-        styles = {
-          keywords = "NONE",
-          comments = "NONE",
-        },
-        sidebars = { "qf", "vista_kind", "terminal", "packer", "chadtree" },
-      }
-      vim.cmd("colorscheme tokyonight")
-      vim.cmd("colorscheme tokyonight") -- Need to set it twice for bufferline
-    end,
+    config = [[require("config/tokyonight")]],
   }
 
   use {
@@ -142,7 +131,6 @@ return require("packer").startup(function(use)
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       vim.opt.list = true
-      vim.opt.listchars:append("space:⋅")
       require("indent_blankline").setup {
         char = "▏",
         show_trailing_blankline_indent = false,
@@ -166,15 +154,14 @@ return require("packer").startup(function(use)
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
   use {
-    "ms-jpq/chadtree",
-    branch = "chad",
-    run = { "python3 -m chadtree deps", ":CHADdeps" },
-    cmd = { "CHADopen" },
-    setup = [[vim.keymap.set("n", "<leader>t", ":CHADopen<cr>")]],
-    config = function()
-      local chadtree_settings = { ["keymap.tertiary"] = { "<c-t>", "<middlemouse>" } }
-      vim.api.nvim_set_var("chadtree_settings", chadtree_settings)
-    end,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    config = [[require("config/neo-tree")]],
   }
 
   use { "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] }
