@@ -40,6 +40,11 @@ require("tokyonight").setup {
       bg = c.bg_dark,
       fg = c.bg_dark,
     }
+    hl.CmpItemKindCopilot = {
+      fg = "#6CC644",
+    }
   end,
 }
-require("tokyonight").load()
+
+vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[colorscheme tokyonight]])
