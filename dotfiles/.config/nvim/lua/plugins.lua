@@ -68,25 +68,53 @@ return require("packer").startup(function(use)
       "neovim/nvim-lspconfig",
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
-      -- "p00f/clangd_extensions.nvim",
+      "p00f/clangd_extensions.nvim",
     },
-    after = { "coq_nvim", "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
+    after = { "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
     config = [[require('config/lsp')]],
   }
 
   use {
-    "ms-jpq/coq_nvim",
+    "L3MON4D3/LuaSnip",
     requires = {
-      { "ms-jpq/coq.artifacts", branch = "artifacts" },
-      { "ms-jpq/coq.thirdparty", branch = "3p" },
+      "rafamadriz/friendly-snippets",
+      config = function()
+        require("luasnip.loaders.from_vscode").lazy_load()
+      end,
     },
-    run = ":COQdeps",
+  }
+
+  use {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    requires = {
+      "onsails/lspkind.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-calc",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "chrisgrieser/cmp-nerdfont",
+      "saadparwaiz1/cmp_luasnip",
+    },
+    config = [[require('config/cmp')]],
+  }
+
+  use {
+    "zbirenbaum/copilot.lua",
+    event = "VimEnter",
     config = function()
-      vim.g.coq_settings = { auto_start = "shut-up" }
-      require("coq_3p") {
-        { src = "copilot", short_name = "COP", accept_key = "<c-j>" },
-        -- { src = "nvimlua", short_name = "nLUA", conf_only = false },
-      }
+      vim.defer_fn(function()
+        require("copilot").setup()
+      end, 100)
+    end,
+  }
+
+  use {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
     end,
   }
 
@@ -180,22 +208,6 @@ return require("packer").startup(function(use)
     cmd = "UndotreeToggle",
     setup = [[vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")]],
     config = [[vim.g.undotree_SetFocusWhenToggle = 1]],
-  }
-
-  use {
-    "github/copilot.vim",
-    config = function()
-      vim.g.copilot_no_tab_map = true
-      vim.keymap.set(
-        "i",
-        "<C-j>",
-        [[copilot#Accept("<CR>")]],
-        { silent = true, script = true, expr = true, replace_keycodes = false }
-      )
-      vim.g.copilot_filetypes = {
-        TelescopePrompt = false,
-      }
-    end,
   }
 
   use {

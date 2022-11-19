@@ -23,6 +23,8 @@ local function in_width()
   return vim.fn.winwidth(0) > 80
 end
 
+local refresh_rate = 1000
+
 require("lualine").setup {
   options = {
     icons_enabled = true,
@@ -32,6 +34,9 @@ require("lualine").setup {
     disabled_filetypes = {},
     always_divide_middle = true,
     globalstatus = false,
+    refresh = {
+      statusline = refresh_rate,
+    },
   },
   sections = {
     lualine_a = { "mode" },
@@ -95,9 +100,10 @@ require("lualine").setup {
       },
       {
         function()
-          if vim.api.nvim_exec([[echo g:copilot#Enabled()]], true) then
+          if require("lspconfig.util").get_active_client_by_name(0, "copilot") then
             return [[ﯙ]]
           end
+          return ""
         end,
         cond = in_width,
       },
