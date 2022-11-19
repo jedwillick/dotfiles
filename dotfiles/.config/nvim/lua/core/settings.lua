@@ -14,6 +14,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.mouse = ""
 vim.opt.signcolumn = "yes"
+vim.opt.list = true
 
 vim.filetype.add {
   extension = {

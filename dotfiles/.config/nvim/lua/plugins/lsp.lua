@@ -79,6 +79,9 @@ local servers = {
         telemetry = {
           enable = false,
         },
+        workspace = {
+          checkThirdParty = false,
+        },
       },
     },
   },
