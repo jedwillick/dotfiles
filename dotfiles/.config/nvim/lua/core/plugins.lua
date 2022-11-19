@@ -1,17 +1,8 @@
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  BOOTSTRAP = fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+local function config(name)
+  return string.format([[require("plugins.%s")]], name)
 end
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-  group = vim.api.nvim_create_augroup("packer_user_config", {}),
-  desc = "Automatically recompile packer.",
-  pattern = "plugins.lua",
-  command = "source | PackerCompile",
-})
-
-return require("packer").startup(function(use)
+local plugins = function(use)
   use { "wbthomason/packer.nvim" }
 
   use { "lewis6991/impatient.nvim", config = [[require('impatient')]] }
@@ -31,21 +22,21 @@ return require("packer").startup(function(use)
 
   use {
     "folke/tokyonight.nvim",
-    config = [[require("config/tokyonight")]],
+    config = config("tokyonight"),
   }
 
   use {
     "goolord/alpha-nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
     after = { "mason.nvim" },
-    config = [[require('config/alpha')]],
+    config = config("alpha"),
   }
 
   use {
     "nvim-treesitter/nvim-treesitter",
     requires = { "RRethy/nvim-treesitter-endwise", "nvim-treesitter/playground" },
     run = ":TSUpdate",
-    config = [[require('config/treesitter')]],
+    config = config("treesitter"),
   }
 
   use { "folke/neodev.nvim", config = [[require("neodev").setup()]] }
@@ -71,7 +62,7 @@ return require("packer").startup(function(use)
       "p00f/clangd_extensions.nvim",
     },
     after = { "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
-    config = [[require('config/lsp')]],
+    config = config("lsp"),
   }
 
   use {
@@ -97,24 +88,18 @@ return require("packer").startup(function(use)
       "chrisgrieser/cmp-nerdfont",
       "saadparwaiz1/cmp_luasnip",
     },
-    config = [[require('config/cmp')]],
+    config = config("cmp"),
   }
 
   use {
     "zbirenbaum/copilot.lua",
+    requires = { "zbirenbaum/copilot-cmp" },
     event = "VimEnter",
     config = function()
       vim.defer_fn(function()
         require("copilot").setup()
+        require("copilot_cmp").setup()
       end, 100)
-    end,
-  }
-
-  use {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
     end,
   }
 
@@ -137,13 +122,13 @@ return require("packer").startup(function(use)
   use {
     "akinsho/bufferline.nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
-    config = [[require("config/bufferline")]],
+    config = config("bufferline"),
   }
 
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
-    config = [[require('config/lualine')]],
+    config = config("lualine"),
   }
 
   local colorizerFileTypes = { "css", "javascript", "html", "json", "yaml", "toml" }
@@ -151,14 +136,17 @@ return require("packer").startup(function(use)
     "norcalli/nvim-colorizer.lua",
     cmd = "ColorizerToggle",
     ft = colorizerFileTypes,
-    setup = [[vim.keymap.set("n", "<leader>ct", "<cmd>ColorizerToggle<cr>")]],
-    config = [[require("colorizer").setup(colorizerFileTypes)]],
+    setup = function()
+      vim.keymap.set("n", "<leader>ct", "<cmd>ColorizerToggle<cr>")
+    end,
+    config = function()
+      require("colorizer").setup(colorizerFileTypes)
+    end,
   }
 
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      vim.opt.list = true
       require("indent_blankline").setup {
         char = "▏",
         show_trailing_blankline_indent = false,
@@ -176,7 +164,7 @@ return require("packer").startup(function(use)
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
     },
-    config = [[require('config/telescope')]],
+    config = config("telescope"),
   }
 
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
@@ -189,7 +177,7 @@ return require("packer").startup(function(use)
       "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-    config = [[require("config/neo-tree")]],
+    config = config("neo-tree"),
   }
 
   use { "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] }
@@ -220,29 +208,10 @@ return require("packer").startup(function(use)
 
   use {
     "gpanders/editorconfig.nvim",
-    config = function()
-      vim.api.nvim_create_user_command("EditorConfigConfig", function()
-        vim.pretty_print(vim.b.editorconfig)
-      end, { desc = "Show the editorconfig conifg" })
-
-      local reload = function()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          require("editorconfig").config(buf)
-        end
-      end
-      vim.api.nvim_create_user_command("EditorConfigReload", reload, { desc = "Reload editorconfig" })
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        group = vim.api.nvim_create_augroup("editorconfig", { clear = false }),
-        desc = "Automatically reload editorconfig",
-        pattern = ".editorconfig",
-        callback = reload,
-      })
-    end,
+    config = config("editorconfig"),
   }
 
   use { "folke/which-key.nvim", config = [[require("which-key").setup()]] }
+end
 
-  if BOOTSTRAP then
-    require("packer").sync()
-  end
-end)
+require("plugins.packer").setup(plugins)
