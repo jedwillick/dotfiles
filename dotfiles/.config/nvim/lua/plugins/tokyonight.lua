@@ -43,6 +43,12 @@ require("tokyonight").setup {
     hl.CmpItemKindCopilot = {
       fg = "#6CC644",
     }
+    hl.NavicText = {
+      fg = c.fg_dark,
+    }
+    hl.NavicSeparator = {
+      fg = c.fg_dark,
+    }
   end,
 }
 

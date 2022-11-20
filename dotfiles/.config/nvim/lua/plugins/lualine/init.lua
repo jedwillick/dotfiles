@@ -1,29 +1,8 @@
-local function ft_upper()
-  return vim.api.nvim_buf_get_option(0, "filetype"):upper()
-end
-
-local help_man = {
-  filetypes = { "help", "man" },
-  sections = {
-    lualine_a = { ft_upper },
-    lualine_b = { { "filename", file_status = false } },
-    lualine_y = { "progress" },
-    lualine_z = { "location" },
-  },
-  inactive_sections = {
-    lualine_c = {
-      ft_upper,
-      { "filename", file_status = false },
-    },
-    lualine_x = { "progress", "location" },
-  },
-}
+local navic = require("nvim-navic")
 
 local function in_width()
   return vim.fn.winwidth(0) > 80
 end
-
-local refresh_rate = 1000
 
 require("lualine").setup {
   options = {
@@ -31,12 +10,9 @@ require("lualine").setup {
     theme = "auto",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    disabled_filetypes = {},
+    disabled_filetypes = { winbar = { "neo-tree" } },
     always_divide_middle = true,
     globalstatus = false,
-    refresh = {
-      statusline = refresh_rate,
-    },
   },
   sections = {
     lualine_a = { "mode" },
@@ -98,15 +74,6 @@ require("lualine").setup {
         end,
         cond = in_width,
       },
-      {
-        function()
-          if require("lspconfig.util").get_active_client_by_name(0, "copilot") then
-            return [[ﯙ]]
-          end
-          return ""
-        end,
-        cond = in_width,
-      },
     },
     lualine_y = { "progress" },
     lualine_z = { "location" },
@@ -115,10 +82,37 @@ require("lualine").setup {
     lualine_a = {},
     lualine_b = {},
     lualine_c = { "filename" },
-    lualine_x = { "progress", "location" },
+    lualine_x = { "filetype", "progress", "location" },
     lualine_y = {},
     lualine_z = {},
   },
   tabline = {},
-  extensions = { help_man, "neo-tree" },
+  winbar = {
+    lualine_c = {
+      {
+        function()
+          if not navic.is_available() then
+            return " "
+          end
+          local bc = navic.get_location { highlight = true }
+          if bc == "" then
+            return " "
+          end
+          return bc
+        end,
+        color = { bg = require("tokyonight.colors").default.bg },
+      },
+    },
+  },
+  inactive_winbar = {
+    lualine_c = {
+      {
+        function()
+          return " "
+        end,
+        color = { bg = require("tokyonight.colors").default.bg },
+      },
+    },
+  },
+  extensions = require("plugins.lualine.extensions"),
 }
