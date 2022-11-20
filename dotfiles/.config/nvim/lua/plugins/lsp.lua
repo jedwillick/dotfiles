@@ -96,14 +96,23 @@ local baseConfig = {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
 }
 
+local lspBaseConfig = vim.tbl_extend("force", baseConfig, {
+  on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+      require("nvim-navic").attach(client, bufnr)
+    end
+    baseConfig.on_attach(client, bufnr)
+  end,
+})
+
 for lsp, config in pairs(servers) do
   if lsp ~= "clangd" then
-    lspconfig[lsp].setup(vim.tbl_deep_extend("keep", config, baseConfig))
+    lspconfig[lsp].setup(vim.tbl_deep_extend("force", lspBaseConfig, config))
   end
 end
 
 require("clangd_extensions").setup {
-  server = vim.tbl_deep_extend("keep", servers.clangd, baseConfig),
+  server = vim.tbl_deep_extend("force", lspBaseConfig, servers.clangd),
   extensions = {
     -- defaults:
     -- Automatically set inlay hints (type hints)
