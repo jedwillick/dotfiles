@@ -43,6 +43,26 @@ vim.api.nvim_create_user_command("ToggleOnSave", function()
 end, {})
 vim.api.nvim_create_user_command("ToggleEvent", toggleEvent, { nargs = 1, complete = "event" })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "help",
+    "man",
+    "startuptime",
+    "lspinfo",
+    "tsplayground",
+  },
+  callback = function()
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { silent = true, buffer = 0 })
+    vim.bo.buflisted = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    vim.fn.mkdir(vim.fn.expand("<afile>:p:h"), "p")
+  end,
+})
+
 vim.keymap.set("n", "<leader>m", function()
   ---@diagnostic disable-next-line: undefined-field
   if vim.opt.mouse:get().a then
@@ -54,4 +74,4 @@ vim.keymap.set("n", "<leader>m", function()
   end
 end)
 
-vim.keymap.set({ "n", "i" }, "<c-s>", "<esc>:w<cr>", { silent = true })
+vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
