@@ -2,8 +2,9 @@ M = {}
 
 M.config = {}
 
+local fn = vim.fn
+
 local function bootstrap()
-  local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
@@ -48,6 +49,8 @@ function M.setup(spec)
 
   if bootstrapped then
     packer.sync()
+  elseif fn.empty(fn.glob(packer.config.compile_path)) > 0 then
+    packer.compile()
   end
 end
 
