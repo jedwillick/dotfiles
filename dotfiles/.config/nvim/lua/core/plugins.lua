@@ -60,6 +60,15 @@ local plugins = function(use)
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
       "p00f/clangd_extensions.nvim",
+      {
+        "SmiteshP/nvim-navic",
+        config = function()
+          require("nvim-navic").setup {
+            depth_limit = 5,
+            separator = "  ",
+          }
+        end,
+      },
     },
     after = { "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
     config = config("lsp"),
@@ -212,6 +221,8 @@ local plugins = function(use)
   }
 
   use { "folke/which-key.nvim", config = [[require("which-key").setup()]] }
+
+  use { "famiu/bufdelete.nvim" }
 end
 
 require("plugins.packer").setup(plugins)

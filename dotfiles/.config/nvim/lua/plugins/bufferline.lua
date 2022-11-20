@@ -1,14 +1,14 @@
 require("bufferline").setup {
   options = {
-    numbers = "buffer_id",
+    numbers = "none",
     diagnostics = "nvim_lsp",
-    always_show_bufferline = false,
+    always_show_bufferline = true,
     offsets = {
       {
         filetype = "neo-tree",
-        text = "Neo Tree",
-        highlight = "Directory",
-        text_align = "left",
+        text = "File Explorer",
+        highlight = "TelescopeNormal",
+        text_align = "center",
       },
     },
   },
@@ -32,5 +32,5 @@ set("n", "<leader>bse", ":BufferLineSortByExtension<CR>", opts)
 set("n", "<leader>bsd", ":BufferLineSortByDirectory<CR>", opts)
 
 -- Delete buffers
-set("n", "<leader>bd", ":bdelete<CR>", opts)
-set("n", "<leader>bD", ":bdelete!<CR>", opts)
+set("n", "<leader>bd", ":Bdelete<CR>", opts)
+set("n", "<leader>bD", ":Bdelete!<CR>", opts)
