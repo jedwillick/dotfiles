@@ -8,6 +8,18 @@ readonly PROG="${0##*/}"
 # And be automatically deleted upon exit.
 declare TMP
 
+error() {
+  printf "[ \x1b[1;31mERROR\x1b[0m ] %s\n" "$1" >&2
+}
+
+warn() {
+  printf "[ \x1b[33mWARN\x1b[0m  ] %s\n" "$1" >&2
+}
+
+printrepo() {
+  printf "%s@%s" "$1" "$(basename "$2")"
+}
+
 # Make a request to Github's API
 # $1 - Request
 query_github() {
@@ -27,21 +39,19 @@ query_github() {
 # $2 - Repo name
 # $3 - Tag
 install_deb_from_github() {
-
   local arch
   arch=$(dpkg --print-architecture)
   local url
   url=$(jq -r ".. .browser_download_url? // empty | select(contains(\"$arch\") and endswith(\"deb\") and (contains(\"musl\") | not ))" <<< "$1")
 
   if [[ -z "$url" ]]; then
-    echo "No deb found for $2 $3 $arch"
     return 1
   fi
 
   local dest
   dest="$TMP/$(basename "$url")"
-  wget -q --show-progress "$url" -O "$dest"
-  sudo apt install "$dest"
+  curl -Lo "$dest" "$url"
+  sudo apt -q=3 install "$dest"
 }
 
 # Install a binary from a Github repo into $HOME/.local/bin.
@@ -55,7 +65,6 @@ install_binary_from_github() {
   url=$(jq -r ".. .browser_download_url? // empty | select(contains(\"$arch\") and contains(\"linux\") and ((contains(\"musl\") or test(\"\\\.[a-zA-Z0-9]+\$\"))  | not ))" <<< "$1")
 
   if [[ -z "$url" ]]; then
-    echo "No binary found for $2 $3 $arch"
     return 1
   fi
 
@@ -63,7 +72,7 @@ install_binary_from_github() {
   local dest="$HOME/.local/bin/$name"
   local tmpDest="$TMP/$name"
 
-  wget -q --show-progress "$url" -O "$tmpDest"
+  curl -Lo "$tmpDest" "$url"
   chmod +x "$tmpDest"
   mv "$tmpDest" "$dest"
 }
@@ -78,15 +87,16 @@ install_from_github() {
   response=$(query_github "repos/$1/releases/$2")
   case "$response" in
     *"Not Found"*)
-      echo "Release not found for $1 $2"
+      error "Release not found for $(printrepo "$1" "$2")"
       return 1
       ;;
     *"limit exceeded"*)
-      echo "Rate limit exceeded. Try again later."
+      error "Rate limit exceeded. Try again later."
+      query_github "rate_limit" | jq ".resources.core"
       return 1
       ;;
     *"Bad credentials"*)
-      echo "Bad credentials. Ensure GITHUB_TOKEN is set appropriately."
+      error "Bad credentials. Ensure GITHUB_TOKEN is set appropriately."
       return 1
       ;;
   esac
@@ -95,26 +105,29 @@ install_from_github() {
   readonly TMP
   chmod 777 "$TMP"
   trap 'rm -rf "$TMP"' EXIT
-
-  case "$source" in
-    auto)
-      install_binary_from_github "$response" "$@" || install_deb_from_github "$response" "$@"
-      ;;
-    binary)
-      install_binary_from_github "$response" "$@"
-      ;;
-    deb)
-      install_deb_from_github "$response" "$@"
-      ;;
-  esac
-
+  (
+    set -e
+    case "$source" in
+      auto)
+        install_binary_from_github "$response" "$@" || install_deb_from_github "$response" "$@"
+        ;;
+      binary)
+        install_binary_from_github "$response" "$@"
+        ;;
+      deb)
+        install_deb_from_github "$response" "$@"
+        ;;
+    esac
+  )
+  # shellcheck disable=2181
+  [[ "$?" -eq 0 ]] || error "Failed to install $4 from $(printrepo "$1" "$2")"
 }
 
 show_help() {
   cat << EOF
 USAGE: $PROG [OPTIONS].. REPO
 
-Install github releases with the user/repo syntax
+Install github releases with the user/repo syntax.
 
 OPTIONS:
   -h, --help        Show this help message and exit.
@@ -122,6 +135,10 @@ OPTIONS:
   -t, --tag TAG     Specify the release tag.
   -n, --name        Specify a different file name (only relevant for bianries).
   -d, --debug       Enable debug mode.
+
+Dependancies:
+  - jq           For parsing JSON responses
+  - gh or curl   For making requests to Github's API
 EOF
 }
 
@@ -164,12 +181,12 @@ main() {
   done
 
   if [[ $# -eq 0 ]]; then
-    echo "Missing repo." >&2
+    error "Missing repo."
     return 1
   fi
 
   if [[ $# -ne 1 ]]; then
-    echo "Too many arguments." >&2
+    error "Too many arguments."
     return 1
   fi
   local repo="$1"
@@ -180,7 +197,7 @@ main() {
       install_from_github "$repo" "$tag" "$name" "$source"
       ;;
     *)
-      echo "Invalid source: $source" >&2
+      error "Invalid source: $source"
       return 1
       ;;
   esac
