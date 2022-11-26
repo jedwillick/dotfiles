@@ -213,7 +213,7 @@ class Setup:
 
         INCLUDE = (
             ".gitconfig",
-            ".poshthemes",
+            "poshthemes",
             ".ssh",
             ".vimrc",
         )
@@ -225,7 +225,7 @@ class Setup:
             if self.is_excluded(file) or parts.isdisjoint(INCLUDE):
                 continue
 
-            if ".poshthemes" in parts:
+            if "poshthemes" in parts:
                 if poshThemesPath is None:
                     continue
                 dest = poshThemesPath if file.is_dir() else poshThemesPath / file.name

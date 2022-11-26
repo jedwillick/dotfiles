@@ -1,16 +1,45 @@
 #!/usr/bin/env bash
 
-set -eu
-
 source ~/.local/share/util.sh
 
+set -u
+
 declare TMP
-readonly WGET="wget -q --show-progress"
-readonly APT="sudo apt -y -qq"
+export _MSG=""
+
+_apt() {
+  sudo apt -y -q=3 -o apt::cmd::disable-script-warning=1 "$@"
+}
+
+log_working() {
+  printf "[ \x1b[1;34mWORKING\x1b[1;0m ] %s...\n" "$1"
+  _MSG="$1"
+}
+
+log_success() {
+  printf "[ \x1b[1;32mSUCCESS\x1b[1;0m ] %s\n" "$1"
+}
+
+log_failed() {
+  printf "[ \x1b[1;31mFAILED \x1b[1;0m ] %s\n" "$1"
+}
+
+log_done() {
+  if [[ "$?" -eq 0 ]]; then
+    log_success "$_MSG"
+  else
+    log_failed "$_MSG"
+  fi
+
+}
+
+log_warn() {
+  printf "[ \x1b[33mWARNING\x1b[1;0m ] %s\n" "$1"
+}
 
 install_apt() {
   if ! exists apt; then
-    echo "apt not found... skipping"
+    log_warn "apt not found... skipping"
     return
   fi
 
@@ -25,8 +54,11 @@ install_apt() {
     cowsay
     curl
     dos2unix
+    fortune
+    gdb
     git
     jq
+    lolcat
     manpages-posix
     ncat
     ncdu
@@ -35,6 +67,7 @@ install_apt() {
     python3
     python3-pip
     python3-venv
+    rlwrap
     sqlite3
     subversion
     traceroute
@@ -46,21 +79,26 @@ install_apt() {
     zip
   )
 
-  $APT install software-properties-common
+  _apt install software-properties-common
 
   for ppa in "${ppas[@]}"; do
+    log_working "Adding ppa $ppa"
     sudo add-apt-repository -y "ppa:$ppa"
+    log_done
   done
 
-  $APT update
-  $APT upgrade
+  log_working "apt update & upgrade"
+  _apt update && _apt upgrade
+  log_done
 
-  $APT install "${packages[@]}"
+  log_working "Installing apt packages"
+  _apt install "${packages[@]}"
+  log_done
 }
 
 install_debs() {
   if ! exists apt; then
-    echo "apt not found... skipping"
+    log_warn "apt not found... skipping"
     return
   fi
   local repos=(
@@ -71,68 +109,101 @@ install_debs() {
     'sharkdp/hexyl'
     'sharkdp/hyperfine'
   )
+  set +e
   for repo in "${repos[@]}"; do
+    log_working "Installing $repo"
     install-from-github -s deb "$repo"
+    log_done
   done
 }
 
 install_nvm() {
-  $WGET -O- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  log_working "Installing nvm"
+  curl -Lo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash > /dev/null
+  log_done
   if [[ -z "${NVM_DIR:-}" ]]; then
     export NVM_DIR="$HOME/.nvm"
   fi
   source "$NVM_DIR/nvm.sh"
 
+  log_working "Installing node"
   nvm install 17
-  nvm use 17
-  npm install --location=global tree-sitter-cli neovim
+  log_done
+
+  log_working "Installing npm packages"
+  npm install --no-fund --location=global tree-sitter-cli neovim
+  log_done
 }
 
 install_go() {
   GO="go1.19.2.linux-amd64.tar.gz"
-  $WGET https://go.dev/dl/$GO -O "$TMP/$GO"
+
+  log_working "Installing go $(grep -Eo "[0-9]+.[0-9]+.[0-9]+" <<< "$GO")"
+  curl -Lo "$TMP/$GO" https://go.dev/dl/$GO
   sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xzf "$TMP/$GO"
+  sudo tar -C /usr/local -xaf "$TMP/$GO"
+  log_done
 }
 
 install_ohmyposh() {
+  log_working "Installing Oh-My-Posh"
   install-from-github -s binary "jandedobbeleer/oh-my-posh"
-  sudo mv "$HOME/.local/bin/oh-my-posh" /usr/local/bin/oh-my-posh
 
-  # Oh-My-Posh Themes
-  mkdir -p ~/.poshthemes
-  $WGET https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
-  unzip -oqq ~/.poshthemes/themes.zip -d ~/.poshthemes
-  chmod u+rw ~/.poshthemes/*.omp.*
-  rm ~/.poshthemes/themes.zip
+  local themes=~/.local/share/poshthemes
+  mkdir -p "$themes"
+  cd "$themes"
+  curl -LO https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip
+  unzip -oqq themes.zip
+  chmod u+rw ./*.omp.*
+  rm themes.zip
+  log_done
 }
 
 install_fzf() {
-  if [[ -d ~/.fzf ]]; then
-    git -C ~/.fzf pull
+  log_working "Installing fzf"
+  local fzfDir=~/.fzf
+  if [[ -d "$fzfDir" ]]; then
+    git -C "$fzfDir" pull
   else
-    git clone -q --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    git clone -q --depth 1 https://github.com/junegunn/fzf.git "$fzfDir"
   fi
-  ~/.fzf/install --all
+  "$fzfDir/install" --all --xdg
+  log_done
 }
 
 install_wsl() {
   # WSL Only
   if [[ -z "${WSL_DISTRO_NAME-}" ]]; then
-    echo "Not running on WSL... skipping"
+    log_warn "Not running on WSL... skipping"
     return
   fi
 
   # WIN32 Yank for Nvim
-  $WGET https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip -O "$TMP/win32yank.zip"
+  log_working "Installing win32yank"
+  curl -Lo "$TMP/win32yank.zip" https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
   unzip -p "$TMP/win32yank.zip" win32yank.exe > "$TMP/win32yank.exe"
   chmod +x "$TMP/win32yank.exe"
   sudo mv "$TMP/win32yank.exe" /usr/local/bin/
+  log_done
 }
 
 install_pip() {
-  python3 -m pip install --upgrade pip
-  pip install --upgrade -r pip-packages.txt pynvim
+  log_working "Installing pip"
+  python3 -m pip install -q --upgrade pip
+  log_done
+  log_working "Installing pip packages"
+  pip install -q --upgrade -r pip-packages.txt pynvim
+  log_done
+}
+
+install_btop() {
+  log_working "Installing btop"
+  cd "$TMP"
+  curl -Lo btop.tbz https://github.com/aristocratos/btop/releases/latest/download/btop-x86_64-linux-musl.tbz
+  tar -xaf "btop.tbz"
+  cd btop
+  ./install.sh > /dev/null
+  log_done
 }
 
 show_help() {
@@ -142,6 +213,7 @@ USAGE: $0 [-h] [INSTALL]...
 If no INSTALL is specified then all will be run.
 INSTALL can be any of:
   - apt         Install apt packages.
+  - btop        Install btop.
   - debs        Install deb packages from github.
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
@@ -158,6 +230,7 @@ EOF
 main() {
   local validOptions=(
     apt
+    btop
     debs
     fzf
     go
@@ -194,7 +267,12 @@ main() {
   trap 'rm -rf "$TMP"' EXIT
 
   for arg in "$@"; do
-    "install_$arg"
+    (
+      set -eo pipefail
+      "install_$arg"
+    )
+    # shellcheck disable=2181
+    [[ "$?" -eq 0 ]] || log_failed "install_$arg encountered an error"
   done
 }
 

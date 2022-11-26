@@ -117,7 +117,7 @@ export VISUAL=$EDITOR
 
 # Oh My Posh Prompt
 if exists oh-my-posh; then
-  export POSH_THEME=~/.poshthemes/basic.omp.json
+  export POSH_THEME=~/.local/share/poshthemes/basic.omp.json
   eval "$(oh-my-posh init bash)"
 
   theme() {
@@ -134,7 +134,7 @@ fi
 [[ -d /usr/local/go/bin ]] && export GOPATH=~/.local/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 [[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
-[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 
 _pip_completion() {
   # shellcheck disable=2207
