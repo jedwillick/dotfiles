@@ -63,6 +63,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+vim.api.nvim_create_user_command("Profile", function()
+  vim.cmd.PackerCompile("profile=true")
+  vim.defer_fn(vim.cmd.PackerProfile, 1000)
+  if packer_plugins["vim-startuptime"] then
+    vim.cmd.StartupTime()
+  end
+end, { desc = "Run PackerProfile and StartupTime" })
+
 vim.keymap.set("n", "<leader>m", function()
   ---@diagnostic disable-next-line: undefined-field
   if vim.opt.mouse:get().a then
@@ -75,3 +83,4 @@ vim.keymap.set("n", "<leader>m", function()
 end)
 
 vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
+vim.keymap.set("n", "<leader>nh", "<cmd>noh<cr>", { silent = true })

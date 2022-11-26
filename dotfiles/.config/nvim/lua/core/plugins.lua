@@ -5,41 +5,57 @@ end
 local plugins = function(use)
   use { "wbthomason/packer.nvim" }
 
-  use { "lewis6991/impatient.nvim", config = [[require('impatient')]] }
+  use { "lewis6991/impatient.nvim" }
 
   use {
     "~/dev/version.nvim",
     config = function()
-      require("version").setup {
-        filetypes = {
-          c = {
-            prepend_exe = true,
-          },
-        },
-      }
+      require("version").setup {}
     end,
+    event = "BufReadPre",
+  }
+
+  use {
+    "nvim-lua/plenary.nvim",
   }
 
   use {
     "folke/tokyonight.nvim",
     config = config("tokyonight"),
+    opt = false,
   }
 
   use {
     "goolord/alpha-nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
-    after = { "mason.nvim" },
     config = config("alpha"),
+    event = "VimEnter",
   }
 
   use {
     "nvim-treesitter/nvim-treesitter",
-    requires = { "RRethy/nvim-treesitter-endwise", "nvim-treesitter/playground" },
-    run = ":TSUpdate",
+    requires = {
+      "RRethy/nvim-treesitter-endwise",
+      "nvim-treesitter/playground",
+    },
+    run = function()
+      require("nvim-treesitter.install").update { with_sync = true }
+    end,
     config = config("treesitter"),
   }
 
-  use { "folke/neodev.nvim", config = [[require("neodev").setup()]] }
+  use {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup { check_ts = true }
+    end,
+    event = "InsertEnter",
+  }
+
+  use {
+    "folke/neodev.nvim",
+    config = [[require("neodev").setup()]],
+  }
 
   use {
     "j-hui/fidget.nvim",
@@ -60,6 +76,7 @@ local plugins = function(use)
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
       "p00f/clangd_extensions.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
       {
         "SmiteshP/nvim-navic",
         config = function()
@@ -70,7 +87,7 @@ local plugins = function(use)
         end,
       },
     },
-    after = { "null-ls.nvim", "neodev.nvim", "fidget.nvim" },
+    after = { "neodev.nvim", "fidget.nvim" },
     config = config("lsp"),
   }
 
@@ -106,15 +123,15 @@ local plugins = function(use)
     event = "VimEnter",
     config = function()
       vim.defer_fn(function()
-        require("copilot").setup()
+        require("copilot").setup {
+          filetypes = {
+            TelescopePrompt = false,
+            man = false,
+          },
+        }
         require("copilot_cmp").setup()
       end, 100)
     end,
-  }
-
-  use {
-    "jose-elias-alvarez/null-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
   }
 
   use {
@@ -126,18 +143,21 @@ local plugins = function(use)
       ft.c = "// %s"
       ft.editorconfig = "; %s"
     end,
+    event = "BufReadPre",
   }
 
   use {
     "akinsho/bufferline.nvim",
     requires = { "kyazdani42/nvim-web-devicons" },
     config = config("bufferline"),
+    event = "BufReadPre",
   }
 
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
     config = config("lualine"),
+    event = "VimEnter",
   }
 
   local colorizerFileTypes = { "css", "javascript", "html", "json", "yaml", "toml" }
@@ -162,6 +182,7 @@ local plugins = function(use)
         show_current_context = true,
       }
     end,
+    event = "BufReadPre",
   }
 
   use {
@@ -174,6 +195,7 @@ local plugins = function(use)
       "nvim-telescope/telescope-file-browser.nvim",
     },
     config = config("telescope"),
+    event = "VimEnter",
   }
 
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
@@ -187,6 +209,8 @@ local plugins = function(use)
       "MunifTanjim/nui.nvim",
     },
     config = config("neo-tree"),
+    cmd = "Neotree",
+    keys = [[\]],
   }
 
   use { "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] }
@@ -218,11 +242,38 @@ local plugins = function(use)
   use {
     "gpanders/editorconfig.nvim",
     config = config("editorconfig"),
+    event = "VimEnter",
   }
 
-  use { "folke/which-key.nvim", config = [[require("which-key").setup()]] }
+  use {
+    "folke/which-key.nvim",
+    config = [[require("which-key").setup()]],
+    event = "User PackerDefered",
+  }
 
-  use { "famiu/bufdelete.nvim" }
+  use {
+    "famiu/bufdelete.nvim",
+    event = "BufReadPre",
+  }
+
+  use {
+    "akinsho/toggleterm.nvim",
+    config = config("toggleterm"),
+    event = "User PackerDefered",
+  }
+
+  use {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
+  }
+
+  use {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
+    event = "BufReadPre",
+  }
 end
-
 require("plugins.packer").setup(plugins)
