@@ -7,5 +7,9 @@ insert_final_newline = true
 end_of_line = lf
 indent_size = 2
 
+[.git/**]
+indent_style = unset
+indent_size = unset
+
 [*.md]
 trim_trailing_whitespace = false
