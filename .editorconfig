@@ -11,6 +11,10 @@ switch_case_indent = true
 space_redirects = true
 binary_next_line = true
 
+[.git/**]
+indent_style = unset
+indent_size = unset
+
 [{*.go,go.mod}]
 indent_size = tab
 indent_style = tab
