@@ -71,8 +71,15 @@ telescope.setup {
       "--smart-case",
       "--follow",
       "--hidden",
-      "--glob=!.git",
-      "--glob=!.svn",
+    },
+    file_ignore_patterns = {
+      "^.git/",
+      "^.svn/",
+      "^.vscode%-server/",
+      "^.cache/",
+      "^.ghcup/",
+      "src/parser.c",
+      "site%-packages/",
     },
   },
   pickers = {
@@ -82,10 +89,11 @@ telescope.setup {
         "--type=f",
         "--hidden",
         "--follow",
-        "--exclude=.git",
-        "--exclude=.svn",
         "--strip-cwd-prefix",
       },
+    },
+    colorscheme = {
+      enable_preview = true,
     },
     man_pages = {
       sections = { "1", "2", "3" },
