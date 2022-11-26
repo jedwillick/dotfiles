@@ -5,10 +5,10 @@ require("nvim-treesitter.configs").setup {
   },
   indent = {
     enable = true,
-    -- disable = { "python" },
   },
   endwise = { enable = true },
   playground = { enable = true },
+  autotag = { enable = true },
 }
 
 vim.opt.foldmethod = "expr"

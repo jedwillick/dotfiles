@@ -10,7 +10,7 @@ require("lualine").setup {
     theme = "auto",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    disabled_filetypes = { winbar = { "neo-tree" } },
+    disabled_filetypes = { winbar = { "neo-tree", "toggleterm" } },
     always_divide_middle = true,
     globalstatus = false,
   },
@@ -52,7 +52,7 @@ require("lualine").setup {
       "filetype",
       { -- Version
         function()
-          return require("version").get_version()
+          return require("version").get_version().full or ""
         end,
         cond = in_width,
       },
