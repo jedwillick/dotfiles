@@ -6,7 +6,6 @@ require("tokyonight").setup {
   },
   sidebars = { "qf", "vista_kind", "terminal", "packer", "neo-tree" },
   on_highlights = function(hl, c)
-    -- current line number
     hl.CursorLineNr = {
       fg = c.orange,
       bold = true,
@@ -48,6 +47,9 @@ require("tokyonight").setup {
     }
     hl.NavicSeparator = {
       fg = c.fg_dark,
+    }
+    hl["@text.uri"] = {
+      fg = c.orange,
     }
   end,
 }
