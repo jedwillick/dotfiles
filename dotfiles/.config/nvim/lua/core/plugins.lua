@@ -275,5 +275,28 @@ local plugins = function(use)
     end,
     event = "BufReadPre",
   }
+
+  use {
+    "aserowy/tmux.nvim",
+    config = function()
+      local tmux = require("tmux")
+      tmux.setup {
+        navigation = {
+          enable_default_keybindings = false,
+        },
+        resize = {
+          enable_default_keybindings = false,
+        },
+      }
+      vim.keymap.set({ "n", "t" }, "<C-up>", tmux.move_top)
+      vim.keymap.set({ "n", "t" }, "<C-down>", tmux.move_bottom)
+      vim.keymap.set({ "n", "t" }, "<C-left>", tmux.move_left)
+      vim.keymap.set({ "n", "t" }, "<C-right>", tmux.move_right)
+      vim.keymap.set({ "n", "t" }, "<A-up>", tmux.resize_top)
+      vim.keymap.set({ "n", "t" }, "<A-down>", tmux.resize_bottom)
+      vim.keymap.set({ "n", "t" }, "<A-left>", tmux.resize_left)
+      vim.keymap.set({ "n", "t" }, "<A-right>", tmux.resize_right)
+    end,
+  }
 end
 require("plugins.packer").setup(plugins)
