@@ -64,9 +64,16 @@ local btop = Terminal:new {
   direction = "float",
   hidden = true,
   on_open = function(term)
-    vim.keymap.set("t", "<esc>", function()
-      term:close()
-    end, { buffer = term.bufnr })
+    pcall(vim.keymap.del, "t", "<esc>", { buffer = term.bufnr })
+  end,
+}
+
+local spt = Terminal:new {
+  cmd = "spt",
+  direction = "float",
+  hidden = true,
+  on_open = function(term)
+    pcall(vim.keymap.del, "t", "<esc>", { buffer = term.bufnr })
   end,
 }
 
@@ -111,6 +118,10 @@ end
 
 vim.keymap.set("n", "<leader>tf", function()
   float:toggle()
+end, { desc = "toggleterm float" })
+
+vim.keymap.set("n", "<leader>ts", function()
+  spt:toggle()
 end, { desc = "toggleterm float" })
 
 vim.keymap.set("n", "<leader>tb", function()
