@@ -136,14 +136,6 @@ fi
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 
-_pip_completion() {
-  # shellcheck disable=2207
-  COMPREPLY=($(COMP_WORDS="${COMP_WORDS[*]}" \
-    COMP_CWORD=$COMP_CWORD \
-    PIP_AUTO_COMPLETE=1 $1 2> /dev/null))
-}
-complete -o default -F _pip_completion pip
-
 _fzf_comprun() {
   local command=$1
   shift

@@ -1,0 +1,24 @@
+# Dracula theme https://draculatheme.com/spotify-tui
+theme:
+  active: "139,233,253"
+  banner: "80,250,123"
+  error_border: "241,250,140"
+  error_text: "248,248,242"
+  hint: "241,250,140"
+  hovered: "255,184,108"
+  inactive: "248,248,242"
+  playbar_background: "68,71,90"
+  playbar_progress: "189,147,249"
+  playbar_progress_text: "248,248,242"
+  playbar_text: "248,248,242"
+  selected: "80,250,123"
+  text: "248,248,242"
+  header: "248,248,242"
+
+behavior:
+  liked_icon: 
+  shuffle_icon: 列
+  playing_icon: ▶
+  paused_icon: 
+  repeat_track_icon: 綾
+  repeat_context_icon: 

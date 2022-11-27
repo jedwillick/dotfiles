@@ -5,6 +5,7 @@ source ~/.local/share/util.sh
 set -u
 
 declare TMP
+readonly BASH_COMP=~/.local/share/bash-completion/completions
 export _MSG=""
 
 _apt() {
@@ -12,16 +13,24 @@ _apt() {
 }
 
 log_working() {
-  printf "[ \x1b[1;34mWORKING\x1b[1;0m ] %s...\n" "$1"
+  printf "[ \x1b[1;34mWORKING\x1b[0m ] %s...\n" "$1"
   _MSG="$1"
 }
 
 log_success() {
-  printf "[ \x1b[1;32mSUCCESS\x1b[1;0m ] %s\n" "$1"
+  printf "[ \x1b[1;32mSUCCESS\x1b[0m ] %s\n" "$1"
 }
 
 log_failed() {
-  printf "[ \x1b[1;31mFAILED \x1b[1;0m ] %s\n" "$1"
+  printf "[ \x1b[1;31mFAILED\x1b[0m  ] %s\n" "$1"
+}
+
+log_info() {
+  printf "[  \x1b[1;36mINFO\x1b[0m   ] %s\n" "$1"
+}
+
+log_warn() {
+  printf "[ \x1b[33mWARNING\x1b[0m ] %s\n" "$1"
 }
 
 log_done() {
@@ -31,10 +40,6 @@ log_done() {
     log_failed "$_MSG"
   fi
 
-}
-
-log_warn() {
-  printf "[ \x1b[33mWARNING\x1b[1;0m ] %s\n" "$1"
 }
 
 install_apt() {
@@ -115,6 +120,8 @@ install_debs() {
     install-from-github -s deb "$repo"
     log_done
   done
+
+  gh completion -s bash > "$BASH_COMP/gh"
 }
 
 install_nvm() {
@@ -156,6 +163,8 @@ install_ohmyposh() {
   unzip -oqq themes.zip
   chmod u+rw ./*.omp.*
   rm themes.zip
+
+  oh-my-posh completion bash > "$BASH_COMP/oh-my-posh"
   log_done
 }
 
@@ -193,6 +202,7 @@ install_pip() {
   log_done
   log_working "Installing pip packages"
   pip install -q --upgrade -r pip-packages.txt pynvim
+  pip completion --bash > "$BASH_COMP/pip"
   log_done
 }
 
@@ -203,6 +213,19 @@ install_btop() {
   tar -xaf "btop.tbz"
   cd btop
   ./install.sh > /dev/null
+  log_done
+}
+
+install_spotifytui() {
+  log_working "Installing spotify-tui"
+  # Dependencies
+  _apt install pkg-config libssl-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev
+  cd "$TMP"
+  curl -LO https://github.com/Rigellute/spotify-tui/releases/download/v0.25.0/spotify-tui-linux.tar.gz
+  tar -xaf spotify-tui-linux.tar.gz
+  mv spt ~/.local/bin/
+  spt --completions bash > "$BASH_COMP/spt"
+  log_info "Run 'spt' to finish setup"
   log_done
 }
 
@@ -220,6 +243,7 @@ INSTALL can be any of:
   - nvm         Install Node Version Manager.
   - ohmyposh    Install Oh-My-Posh a prompt theme manager.
   - pip         Install pip packages.
+  - spotifytui  Install spotify-tui a spotify client.
   - wsl         Install WSL specific things, such as win32yank.
 
 OPTIONS:
@@ -237,6 +261,7 @@ main() {
     nvm
     ohmyposh
     pip
+    spotifytui
     wsl
   )
 
@@ -265,6 +290,8 @@ main() {
   readonly TMP
   chmod 777 "$TMP"
   trap 'rm -rf "$TMP"' EXIT
+
+  [[ -d "$BASH_COMP" ]] || mkdir "$BASH_COMP"
 
   for arg in "$@"; do
     (
