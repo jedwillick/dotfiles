@@ -288,14 +288,14 @@ local plugins = function(use)
           enable_default_keybindings = false,
         },
       }
-      vim.keymap.set({ "n", "t" }, "<C-up>", tmux.move_top)
-      vim.keymap.set({ "n", "t" }, "<C-down>", tmux.move_bottom)
-      vim.keymap.set({ "n", "t" }, "<C-left>", tmux.move_left)
-      vim.keymap.set({ "n", "t" }, "<C-right>", tmux.move_right)
-      vim.keymap.set({ "n", "t" }, "<A-up>", tmux.resize_top)
-      vim.keymap.set({ "n", "t" }, "<A-down>", tmux.resize_bottom)
-      vim.keymap.set({ "n", "t" }, "<A-left>", tmux.resize_left)
-      vim.keymap.set({ "n", "t" }, "<A-right>", tmux.resize_right)
+      vim.keymap.set({ "n", "t" }, "<A-up>", tmux.move_top)
+      vim.keymap.set({ "n", "t" }, "<A-down>", tmux.move_bottom)
+      vim.keymap.set({ "n", "t" }, "<A-left>", tmux.move_left)
+      vim.keymap.set({ "n", "t" }, "<A-right>", tmux.move_right)
+      vim.keymap.set({ "n", "t" }, "<A-S-up>", tmux.resize_top)
+      vim.keymap.set({ "n", "t" }, "<A-S-down>", tmux.resize_bottom)
+      vim.keymap.set({ "n", "t" }, "<A-S-left>", tmux.resize_left)
+      vim.keymap.set({ "n", "t" }, "<A-S-right>", tmux.resize_right)
     end,
   }
 end
