@@ -194,11 +194,6 @@ class Setup:
             dest = dotfile_to_realpath(file)
             self.setup_dotfile(file, dest)
 
-        # Symlinking .editorconfig from project root
-        editorconfig = Path(".editorconfig")
-        if not self.is_excluded(editorconfig):
-            self.setup_dotfile(editorconfig, Path.home() / editorconfig)
-
     def setup_windows(self):
         # Checking for symlink permissions
         check_symlink()
