@@ -6,6 +6,7 @@ vim.g.omni_sql_no_default_maps = 1
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 4
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.wildmenu = true
@@ -42,6 +43,71 @@ vim.api.nvim_create_user_command("ToggleOnSave", function()
   toggleEvent { args = "BufWritePre" }
 end, {})
 vim.api.nvim_create_user_command("ToggleEvent", toggleEvent, { nargs = 1, complete = "event" })
+
+vim.api.nvim_create_user_command("Shebang", function()
+  local bangs = {
+    sh = "#!/usr/bin/env bash",
+    python = "#!/usr/bin/env python3",
+  }
+  local callback = function(bang)
+    local text = vim.api.nvim_buf_get_text(0, 0, 0, 0, 2, {})[1]
+    if text == "#!" then
+      vim.notify("Shebang already exists")
+      return
+    end
+
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, { bang })
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      command = "silent !chmod u+x %",
+      buffer = 0,
+      once = true,
+    })
+  end
+
+  local ft = vim.bo.filetype
+  if ft == "" then
+    vim.ui.select(vim.tbl_values(bangs), {
+      prompt = "Select shebang",
+    }, function(choice)
+      if not choice then
+        return
+      end
+      callback(choice)
+      local lookup = vim.tbl_add_reverse_lookup(bangs)
+      vim.bo.filetype = lookup[choice]
+    end)
+  elseif bangs[ft] then
+    callback(bangs[ft])
+  else
+    vim.notify("No shebang for " .. ft)
+    return
+  end
+end, { desc = "Add shebang to file and make it executable" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "python",
+    "c",
+    "cpp",
+    "ps1",
+  },
+  callback = function()
+    vim.bo.shiftwidth = 4
+  end,
+  desc = "Set shiftwidth to 4",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "go",
+    "make",
+  },
+  callback = function()
+    vim.bo.expandtab = false
+    vim.bo.tabstop = 4
+  end,
+  desc = "Use tabs",
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
@@ -90,3 +156,5 @@ end)
 
 vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
 vim.keymap.set("n", "<leader>nh", "<cmd>noh<cr>", { silent = true })
+vim.keymap.set("n", "<leader>pi", "<cmd>PackerInstall<cr>")
+vim.keymap.set("n", "<leader>ps", "<cmd>PackerSync<cr>")
