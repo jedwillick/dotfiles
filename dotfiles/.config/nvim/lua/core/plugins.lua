@@ -3,7 +3,7 @@ local function config(name)
 end
 
 local plugins = function(use)
-  use { "wbthomason/packer.nvim" }
+  use { "wbthomason/packer.nvim", branch = "master" }
 
   use { "lewis6991/impatient.nvim" }
 
@@ -103,7 +103,6 @@ local plugins = function(use)
 
   use {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
     requires = {
       "onsails/lspkind.nvim",
       "hrsh7th/cmp-nvim-lsp",
@@ -195,7 +194,6 @@ local plugins = function(use)
       "nvim-telescope/telescope-file-browser.nvim",
     },
     config = config("telescope"),
-    event = "VimEnter",
   }
 
   use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
@@ -283,6 +281,7 @@ local plugins = function(use)
       tmux.setup {
         navigation = {
           enable_default_keybindings = false,
+          persist_zoom = true,
         },
         resize = {
           enable_default_keybindings = false,
@@ -296,6 +295,23 @@ local plugins = function(use)
       vim.keymap.set({ "n", "t" }, "<A-S-down>", tmux.resize_bottom)
       vim.keymap.set({ "n", "t" }, "<A-S-left>", tmux.resize_left)
       vim.keymap.set({ "n", "t" }, "<A-S-right>", tmux.resize_right)
+    end,
+  }
+
+  use {
+    "wakatime/vim-wakatime",
+    run = function()
+      local cli = (os.getenv("WAKATIME_HOME") or os.getenv("HOME")) .. "/.wakatime/wakatime-cli"
+      local dest = (os.getenv("XDG_DATA_HOME") or os.getenv("HOME") .. "/.local") .. "/bin/wakatime-cli"
+      vim.cmd(string.format("silent !ln -sf %s %s", cli, dest))
+    end,
+  }
+
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {}
     end,
   }
 end
