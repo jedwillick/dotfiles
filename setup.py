@@ -7,6 +7,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -16,6 +17,7 @@ LINUX = "Linux"
 WINDOWS = "Windows"
 
 
+@dataclass
 class Log:
     DEBUG = 0
     LOWINFO = 1
@@ -30,9 +32,8 @@ class Log:
     RESET_COLOR = "\033[0m"
     ARROW_COLOR = "\033[1;35m"
 
-    def __init__(self, level: int, colored=True):
-        self.level = level
-        self.colored = colored
+    level: int = INFO
+    colored: bool = True
 
     def levelToDetail(self, level: int) -> Tuple[str, str, IO]:
         if level == self.DEBUG:
@@ -94,7 +95,7 @@ def check_symlink():
 def dotfile_to_realpath(dotfile: Path):
     parts = dotfile.parts
     dotfile = Path.home() / Path(*parts[1:])
-    return dotfile.with_suffix("") if parts[-2] == "bin" else dotfile
+    return dotfile.with_suffix("") if len(parts) > 1 and parts[-2] == "bin" else dotfile
 
 
 class Setup:
@@ -105,6 +106,7 @@ class Setup:
         force=False,
         backup=False,
         exclude=None,
+        missing=False,
         **_,
     ):
         self.dotfiles = Path(dotfiles)
@@ -112,9 +114,10 @@ class Setup:
             log.fatal(f"{dotfiles} is not a directory", prefix="DOTFILES")
         self.backup = backup
         self.backupRoot = Path(f"backup/{datetime.today():%d-%m-%Y_%H.%M.%S}")
-        self.exclude = exclude if exclude else []
+        self.exclude = exclude or []
         self.force = force
         self.link = link
+        self.missing = missing
         self.os = platform.system()
         log.debug(self)
         self.setup()
@@ -130,7 +133,7 @@ class Setup:
             self.setup_windows()
         else:
             log.fatal(f"{self.os} is not supported", prefix="OS")
-        if self.backup:
+        if self.backup and not self.missing:
             log.info(f"Created at {self.backupRoot}", prefix="BACKUP")
 
     def backup_(self, src: Path):
@@ -168,6 +171,10 @@ class Setup:
         return any(fnmatch.fnmatch(str(path), exclude) for exclude in self.exclude)
 
     def setup_dotfile(self, src, dst):
+        if self.missing and dst.exists():
+            log.debug(f"Skipping... {dst}", prefix="EXISTS")
+            return
+
         if self.backup:
             self.backup_(dst)
 
@@ -253,6 +260,12 @@ if __name__ == "__main__":
         help="Remove all existing files.",
     )
     parser.add_argument(
+        "-m",
+        "--missing",
+        action="store_true",
+        help="Only link missing files",
+    )
+    parser.add_argument(
         "--no-link",
         dest="link",
         action="store_false",
@@ -289,7 +302,6 @@ if __name__ == "__main__":
         action="store_true",
         help="Clean up all backup files.",
     )
-
     parser.add_argument(
         "--no-color",
         dest="color",
