@@ -37,7 +37,7 @@ local on_attach = function(client, bufnr)
   set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
   set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, bufopts)
   set("n", "gr", telescope.lsp_references, bufopts)
-  set("n", "<leader>fd", telescope.diagnostics, bufopts)
+  set("n", "<leader>fd", "<cmd>Trouble workspace_diagnostics<cr>", bufopts)
   set("n", "[d", vim.diagnostic.goto_prev, bufopts)
   set("n", "]d", vim.diagnostic.goto_next, bufopts)
 
