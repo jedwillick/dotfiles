@@ -161,14 +161,19 @@ local plugins = function(use)
 
   local colorizerFileTypes = { "css", "javascript", "html", "json", "yaml", "toml" }
   use {
-    "norcalli/nvim-colorizer.lua",
+    "NvChad/nvim-colorizer.lua",
     cmd = "ColorizerToggle",
     ft = colorizerFileTypes,
     setup = function()
       vim.keymap.set("n", "<leader>ct", "<cmd>ColorizerToggle<cr>")
     end,
     config = function()
-      require("colorizer").setup(colorizerFileTypes)
+      require("colorizer").setup {
+        filetypes = colorizerFileTypes,
+        user_default_options = {
+          names = false,
+        },
+      }
     end,
   }
 
