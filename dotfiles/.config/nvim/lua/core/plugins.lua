@@ -314,5 +314,20 @@ local plugins = function(use)
       require("trouble").setup {}
     end,
   }
+
+  use {
+    "ggandor/leap.nvim",
+    event = "User PackerDefered",
+    requires = { "ggandor/flit.nvim", "ggandor/leap-ast.nvim" },
+    config = function()
+      require("leap").add_default_mappings()
+      require("flit").setup {
+        labeled_modes = "nv",
+      }
+      vim.keymap.set({ "n", "x", "o" }, "M", function()
+        require("leap-ast").leap()
+      end, {})
+    end,
+  }
 end
 require("plugins.packer").setup(plugins)
