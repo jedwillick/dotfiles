@@ -146,9 +146,9 @@ install_go() {
   GO="go1.19.2.linux-amd64.tar.gz"
 
   log_working "Installing go $(grep -Eo "[0-9]+.[0-9]+.[0-9]+" <<< "$GO")"
-  curl -Lo "$TMP/$GO" https://go.dev/dl/$GO
+  curl -Lo "$GO" https://go.dev/dl/$GO
   sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xaf "$TMP/$GO"
+  sudo tar -C /usr/local -xaf "$GO"
   log_done
 }
 
@@ -189,10 +189,10 @@ install_wsl() {
 
   # WIN32 Yank for Nvim
   log_working "Installing win32yank"
-  curl -Lo "$TMP/win32yank.zip" https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
-  unzip -p "$TMP/win32yank.zip" win32yank.exe > "$TMP/win32yank.exe"
-  chmod +x "$TMP/win32yank.exe"
-  sudo mv "$TMP/win32yank.exe" /usr/local/bin/
+  curl -Lo win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
+  unzip -p win32yank.zip win32yank.exe > "win32yank.exe"
+  chmod +x win32yank.exe
+  sudo mv win32yank.exe /usr/local/bin/
   log_done
 }
 
@@ -201,14 +201,13 @@ install_pip() {
   python3 -m pip install -q --upgrade pip
   log_done
   log_working "Installing pip packages"
-  pip install -q --upgrade -r pip-packages.txt pynvim
+  pip install -q --upgrade -r "$DOTFILES/pip-packages.txt" pynvim
   pip completion --bash > "$BASH_COMP/pip"
   log_done
 }
 
 install_btop() {
   log_working "Installing btop"
-  cd "$TMP"
   curl -Lo btop.tbz https://github.com/aristocratos/btop/releases/latest/download/btop-x86_64-linux-musl.tbz
   tar -xaf "btop.tbz"
   cd btop
@@ -220,12 +219,19 @@ install_spotifytui() {
   log_working "Installing spotify-tui"
   # Dependencies
   _apt install pkg-config libssl-dev libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev
-  cd "$TMP"
   curl -LO https://github.com/Rigellute/spotify-tui/releases/download/v0.25.0/spotify-tui-linux.tar.gz
   tar -xaf spotify-tui-linux.tar.gz
   mv spt ~/.local/bin/
   spt --completions bash > "$BASH_COMP/spt"
   log_info "Run 'spt' to finish setup"
+  log_done
+}
+
+install_lazygit() {
+  log_working "Installing lazygit"
+  LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v*([^"]+)".*/\1/')
+  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+  sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
   log_done
 }
 
@@ -240,6 +246,7 @@ INSTALL can be any of:
   - debs        Install deb packages from github.
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
+  - lazygit     Install lazygit a git client.
   - nvm         Install Node Version Manager.
   - ohmyposh    Install Oh-My-Posh a prompt theme manager.
   - pip         Install pip packages.
@@ -258,6 +265,7 @@ main() {
     debs
     fzf
     go
+    lazygit
     nvm
     ohmyposh
     pip
@@ -296,6 +304,7 @@ main() {
   for arg in "$@"; do
     (
       set -eo pipefail
+      cd "$TMP"
       "install_$arg"
     )
     # shellcheck disable=2181
