@@ -54,6 +54,7 @@ alias pgu='pgrep -u $USER'
 alias pku='pkill -u $USER'
 alias svn-ignore='svn propedit svn:ignore .'
 alias diff='diff --color=auto'
+alias ldhere='LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}'
 
 # valgrind
 alias memcheck='valgrind --leak-check=full --show-leak-kinds=all -s'
@@ -63,10 +64,10 @@ alias helgrind='valgrind --tool=helgrind -s'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
+export DOTFILES="$HOME/dotfiles"
 export LESS=RF
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export WAKATIME_HOME="$HOME/.local/share/wakatime"
-export DOTFILES="$HOME/dotfiles"
 
 if [[ -n $SSH_CONNECTION ]]; then
   mesg n &> /dev/null || true
