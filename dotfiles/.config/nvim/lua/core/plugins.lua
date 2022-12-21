@@ -116,22 +116,22 @@ local plugins = function(use)
     config = config("cmp"),
   }
 
-  use {
-    "zbirenbaum/copilot.lua",
-    requires = { "zbirenbaum/copilot-cmp" },
-    event = "VimEnter",
-    config = function()
-      vim.defer_fn(function()
-        require("copilot").setup {
-          filetypes = {
-            TelescopePrompt = false,
-            man = false,
-          },
-        }
-        require("copilot_cmp").setup()
-      end, 100)
-    end,
-  }
+  -- use {
+  --   "zbirenbaum/copilot.lua",
+  --   requires = { "zbirenbaum/copilot-cmp" },
+  --   event = "VimEnter",
+  --   config = function()
+  --     vim.defer_fn(function()
+  --       require("copilot").setup {
+  --         filetypes = {
+  --           TelescopePrompt = false,
+  --           man = false,
+  --         },
+  --       }
+  --       require("copilot_cmp").setup()
+  --     end, 100)
+  --   end,
+  -- }
 
   use {
     "numToStr/Comment.nvim",
@@ -211,9 +211,12 @@ local plugins = function(use)
       "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
+    setup = function()
+      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+    end,
     config = config("neo-tree"),
-    cmd = "Neotree",
-    keys = [[\]],
+    -- cmd = "Neotree",
+    -- keys = [[\]],
   }
 
   use { "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] }
