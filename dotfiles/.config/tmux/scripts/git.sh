@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# shellcheck disable=2034
 
 _git() {
   git --no-optional-locks -c color.status=false "$@" 2> /dev/null
@@ -59,7 +58,7 @@ printBranch() {
 dir=$(tmux display -p '#{pane_current_path}')
 cd "$dir" || exit
 
-status=$(_git status --untracked-files=all --porcelain=2 --branch) || exit 0
+status=$(_git status --untracked-files=all --porcelain=2 --branch) || exit
 
 branchPrefix="# branch.head "
 upstreamPrefix="# branch.upstream "
@@ -74,15 +73,13 @@ while IFS= read -r line; do
       upstream=${line#"${upstreamPrefix}"}
       ;;
     ${abPrefix}*)
-      ab=${line#"${abPrefix}"}
-      #+0 -0
-      ahead=${ab:1:1}
-      behind=${ab:4:1}
-      ;;
-    \?*)
-      ((untracked++))
+      # Convert "# branch.ab +x -y" into ab=('+x' '-y')
+      IFS=" " read -ra ab <<< "${line#"${abPrefix}"}"
+      ahead="${ab[0]:1}"
+      behind="${ab[1]:1}"
       ;;
     \#*) ;;
+    \?*) ((untracked++)) ;;
     *)
       addChanges "${line:2:1}"
       addChanges "${line:3:1}"
