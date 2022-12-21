@@ -48,4 +48,9 @@ sect.footer.val = {
 
 alpha.setup(startify.config)
 
-vim.keymap.set("n", "<c-n>", ":Alpha<cr>")
+vim.keymap.set("n", "<c-n>", function()
+  vim.cmd.only()
+  vim.cmd.bufdo("bd")
+  vim.bo.buflisted = false
+  vim.cmd.Alpha()
+end, { desc = "Clean buffers/windows" })
