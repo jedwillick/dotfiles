@@ -13,14 +13,20 @@ require("mason-lspconfig").setup {
   automatic_installation = true,
 }
 
-local telescope = require("telescope.builtin")
+local nls = require("null-ls")
+
 local set = vim.keymap.set
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local lsp_formatting = function(bufnr)
+  local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
   vim.lsp.buf.format {
     filter = function(client)
-      return client.name == "null-ls"
+      if #require("null-ls.sources").get_available(ft, nls.methods.FORMATTING) > 0 then
+        return client.name == "null-ls"
+      else
+        return not (client.name == "null-ls")
+      end
     end,
     bufnr = bufnr,
   }
@@ -42,7 +48,9 @@ local on_attach = function(client, bufnr)
   set("n", "]d", vim.diagnostic.goto_next, bufopts)
 
   if client.supports_method("textDocument/formatting") then
-    set("n", "<leader>bf", lsp_formatting, bufopts)
+    set({ "n", "v" }, "<leader>cf", function()
+      lsp_formatting(bufnr)
+    end, bufopts)
     vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = augroup,
@@ -179,10 +187,9 @@ require("clangd_extensions").setup {
   },
 }
 
-local null_ls = require("null-ls")
-local fmt = null_ls.builtins.formatting
-local diag = null_ls.builtins.diagnostics
-local act = null_ls.builtins.code_actions
+local fmt = nls.builtins.formatting
+local diag = nls.builtins.diagnostics
+local act = nls.builtins.code_actions
 
 local shellcheck = { extra_args = { "--exclude=1090,1091" } }
 
@@ -203,7 +210,7 @@ end
 local with_editorconfig = with_root_file(".editorconfig")
 local without_editorconifg = without_root_file(".editorconfig")
 local stylua = { "stylua.toml", ".stylua.toml" }
-null_ls.setup {
+nls.setup {
   on_attach = on_attach,
   root_dir = require("null-ls.utils").root_pattern(
     ".null-ls-root",
@@ -258,7 +265,7 @@ null_ls.setup {
 
 -- Auto-install null-ls sources
 local mr = require("mason-registry")
-local sources = null_ls.get_sources()
+local sources = nls.get_sources()
 for _, source in ipairs(sources) do
   local ok, p = pcall(mr.get_package, source.name:gsub("_", "-"))
   if ok and not p:is_installed() then
