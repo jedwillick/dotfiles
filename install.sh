@@ -63,6 +63,7 @@ install_apt() {
     gdb
     git
     jq
+    libsqlite3-dev
     lolcat
     manpages-posix
     ncat
