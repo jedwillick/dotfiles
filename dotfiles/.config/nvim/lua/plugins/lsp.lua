@@ -124,7 +124,7 @@ require("clangd_extensions").setup {
   extensions = {
     -- defaults:
     -- Automatically set inlay hints (type hints)
-    autoSetHints = true,
+    autoSetHints = false,
     -- These apply to the default ClangdSetInlayHints command
     inlay_hints = {
       -- Only show inlay hints for the current line
@@ -254,10 +254,10 @@ nls.setup {
     fmt.markdownlint,
     fmt.prettier,
 
-    fmt.trim_whitespace.with {
-      condition = without_editorconifg,
-      disabled_filetypes = { "markdown" },
-    },
+    -- fmt.trim_whitespace.with {
+    --   condition = without_editorconifg,
+    --   disabled_filetypes = { "markdown" },
+    -- },
 
     act.gitsigns,
   },
