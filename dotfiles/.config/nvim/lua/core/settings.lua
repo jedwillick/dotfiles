@@ -1,31 +1,28 @@
 vim.g.mapleader = " "
+
 vim.g.c_syntax_for_h = 1
-vim.g.omni_sql_default_compl_type = "syntax"
-vim.g.omni_sql_no_default_maps = 1
+vim.g.omni_sql_default_compl_type = "syntax" -- Only use syntax for SQL complete
+vim.g.omni_sql_no_default_maps = 1 -- Don't set mappings
 
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 4
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.shiftwidth = 2 -- Default 2 spaces as indent
+vim.opt.tabstop = 4 -- When using tabs
 
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.wildmenu = true
-vim.opt.termguicolors = true
-vim.opt.clipboard = "unnamedplus"
-vim.opt.cursorline = true
-vim.opt.mouse = ""
-vim.opt.signcolumn = "yes"
-vim.opt.list = true
+vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "winpos" }
+vim.opt.number = true -- Print line number
+vim.opt.relativenumber = true -- Relative line numbers
+vim.opt.autowrite = true -- auto write changes
+vim.opt.termguicolors = true -- True color support
+vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
+vim.opt.cursorline = true -- Enable highlighting of the current line
+vim.opt.mouse = "a" -- enable mouse mode
+vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+vim.opt.list = true -- Show some invisible characters
+vim.opt.showmode = false -- Don't show  mode since it is in statusline
+vim.opt.undofile = true --  Save undo history to disk
 
-vim.filetype.add {
-  extension = {
-    mdx = "markdown",
-    sql = "plsql",
-  },
-  filename = {
-    [".clang-format"] = "yaml",
-  },
-}
+vim.opt.scrolloff = 4 -- Lines of context
+vim.opt.sidescrolloff = 8 -- Columns of context
 
 local toggleEvent = function(arg)
   for _, v in pairs(vim.opt.eventignore:get()) do
@@ -152,9 +149,9 @@ vim.keymap.set({ "n", "t" }, "<A-m>", function()
     vim.opt.mouse = "a"
     vim.notify("Mouse enabled")
   end
-end)
+end, { desc = "Toggle Mouse" })
 
 vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
-vim.keymap.set("n", "<leader>nh", "<cmd>noh<cr>", { silent = true })
+vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
 vim.keymap.set("n", "<leader>pi", "<cmd>PackerInstall<cr>")
 vim.keymap.set("n", "<leader>ps", "<cmd>PackerSync<cr>")
