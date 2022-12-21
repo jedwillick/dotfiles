@@ -4,27 +4,31 @@ local builtin = require("telescope.builtin")
 
 local set = vim.keymap.set
 
-set("n", "<leader>f?", builtin.builtin)
-set("n", "<leader>ff", builtin.find_files)
-set("n", "<leader>fo", builtin.oldfiles)
-set("n", "<leader>fr", builtin.resume)
-set("n", "<leader>fw", builtin.grep_string)
-set("n", "<leader>fg", builtin.live_grep)
-set("n", "<leader>fb", builtin.buffers)
-set("n", "<leader>fs", builtin.current_buffer_fuzzy_find)
-set("n", "<leader>ft", builtin.filetypes)
-set("n", "z=", builtin.spell_suggest)
+set("n", "z=", "<cmd>Telescope spell_suggest<cr>")
+set("n", "<leader>f?", "<cmd>Telescope builtin<cr>")
+set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
+set("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>")
+set("n", "<leader>fr", "<cmd>Telescope resume<cr>")
+set("n", "<leader>fw", "<cmd>Telescope grep_string<cr>")
+set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
+set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
+set("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+set("n", "<leader>ft", "<cmd>Telescope filetypes<cr>")
+set("n", "<leader>fc", "<cmd>Telescope commands<cr>")
+set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>")
+set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
+set("n", "<leader>fm", "<cmd>Telescope man_pages<cr>")
 
-set("n", "<leader>fh", function()
+set("n", "<leader>fH", function()
   builtin.help_tags { default_text = vim.fn.expand("<cword>") }
 end)
-set("n", "<leader>fm", function()
+set("n", "<leader>fM", function()
   builtin.man_pages { default_text = vim.fn.expand("<cword>") }
 end)
 
 -- Extensions
-set("n", "<leader>fp", ":Telescope project display_type=full<cr>")
-set("n", "<leader>fe", ":Telescope file_browser<cr>")
+set("n", "<leader>fp", "<cmd>Telescope project display_type=full<cr>")
+set("n", "<leader>fe", "<cmd>Telescope file_browser<cr>")
 
 local defaultVert = {
   i = {
@@ -40,6 +44,7 @@ telescope.setup {
         ["<esc>"] = actions.close,
         ["<C-Down>"] = actions.cycle_history_next,
         ["<C-Up>"] = actions.cycle_history_prev,
+        ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble,
       },
     },
     path_display = { "truncate" },
@@ -115,15 +120,6 @@ telescope.setup {
     project = {
       base_dirs = {
         "~/dev",
-      },
-      mappings = {
-        i = {
-          ["<cr>"] = function(bufnr)
-            local projectActions = require("telescope._extensions.project.actions")
-            projectActions.change_working_directory(bufnr)
-            projectActions.browse_project_files(bufnr)
-          end,
-        },
       },
     },
   },
