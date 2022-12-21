@@ -337,5 +337,58 @@ local plugins = function(use)
       end, {})
     end,
   }
+
+  use {
+    "kylechui/nvim-surround",
+    event = "User PackerDefered",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  }
+
+  use {
+    "rmagatti/auto-session",
+    requires = { "rmagatti/session-lens" },
+    config = function()
+      local as = require("auto-session")
+      as.setup {
+        log_level = "error",
+        auto_session_use_git_branch = true,
+      }
+      require("session-lens").setup { path_display = { "truncate" }, theme_conf = {}, previewer = false }
+      vim.keymap.set("n", "<leader>fs", "<cmd>SearchSession<cr>")
+      --   vim.api.nvim_create_user_command("SessionSave", function(_)
+      --     local path = as.get_root_dir()
+      --     if _.args ~= "" then
+      --       path = string.format("%s/%s.vim", as.get_root_dir(), _.args)
+      --     end
+      --     as.SaveSession(path)
+      --   end, { nargs = "?" })
+    end,
+  }
+
+  use {
+    "gbprod/yanky.nvim",
+    event = "User PackerDefered",
+    requires = { "kkharji/sqlite.lua" },
+    config = function()
+      require("yanky").setup {
+        highlight = {
+          timer = 150,
+        },
+        ring = {
+          storage = "sqlite",
+        },
+      }
+      require("telescope").load_extension("yank_history")
+      vim.keymap.set("n", "<leader>P", "<cmd>Telescope yank_history<cr>")
+      vim.keymap.set({ "n", "x" }, "y", "<Plug>(YankyYank)")
+      vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set("n", "<tab>", "<Plug>(YankyCycleForward)")
+      vim.keymap.set("n", "<S-tab>", "<Plug>(YankyCycleBackward)")
+    end,
+  }
 end
+
 require("plugins.packer").setup(plugins)
