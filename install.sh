@@ -300,7 +300,7 @@ main() {
   chmod 777 "$TMP"
   trap 'rm -rf "$TMP"' EXIT
 
-  [[ -d "$BASH_COMP" ]] || mkdir "$BASH_COMP"
+  [[ -d "$BASH_COMP" ]] || mkdir -p "$BASH_COMP"
 
   for arg in "$@"; do
     (
