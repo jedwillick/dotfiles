@@ -1,4 +1,5 @@
-require("tokyonight").setup {
+local tokyonight = require("tokyonight")
+tokyonight.setup {
   style = "storm",
   styles = {
     comments = { italic = false },
@@ -53,5 +54,4 @@ require("tokyonight").setup {
     }
   end,
 }
-
-vim.cmd.colorscheme("tokyonight")
+tokyonight.load()
