@@ -2,6 +2,11 @@ require("neo-tree").setup {
   source_selector = {
     winbar = true,
   },
+  window = {
+    mappings = {
+      ["<space>"] = false,
+    },
+  },
   filesystem = {
     follow_current_file = true,
     use_libuv_file_watcher = true,
