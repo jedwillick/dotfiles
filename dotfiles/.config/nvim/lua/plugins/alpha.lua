@@ -8,7 +8,7 @@ end
 
 local function loaded()
   return "Loaded "
-    .. #vim.tbl_keys(packer_plugins)
+    .. require("lazy").stats().count
     .. " plugins, "
     .. #require("lspconfig.util").available_servers() + #require("null-ls").get_sources()
     .. " LSP sources, "
