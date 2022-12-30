@@ -240,7 +240,11 @@ return {
   },
   {
     "folke/which-key.nvim",
-    config = true,
+    config = {
+      disable = {
+        filetypes = { "TelescopePrompt", "neo-tree" },
+      },
+    },
     event = "User VeryLazy",
   },
   {
