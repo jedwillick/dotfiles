@@ -99,7 +99,7 @@ local function repl()
   local cmd = cmds[ft]
 
   if not cmd or vim.fn.executable(cmd) ~= 1 then
-    vim.notify("No repl for filetype " .. ft)
+    vim.notify("No repl for filetype " .. ft, vim.log.levels.WARN, { title = "DOTFILES: toggleterm" })
     return nil
   end
 
