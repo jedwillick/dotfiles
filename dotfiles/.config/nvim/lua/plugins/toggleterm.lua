@@ -54,7 +54,7 @@ require("toggleterm").setup {
 local Terminal = terminal.Terminal
 
 local float = Terminal:new {
-  cmd = "bash",
+  cmd = vim.go.shell,
   direction = "float",
   hidden = true,
 }
