@@ -1,63 +1,53 @@
 local function config(name)
-  return string.format([[require("plugins.%s")]], name)
+  return function()
+    require("plugins." .. name)
+  end
 end
 
-local plugins = function(use)
-  use { "wbthomason/packer.nvim", branch = "master" }
-
-  use { "lewis6991/impatient.nvim" }
-
-  use {
-    "~/dev/version.nvim",
-    config = function()
-      require("version").setup {}
-    end,
+return {
+  {
+    "jedwillick/version.nvim",
+    config = true,
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "nvim-lua/plenary.nvim",
-  }
-
-  use {
+  },
+  {
     "folke/tokyonight.nvim",
     config = config("tokyonight"),
-    opt = false,
-  }
-
-  use {
+    lazy = false,
+    priority = 999,
+  },
+  {
     "goolord/alpha-nvim",
-    requires = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "kyazdani42/nvim-web-devicons" },
     config = config("alpha"),
     event = "VimEnter",
-  }
-
-  use {
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
-    requires = {
+    dependencies = {
       "RRethy/nvim-treesitter-endwise",
       "nvim-treesitter/playground",
     },
-    run = function()
-      require("nvim-treesitter.install").update { with_sync = true }
-    end,
+    build = ":TSUpdate",
+    -- event = "BufReadPost",
+    lazy = false, -- TODO LAZY
     config = config("treesitter"),
-  }
-
-  use {
+  },
+  {
     "windwp/nvim-autopairs",
     config = function()
       require("nvim-autopairs").setup { check_ts = true }
     end,
     event = "InsertEnter",
-  }
-
-  use {
+  },
+  {
     "folke/neodev.nvim",
-    config = [[require("neodev").setup()]],
-  }
-
-  use {
+    config = true,
+  },
+  {
     "j-hui/fidget.nvim",
     config = function()
       require("fidget").setup {
@@ -67,12 +57,12 @@ local plugins = function(use)
       -- HACK to stop error when exiting
       vim.api.nvim_create_autocmd("VimLeavePre", { command = [[silent! FidgetClose]] })
     end,
-  }
-
-  use {
+  },
+  {
     "williamboman/mason.nvim",
-    requires = {
-      "neovim/nvim-lspconfig",
+    event = "VimEnter",
+    dependencies = {
+      { "neovim/nvim-lspconfig", commit = "709d322b456b5bbc4ed779f12048099200b5aa6b" },
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
       "p00f/clangd_extensions.nvim",
@@ -86,24 +76,25 @@ local plugins = function(use)
           }
         end,
       },
+      "neodev.nvim",
+      "fidget.nvim",
+      "hrsh7th/cmp-nvim-lsp",
     },
-    after = { "neodev.nvim", "fidget.nvim" },
     config = config("lsp"),
-  }
-
-  use {
+  },
+  {
     "L3MON4D3/LuaSnip",
-    requires = {
+    dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
-  }
-
-  use {
+  },
+  {
     "hrsh7th/nvim-cmp",
-    requires = {
+    event = "InsertEnter",
+    dependencies = {
       "onsails/lspkind.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -114,7 +105,7 @@ local plugins = function(use)
       "saadparwaiz1/cmp_luasnip",
     },
     config = config("cmp"),
-  }
+  },
 
   -- use {
   --   "zbirenbaum/copilot.lua",
@@ -133,7 +124,7 @@ local plugins = function(use)
   --   end,
   -- }
 
-  use {
+  {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
@@ -143,41 +134,34 @@ local plugins = function(use)
       ft.editorconfig = "; %s"
     end,
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "akinsho/bufferline.nvim",
-    requires = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "kyazdani42/nvim-web-devicons" },
     config = config("bufferline"),
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "nvim-lualine/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
+    dependencies = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
     config = config("lualine"),
     event = "VimEnter",
-  }
+  },
 
-  local colorizerFileTypes = { "css", "javascript", "html", "json", "yaml", "toml" }
-  use {
+  {
     "NvChad/nvim-colorizer.lua",
     cmd = "ColorizerToggle",
-    ft = colorizerFileTypes,
-    setup = function()
-      vim.keymap.set("n", "<leader>ct", "<cmd>ColorizerToggle<cr>")
-    end,
-    config = function()
-      require("colorizer").setup {
-        filetypes = colorizerFileTypes,
-        user_default_options = {
-          names = false,
-        },
-      }
-    end,
-  }
-
-  use {
+    keys = {
+      { "<leader>ct", "<cmd>ColorizerToggle<cr>" },
+    },
+    config = {
+      filetypes = { "css", "javascript", "html", "json", "yaml", "toml" },
+      user_default_options = {
+        names = false,
+      },
+    },
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("indent_blankline").setup {
@@ -187,106 +171,111 @@ local plugins = function(use)
       }
     end,
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "nvim-telescope/telescope.nvim",
-    requires = {
+    event = "VimEnter", -- TODO make maps in init
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
       "telescope-fzf-native.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = config("telescope"),
-  }
-
-  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-
-  use {
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-    setup = function()
+    init = function()
       vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
     end,
     config = config("neo-tree"),
+    lazy = false,
     -- cmd = "Neotree",
     -- keys = [[\]],
-  }
-
-  use { "dstein64/vim-startuptime", cmd = "StartupTime", config = [[vim.g.startuptime_tries = 10]] }
-
-  use {
+  },
+  {
+    "dstein64/vim-startuptime",
+    cmd = "StartupTime",
+    config = function()
+      vim.g.startuptime_tries = 10
+    end,
+  },
+  {
     "AndrewRadev/sideways.vim",
     cmd = { "SidewaysLeft", "SidewaysRight" },
-    setup = function()
+    init = function()
       vim.keymap.set("n", "<leader>h", ":SidewaysLeft<CR>")
       vim.keymap.set("n", "<leader>l", ":SidewaysRight<CR>")
     end,
-  }
-
-  use {
+  },
+  {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
-    setup = [[vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")]],
-    config = [[vim.g.undotree_SetFocusWhenToggle = 1]],
-  }
-
-  use {
+    init = function()
+      vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
+    end,
+    config = function()
+      vim.g.undotree_SetFocusWhenToggle = 1
+    end,
+  },
+  {
     "iamcco/markdown-preview.nvim",
-    run = function()
+    build = function()
       vim.fn["mkdp#util#install"]()
     end,
     ft = { "markdown" },
-  }
-
-  use {
+  },
+  {
     "gpanders/editorconfig.nvim",
     config = config("editorconfig"),
     event = "VimEnter",
-  }
-
-  use {
+  },
+  {
     "folke/which-key.nvim",
-    config = [[require("which-key").setup()]],
-    event = "User PackerDefered",
-  }
-
-  use {
+    config = true,
+    event = "User VeryLazy",
+  },
+  {
     "famiu/bufdelete.nvim",
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "akinsho/toggleterm.nvim",
     config = config("toggleterm"),
-    event = "User PackerDefered",
-  }
-
-  use {
+    event = "User VeryLazy",
+  },
+  {
     "sindrets/diffview.nvim",
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
     cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
-  }
-
-  use {
+  },
+  {
     "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
+    config = true,
     event = "BufReadPre",
-  }
-
-  use {
+  },
+  {
     "aserowy/tmux.nvim",
+    init = function()
+      vim.keymap.set({ "n", "t" }, "<A-up>", require("tmux").move_top)
+      vim.keymap.set({ "n", "t" }, "<A-down>", require("tmux").move_bottom)
+      vim.keymap.set({ "n", "t" }, "<A-left>", require("tmux").move_left)
+      vim.keymap.set({ "n", "t" }, "<A-right>", require("tmux").move_right)
+      vim.keymap.set({ "n", "t" }, "<A-S-up>", require("tmux").resize_top)
+      vim.keymap.set({ "n", "t" }, "<A-S-down>", require("tmux").resize_bottom)
+      vim.keymap.set({ "n", "t" }, "<A-S-left>", require("tmux").resize_left)
+      vim.keymap.set({ "n", "t" }, "<A-S-right>", require("tmux").resize_right)
+    end,
     config = function()
-      local tmux = require("tmux")
-      tmux.setup {
+      require("tmux").setup {
         navigation = {
           enable_default_keybindings = false,
           persist_zoom = true,
@@ -295,38 +284,27 @@ local plugins = function(use)
           enable_default_keybindings = false,
         },
       }
-      vim.keymap.set({ "n", "t" }, "<A-up>", tmux.move_top)
-      vim.keymap.set({ "n", "t" }, "<A-down>", tmux.move_bottom)
-      vim.keymap.set({ "n", "t" }, "<A-left>", tmux.move_left)
-      vim.keymap.set({ "n", "t" }, "<A-right>", tmux.move_right)
-      vim.keymap.set({ "n", "t" }, "<A-S-up>", tmux.resize_top)
-      vim.keymap.set({ "n", "t" }, "<A-S-down>", tmux.resize_bottom)
-      vim.keymap.set({ "n", "t" }, "<A-S-left>", tmux.resize_left)
-      vim.keymap.set({ "n", "t" }, "<A-S-right>", tmux.resize_right)
     end,
-  }
-
-  use {
+  },
+  {
     "wakatime/vim-wakatime",
-    run = function()
+    build = function()
       local cli = (os.getenv("WAKATIME_HOME") or os.getenv("HOME")) .. "/.wakatime/wakatime-cli"
       local dest = (os.getenv("XDG_DATA_HOME") or os.getenv("HOME") .. "/.local") .. "/bin/wakatime-cli"
       vim.cmd(string.format("silent !ln -sf %s %s", cli, dest))
     end,
-  }
-
-  use {
+    event = "BufReadPost",
+  },
+  {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup {}
-    end,
-  }
-
-  use {
+    dependencies = { "kyazdani42/nvim-web-devicons" },
+    cmd = { "TroubleToggle", "Trouble" },
+    config = true,
+  },
+  {
     "ggandor/leap.nvim",
-    event = "User PackerDefered",
-    requires = { "ggandor/flit.nvim", "ggandor/leap-ast.nvim" },
+    event = "User VeryLazy",
+    dependencies = { "ggandor/flit.nvim", "ggandor/leap-ast.nvim" },
     config = function()
       require("leap").add_default_mappings()
       require("flit").setup {
@@ -336,19 +314,16 @@ local plugins = function(use)
         require("leap-ast").leap()
       end, {})
     end,
-  }
-
-  use {
+  },
+  {
     "kylechui/nvim-surround",
-    event = "User PackerDefered",
-    config = function()
-      require("nvim-surround").setup {}
-    end,
-  }
-
-  use {
+    event = "User VeryLazy",
+    config = true,
+  },
+  {
     "rmagatti/auto-session",
-    requires = { "rmagatti/session-lens" },
+    lazy = false,
+    dependencies = { "rmagatti/session-lens" },
     config = function()
       local as = require("auto-session")
       as.setup {
@@ -357,7 +332,7 @@ local plugins = function(use)
       }
       require("session-lens").setup { path_display = { "truncate" }, theme_conf = {}, previewer = false }
       vim.keymap.set("n", "<leader>fs", "<cmd>SearchSession<cr>")
-      --   vim.api.nvim_create_user_command("SessionSave", function(_)
+      --   vim.api.nvim_create_,r_command("SessionSave", function(_)
       --     local path = as.get_root_dir()
       --     if _.args ~= "" then
       --       path = string.format("%s/%s.vim", as.get_root_dir(), _.args)
@@ -365,12 +340,11 @@ local plugins = function(use)
       --     as.SaveSession(path)
       --   end, { nargs = "?" })
     end,
-  }
-
-  use {
+  },
+  {
     "gbprod/yanky.nvim",
-    event = "User PackerDefered",
-    requires = { "kkharji/sqlite.lua" },
+    event = "User VeryLazy",
+    dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("yanky").setup {
         highlight = {
@@ -388,7 +362,12 @@ local plugins = function(use)
       vim.keymap.set("n", "<tab>", "<Plug>(YankyCycleForward)")
       vim.keymap.set("n", "<S-tab>", "<Plug>(YankyCycleBackward)")
     end,
-  }
-end
-
-require("plugins.packer").setup(plugins)
+  },
+  {
+    "rcarriga/nvim-notify",
+    lazy = false,
+    config = function()
+      vim.notify = require("notify")
+    end,
+  },
+}
