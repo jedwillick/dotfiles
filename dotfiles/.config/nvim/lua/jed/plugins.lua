@@ -135,10 +135,6 @@ return {
     event = "User VeryLazy",
   },
   {
-    "famiu/bufdelete.nvim",
-    event = "BufReadPre",
-  },
-  {
     "aserowy/tmux.nvim",
     init = function()
       vim.keymap.set({ "n", "t" }, "<A-up>", require("tmux").move_top)
