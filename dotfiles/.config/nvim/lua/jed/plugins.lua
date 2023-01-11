@@ -1,6 +1,8 @@
 return {
-  { "nvim-lua/plenary.nvim" },
-  { "kyazdani42/nvim-web-devicons" },
+  "nvim-lua/plenary.nvim",
+  "kyazdani42/nvim-web-devicons",
+  "MunifTanjim/nui.nvim",
+
   {
     "stevearc/dressing.nvim",
     event = "BufReadPost",
@@ -66,6 +68,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPre",
     config = function()
       require("indent_blankline").setup {
         char = "▏",
@@ -73,7 +76,6 @@ return {
         show_current_context = true,
       }
     end,
-    event = "BufReadPre",
   },
   {
     "dstein64/vim-startuptime",
@@ -142,12 +144,12 @@ return {
   },
   {
     "wakatime/vim-wakatime",
+    event = "BufReadPost",
     build = function()
       local cli = (os.getenv("WAKATIME_HOME") or os.getenv("HOME")) .. "/.wakatime/wakatime-cli"
       local dest = (os.getenv("XDG_DATA_HOME") or os.getenv("HOME") .. "/.local") .. "/bin/wakatime-cli"
       vim.cmd(string.format("silent !ln -sf %s %s", cli, dest))
     end,
-    event = "BufReadPost",
   },
   {
     "folke/trouble.nvim",
