@@ -1,5 +1,5 @@
-require("core.globals")
-require("core.options")
+require("jed.globals")
+require("jed.options")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,18 +14,20 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require("lazy").setup("core.plugins", {
+require("lazy").setup("jed.plugins", {
   defaults = { lazy = true },
   dev = { path = "~/dev", patterns = { "jedwillick" } },
-  install = { colorscheme = { "tokyonight" } },
-  checker = { enabled = true },
+  install = { missing = true, colorscheme = { "tokyonight", "habamax" } },
+  checker = { enabled = false },
+  change_detection = { enabled = true, notify = false },
   diff = { cmd = "git" },
+  ui = {
+    browser = vim.fn.has("wsl") and "explorer.exe" or nil,
+  },
   performance = {
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
@@ -39,7 +41,7 @@ require("lazy").setup("core.plugins", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
   callback = function()
-    require("core.commands")
+    require("jed.commands")
     vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>")
   end,
 })

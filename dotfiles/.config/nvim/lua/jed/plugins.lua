@@ -1,40 +1,13 @@
-local function config(name)
-  return function()
-    require("plugins." .. name)
-  end
-end
-
 return {
+  { "nvim-lua/plenary.nvim" },
+  { "kyazdani42/nvim-web-devicons" },
+  {
+    "stevearc/dressing.nvim",
+    event = "BufReadPost",
+  },
   {
     "jedwillick/version.nvim",
     config = true,
-    event = "BufReadPre",
-  },
-  {
-    "nvim-lua/plenary.nvim",
-  },
-  {
-    "folke/tokyonight.nvim",
-    config = config("tokyonight"),
-    lazy = false,
-    priority = 999,
-  },
-  {
-    "goolord/alpha-nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
-    config = config("alpha"),
-    event = "VimEnter",
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "RRethy/nvim-treesitter-endwise",
-      "nvim-treesitter/playground",
-    },
-    build = ":TSUpdate",
-    -- event = "BufReadPost",
-    lazy = false, -- TODO LAZY
-    config = config("treesitter"),
   },
   {
     "windwp/nvim-autopairs",
@@ -59,30 +32,6 @@ return {
     end,
   },
   {
-    "williamboman/mason.nvim",
-    event = "VimEnter",
-    dependencies = {
-      { "neovim/nvim-lspconfig", commit = "709d322b456b5bbc4ed779f12048099200b5aa6b" },
-      "williamboman/mason-lspconfig.nvim",
-      "b0o/schemastore.nvim",
-      "p00f/clangd_extensions.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
-      {
-        "SmiteshP/nvim-navic",
-        config = function()
-          require("nvim-navic").setup {
-            depth_limit = 5,
-            separator = "  ",
-          }
-        end,
-      },
-      "neodev.nvim",
-      "fidget.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-    },
-    config = config("lsp"),
-  },
-  {
     "L3MON4D3/LuaSnip",
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -90,21 +39,6 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "onsails/lspkind.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-calc",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "chrisgrieser/cmp-nerdfont",
-      "saadparwaiz1/cmp_luasnip",
-    },
-    config = config("cmp"),
   },
 
   -- use {
@@ -136,19 +70,6 @@ return {
     event = "BufReadPre",
   },
   {
-    "akinsho/bufferline.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
-    config = config("bufferline"),
-    event = "BufReadPre",
-  },
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons", "nvim-lua/plenary.nvim" },
-    config = config("lualine"),
-    event = "VimEnter",
-  },
-
-  {
     "NvChad/nvim-colorizer.lua",
     cmd = "ColorizerToggle",
     keys = {
@@ -171,35 +92,6 @@ return {
       }
     end,
     event = "BufReadPre",
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    event = "VimEnter", -- TODO make maps in init
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      "telescope-fzf-native.nvim",
-      "nvim-telescope/telescope-project.nvim",
-      "nvim-telescope/telescope-file-browser.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    },
-    config = config("telescope"),
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    init = function()
-      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-    end,
-    config = config("neo-tree"),
-    lazy = false,
-    -- cmd = "Neotree",
-    -- keys = [[\]],
   },
   {
     "dstein64/vim-startuptime",
@@ -234,11 +126,6 @@ return {
     ft = { "markdown" },
   },
   {
-    "gpanders/editorconfig.nvim",
-    config = config("editorconfig"),
-    event = "VimEnter",
-  },
-  {
     "folke/which-key.nvim",
     config = {
       disable = {
@@ -250,11 +137,6 @@ return {
   {
     "famiu/bufdelete.nvim",
     event = "BufReadPre",
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    config = config("toggleterm"),
-    event = "User VeryLazy",
   },
   {
     "sindrets/diffview.nvim",
@@ -301,7 +183,6 @@ return {
   },
   {
     "folke/trouble.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
     cmd = { "TroubleToggle", "Trouble" },
     config = true,
   },
@@ -327,27 +208,40 @@ return {
   {
     "rmagatti/auto-session",
     lazy = false,
-    dependencies = { "rmagatti/session-lens" },
-    config = function()
-      local as = require("auto-session")
-      as.setup {
-        log_level = "error",
-        auto_session_use_git_branch = true,
-      }
-      require("session-lens").setup { path_display = { "truncate" }, theme_conf = {}, previewer = false }
-      vim.keymap.set("n", "<leader>fs", "<cmd>SearchSession<cr>")
-      --   vim.api.nvim_create_,r_command("SessionSave", function(_)
-      --     local path = as.get_root_dir()
-      --     if _.args ~= "" then
-      --       path = string.format("%s/%s.vim", as.get_root_dir(), _.args)
-      --     end
-      --     as.SaveSession(path)
-      --   end, { nargs = "?" })
-    end,
+    config = {
+      log_level = "error",
+      auto_session_use_git_branch = true,
+      pre_restore_cmds = {
+        function()
+          if vim.o.filetype == "lazy" then
+            vim.g.lazy_auto_session = true
+            vim.cmd.close()
+          end
+        end,
+      },
+      post_restore_cmds = {
+        function()
+          if vim.g.lazy_auto_session then
+            require("lazy").show()
+          end
+        end,
+      },
+    },
+  },
+  {
+    "rmagatti/session-lens",
+    keys = {
+      { "<leader>fs", "<cmd>SearchSession<cr>", desc = "Sessions" },
+    },
+    config = {
+      path_display = { "truncate" },
+      theme_conf = {},
+      previewer = false,
+    },
   },
   {
     "gbprod/yanky.nvim",
-    event = "User VeryLazy",
+    event = "BufReadPost",
     dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("yanky").setup {
@@ -358,13 +252,14 @@ return {
           storage = "sqlite",
         },
       }
-      require("telescope").load_extension("yank_history")
-      vim.keymap.set("n", "<leader>P", "<cmd>Telescope yank_history<cr>")
+      vim.keymap.set("n", "<leader>P", function()
+        require("telescope").extensions.yank_history.yank_history()
+      end, { desc = "Yank history" })
       vim.keymap.set({ "n", "x" }, "y", "<Plug>(YankyYank)")
       vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
       vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
-      vim.keymap.set("n", "<tab>", "<Plug>(YankyCycleForward)")
-      vim.keymap.set("n", "<S-tab>", "<Plug>(YankyCycleBackward)")
+      vim.keymap.set("n", "[p", "<Plug>(YankyCycleForward)")
+      vim.keymap.set("n", "]p", "<Plug>(YankyCycleBackward)")
     end,
   },
   {

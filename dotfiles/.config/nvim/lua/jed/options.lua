@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 vim.g.c_syntax_for_h = 1
 vim.g.omni_sql_default_compl_type = "syntax" -- Only use syntax for SQL complete
@@ -24,3 +25,6 @@ vim.opt.undofile = true --  Save undo history to disk
 vim.opt.scrolloff = 4 -- Lines of context
 vim.opt.sidescrolloff = 8 -- Columns of context
 
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevelstart = 99
