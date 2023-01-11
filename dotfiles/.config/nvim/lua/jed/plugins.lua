@@ -139,16 +139,6 @@ return {
     event = "BufReadPre",
   },
   {
-    "sindrets/diffview.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-    cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    config = true,
-    event = "BufReadPre",
-  },
-  {
     "aserowy/tmux.nvim",
     init = function()
       vim.keymap.set({ "n", "t" }, "<A-up>", require("tmux").move_top)
