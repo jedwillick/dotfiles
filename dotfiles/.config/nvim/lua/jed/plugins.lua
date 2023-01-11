@@ -40,24 +40,6 @@ return {
       end,
     },
   },
-
-  -- use {
-  --   "zbirenbaum/copilot.lua",
-  --   requires = { "zbirenbaum/copilot-cmp" },
-  --   event = "VimEnter",
-  --   config = function()
-  --     vim.defer_fn(function()
-  --       require("copilot").setup {
-  --         filetypes = {
-  --           TelescopePrompt = false,
-  --           man = false,
-  --         },
-  --       }
-  --       require("copilot_cmp").setup()
-  --     end, 100)
-  --   end,
-  -- }
-
   {
     "numToStr/Comment.nvim",
     config = function()
