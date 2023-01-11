@@ -111,12 +111,26 @@ return {
   },
   {
     "folke/which-key.nvim",
-    config = {
+    event = "VeryLazy",
+    opts = {
       disable = {
         filetypes = { "TelescopePrompt", "neo-tree" },
       },
+      key_labels = { ["<leader>"] = "SPC" },
     },
-    event = "User VeryLazy",
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+      wk.register {
+        ["g"] = { name = "+goto" },
+        ["]"] = { name = "+next" },
+        ["["] = { name = "+prev" },
+        ["<leader>b"] = { name = "+buffer" },
+        ["<leader>c"] = { name = "+code" },
+        ["<leader>f"] = { name = "+find" },
+        ["<leader>t"] = { name = "+toggle" },
+      }
+    end,
   },
   {
     "aserowy/tmux.nvim",
