@@ -1,29 +1,3 @@
-vim.g.mapleader = " "
-
-vim.g.c_syntax_for_h = 1
-vim.g.omni_sql_default_compl_type = "syntax" -- Only use syntax for SQL complete
-vim.g.omni_sql_no_default_maps = 1 -- Don't set mappings
-
-vim.opt.expandtab = true -- Use spaces instead of tabs
-vim.opt.shiftwidth = 2 -- Default 2 spaces as indent
-vim.opt.tabstop = 4 -- When using tabs
-
-vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "winpos" }
-vim.opt.number = true -- Print line number
-vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.autowrite = true -- auto write changes
-vim.opt.termguicolors = true -- True color support
-vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
-vim.opt.cursorline = true -- Enable highlighting of the current line
-vim.opt.mouse = "a" -- enable mouse mode
-vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
-vim.opt.list = true -- Show some invisible characters
-vim.opt.showmode = false -- Don't show  mode since it is in statusline
-vim.opt.undofile = true --  Save undo history to disk
-
-vim.opt.scrolloff = 4 -- Lines of context
-vim.opt.sidescrolloff = 8 -- Columns of context
-
 local toggleEvent = function(arg)
   for _, v in pairs(vim.opt.eventignore:get()) do
     if v == arg.args then
@@ -36,10 +10,15 @@ local toggleEvent = function(arg)
   vim.notify(arg.args .. " disabled")
 end
 
-vim.api.nvim_create_user_command("ToggleOnSave", function()
-  toggleEvent { args = "BufWritePre" }
-end, {})
-vim.api.nvim_create_user_command("ToggleEvent", toggleEvent, { nargs = 1, complete = "event" })
+vim.api.nvim_create_user_command("ToggleFormatSave", function()
+  require("jed.plugins.lsp.formatting").toggle()
+end, { desc = "Toggle format on save" })
+
+vim.api.nvim_create_user_command(
+  "ToggleEvent",
+  toggleEvent,
+  { nargs = 1, complete = "event", desc = "Toggle an event" }
+)
 
 vim.api.nvim_create_user_command("Shebang", function()
   local bangs = {
@@ -126,14 +105,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
-vim.api.nvim_create_user_command("Profile", function()
-  vim.cmd.PackerCompile("profile=true")
-  vim.defer_fn(vim.cmd.PackerProfile, 1000)
-  if packer_plugins["vim-startuptime"] then
-    vim.cmd.StartupTime()
-  end
-end, { desc = "Run PackerProfile and StartupTime" })
-
 vim.api.nvim_create_autocmd("LspDetach", {
   callback = function()
     vim.diagnostic.reset()
@@ -151,7 +122,5 @@ vim.keymap.set({ "n", "t" }, "<A-m>", function()
   end
 end, { desc = "Toggle Mouse" })
 
-vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
+vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr><esc>")
 vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
-vim.keymap.set("n", "<leader>pi", "<cmd>PackerInstall<cr>")
-vim.keymap.set("n", "<leader>ps", "<cmd>PackerSync<cr>")
