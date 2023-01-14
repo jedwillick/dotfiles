@@ -1,21 +1,59 @@
 return {
-  -- {
-  --    "zbirenbaum/copilot.lua",
-  --    requires = { "zbirenbaum/copilot-cmp" },
-  --    event = "VimEnter",
-  --    config = function()
-  --      vim.defer_fn(function()
-  --        require("copilot").setup {
-  --          filetypes = {
-  --            TelescopePrompt = false,
-  --            man = false,
-  --          },
-  --        }
-  --        require("copilot_cmp").setup()
-  --      end, 100)
-  --    end,
-  --  },
-  --
+  {
+    "zbirenbaum/copilot-cmp",
+    enabled = true,
+    event = "VeryLazy",
+    config = true,
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+      opts = {
+        filetypes = {
+          TelescopePrompt = false,
+          man = false,
+        },
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      },
+    },
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      config = function()
+        require("luasnip.loaders.from_vscode").lazy_load()
+      end,
+    },
+    opts = {
+      history = true,
+      delete_check_events = "TextChanged",
+    },
+    keys = {
+      {
+        "<tab>",
+        function()
+          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+        end,
+        expr = true,
+        silent = true,
+        mode = "i",
+      },
+      {
+        "<tab>",
+        function()
+          require("luasnip").jump(1)
+        end,
+        mode = "s",
+      },
+      {
+        "<s-tab>",
+        function()
+          require("luasnip").jump(-1)
+        end,
+        mode = { "i", "s" },
+      },
+    },
+  },
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -47,7 +85,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete {},
           ["<C-e>"] = cmp.mapping.close(),
-          ["<Tab>"] = cmp.mapping.confirm {
+          ["<tab>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,
           },
