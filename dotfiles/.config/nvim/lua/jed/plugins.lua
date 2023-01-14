@@ -291,4 +291,8 @@ return {
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
     end,
   },
+  {
+    "tpope/vim-repeat",
+    event = "VeryLazy",
+  },
 }
