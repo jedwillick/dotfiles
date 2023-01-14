@@ -19,22 +19,20 @@ return {
       { "<leader>bse", "<cmd>BufferLineSortByExtension<CR>", desc = "Sort buffers (extension)" },
       { "<leader>bsd", "<cmd>BufferLineSortByDirectory<CR>", desc = "Sort buffers (directory)" },
     },
-    config = function()
-      require("bufferline").setup {
-        options = {
-          numbers = "none",
-          diagnostics = "nvim_lsp",
-          always_show_bufferline = true,
-          offsets = {
-            {
-              filetype = "neo-tree",
-              text = "File Explorer",
-              highlight = "TelescopeNormal",
-              text_align = "center",
-            },
+    opts = {
+      options = {
+        numbers = "none",
+        diagnostics = "nvim_lsp",
+        always_show_bufferline = true,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "File Explorer",
+            highlight = "TelescopeNormal",
+            text_align = "center",
           },
         },
-      }
-    end,
+      },
+    },
   },
 }

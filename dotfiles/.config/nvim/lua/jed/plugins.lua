@@ -5,7 +5,7 @@ return {
 
   {
     "stevearc/dressing.nvim",
-    event = "BufReadPost",
+    event = "VeryLazy",
   },
   {
     "jedwillick/version.nvim",
@@ -13,9 +13,7 @@ return {
   },
   {
     "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup { check_ts = true }
-    end,
+    opts = { check_ts = true },
     event = "InsertEnter",
   },
   {
@@ -44,7 +42,7 @@ return {
     keys = {
       { "<leader>ct", "<cmd>ColorizerToggle<cr>" },
     },
-    config = {
+    opts = {
       filetypes = { "css", "javascript", "html", "json", "yaml", "toml" },
       user_default_options = {
         names = false,
@@ -54,13 +52,11 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufReadPre",
-    config = function()
-      require("indent_blankline").setup {
-        char = "▏",
-        show_trailing_blankline_indent = false,
-        show_current_context = true,
-      }
-    end,
+    opts = {
+      char = "▏",
+      show_trailing_blankline_indent = false,
+      show_current_context = true,
+    },
   },
   {
     "dstein64/vim-startuptime",
@@ -72,27 +68,27 @@ return {
   {
     "AndrewRadev/sideways.vim",
     cmd = { "SidewaysLeft", "SidewaysRight" },
-    init = function()
-      vim.keymap.set("n", "<leader>h", ":SidewaysLeft<CR>")
-      vim.keymap.set("n", "<leader>l", ":SidewaysRight<CR>")
-    end,
+    keys = {
+      { "<leader>h", "<cmd>SidewaysLeft<cr>", desc = "Move argument left" },
+      { "<leader>l", "<cmd>SidewaysRight<cr>", desc = "Move argument right" },
+    },
   },
   {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
-    init = function()
-      vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
-    end,
+    keys = {
+      { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undotree" },
+    },
     config = function()
       vim.g.undotree_SetFocusWhenToggle = 1
     end,
   },
   {
     "iamcco/markdown-preview.nvim",
+    ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-    ft = { "markdown" },
   },
   {
     "folke/which-key.nvim",
