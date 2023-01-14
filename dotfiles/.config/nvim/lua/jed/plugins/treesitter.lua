@@ -70,6 +70,7 @@ return {
           use_virtual_text = true,
           lint_events = { "BufWrite", "CursorHold" },
         },
+        matchup = { enable = true, disable_virtual_text = true },
         textobjects = {
           select = {
             enable = true,
