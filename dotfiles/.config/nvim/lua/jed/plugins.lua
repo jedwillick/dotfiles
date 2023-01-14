@@ -19,21 +19,6 @@ return {
     event = "InsertEnter",
   },
   {
-    "folke/neodev.nvim",
-    config = true,
-  },
-  {
-    "j-hui/fidget.nvim",
-    config = function()
-      require("fidget").setup {
-        window = { relative = "editor" },
-        text = { spinner = "dots" },
-      }
-      -- HACK to stop error when exiting
-      vim.api.nvim_create_autocmd("VimLeavePre", { command = [[silent! FidgetClose]] })
-    end,
-  },
-  {
     "L3MON4D3/LuaSnip",
     dependencies = {
       "rafamadriz/friendly-snippets",

@@ -10,10 +10,15 @@ local toggleEvent = function(arg)
   vim.notify(arg.args .. " disabled")
 end
 
-vim.api.nvim_create_user_command("ToggleOnSave", function()
-  toggleEvent { args = "BufWritePre" }
-end, {})
-vim.api.nvim_create_user_command("ToggleEvent", toggleEvent, { nargs = 1, complete = "event" })
+vim.api.nvim_create_user_command("ToggleFormatSave", function()
+  require("jed.plugins.lsp.formatting").toggle()
+end, { desc = "Toggle format on save" })
+
+vim.api.nvim_create_user_command(
+  "ToggleEvent",
+  toggleEvent,
+  { nargs = 1, complete = "event", desc = "Toggle an event" }
+)
 
 vim.api.nvim_create_user_command("Shebang", function()
   local bangs = {
@@ -117,5 +122,5 @@ vim.keymap.set({ "n", "t" }, "<A-m>", function()
   end
 end, { desc = "Toggle Mouse" })
 
-vim.keymap.set({ "n", "i" }, "<c-s>", "<esc><cmd>w<cr>", { silent = true })
+vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr><esc>")
 vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
