@@ -5,6 +5,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
       "RRethy/nvim-treesitter-endwise",
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
     build = ":TSUpdate",
     event = "BufReadPost",
@@ -61,12 +62,59 @@ return {
             node_decremental = "<C-b>",
           },
         },
+        -- extensions
         endwise = { enable = true },
         playground = { enable = true },
         query_linter = {
           enable = true,
           use_virtual_text = true,
           lint_events = { "BufWrite", "CursorHold" },
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+            -- You can choose the select mode (default is charwise 'v')
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+            include_surrounding_whitespace = true,
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["gs"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["gS"] = "@parameter.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]f"] = "@function.outer",
+            },
+            goto_next_end = {
+              ["]F"] = "@function.outer",
+            },
+            goto_previous_start = {
+              ["[f"] = "@function.outer",
+            },
+            goto_previous_end = {
+              ["[F"] = "@function.outer",
+            },
+          },
         },
       }
     end,
