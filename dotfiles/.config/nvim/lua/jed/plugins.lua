@@ -100,7 +100,8 @@ return {
         ["<leader>b"] = { name = "+buffer" },
         ["<leader>c"] = { name = "+code" },
         ["<leader>f"] = { name = "+find" },
-        ["<leader>t"] = { name = "+toggle" },
+        ["<leader>t"] = { name = "+term" },
+        ["<leader>n"] = { name = "+notify/noice" },
       }
     end,
   },
@@ -235,12 +236,20 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    lazy = false,
+    -- lazy = false,
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>nn",
+        function()
+          require("notify").dismiss { silent = true, pending = true }
+        end,
+        desc = "Dismiss all notifications",
+      },
+    },
     config = function()
       require("notify").setup {
         timeout = 3000,
-        level = vim.log.levels.INFO,
-        fps = 20,
         max_height = function()
           return math.floor(vim.o.lines * 0.75)
         end,
