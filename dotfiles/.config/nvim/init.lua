@@ -21,9 +21,7 @@ require("lazy").setup("jed.plugins", {
   checker = { enabled = false },
   change_detection = { enabled = true, notify = false },
   diff = { cmd = "git" },
-  ui = {
-    browser = vim.fn.has("wsl") and "explorer.exe" or nil,
-  },
+  ui = { browser = vim.fn.has("wsl") and "explorer.exe" or nil },
   performance = {
     rtp = {
       disabled_plugins = {
