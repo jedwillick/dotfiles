@@ -106,27 +106,42 @@ return {
   },
   {
     "aserowy/tmux.nvim",
+    lazy = false,
     init = function()
-      vim.keymap.set({ "n", "t" }, "<A-up>", require("tmux").move_top)
-      vim.keymap.set({ "n", "t" }, "<A-down>", require("tmux").move_bottom)
-      vim.keymap.set({ "n", "t" }, "<A-left>", require("tmux").move_left)
-      vim.keymap.set({ "n", "t" }, "<A-right>", require("tmux").move_right)
-      vim.keymap.set({ "n", "t" }, "<A-S-up>", require("tmux").resize_top)
-      vim.keymap.set({ "n", "t" }, "<A-S-down>", require("tmux").resize_bottom)
-      vim.keymap.set({ "n", "t" }, "<A-S-left>", require("tmux").resize_left)
-      vim.keymap.set({ "n", "t" }, "<A-S-right>", require("tmux").resize_right)
+      vim.keymap.set({ "n", "t" }, "<A-up>", function()
+        require("tmux").move_top()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-down>", function()
+        require("tmux").move_bottom()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-left>", function()
+        require("tmux").move_left()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-right>", function()
+        require("tmux").move_right()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-S-up>", function()
+        require("tmux").resize_top()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-S-down>", function()
+        require("tmux").resize_bottom()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-S-left>", function()
+        require("tmux").resize_left()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-S-right>", function()
+        require("tmux").resize_right()
+      end)
     end,
-    config = function()
-      require("tmux").setup {
-        navigation = {
-          enable_default_keybindings = false,
-          persist_zoom = true,
-        },
-        resize = {
-          enable_default_keybindings = false,
-        },
-      }
-    end,
+    opts = {
+      navigation = {
+        enable_default_keybindings = false,
+        persist_zoom = true,
+      },
+      resize = {
+        enable_default_keybindings = false,
+      },
+    },
   },
   {
     "wakatime/vim-wakatime",
