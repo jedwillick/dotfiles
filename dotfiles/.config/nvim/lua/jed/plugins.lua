@@ -179,6 +179,7 @@ return {
     lazy = false,
     config = {
       log_level = "error",
+      auto_session_suppress_dirs = { "~/", "~/dev" },
       auto_session_use_git_branch = true,
       pre_restore_cmds = {
         function()
