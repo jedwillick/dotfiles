@@ -260,4 +260,30 @@ return {
       vim.notify = require("notify")
     end,
   },
+  {
+    "petertriho/nvim-scrollbar",
+    event = "BufReadPost",
+    config = function()
+      local scrollbar = require("scrollbar")
+      scrollbar.setup {
+        excluded_filetypes = { "prompt", "TelescopePrompt", "noice", "notify" },
+      }
+    end,
+  },
+  {
+    "danymat/neogen",
+    cmd = "Neogen",
+    keys = {
+      { "<leader>cd", "<cmd>Neogen<cr>", desc = "Generate docstring" },
+    },
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {
+      snippet_engine = "luasnip",
+    },
+  },
+  {
+    "michaelb/sniprun",
+    build = "bash ./install.sh",
+    cmd = "SnipRun",
+  },
 }
