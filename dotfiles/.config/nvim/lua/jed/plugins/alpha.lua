@@ -5,6 +5,10 @@ end
 
 return {
   "goolord/alpha-nvim",
+  cmd = "Alpha",
+  keys = {
+    { "<leader>A", "<cmd>Alpha<cr>", desc = "Alpha" },
+  },
   event = "VimEnter",
   config = function()
     local dashboard = require("alpha.themes.dashboard")
@@ -21,13 +25,14 @@ return {
 
     dashboard.section.header.val = vim.split(logo, "\n")
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-      dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-      dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
-      dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-      dashboard.button("l", "鈴" .. " Lazy", ":Lazy<CR>"),
-      dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+      dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),
+      dashboard.button("SPC f f", " " .. " Find file"),
+      dashboard.button("SPC f o", " " .. " Old files"),
+      dashboard.button("SPC f g", " " .. " Grep files"),
+      dashboard.button("SPC f s", " " .. " Sessions"),
+      dashboard.button("SPC f p", " " .. " Projects"),
+      dashboard.button("SPC L", "鈴" .. " Lazy"),
+      dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
     }
     for _, button in ipairs(dashboard.section.buttons.val) do
       button.opts.hl = "AlphaButtons"
@@ -62,8 +67,5 @@ return {
         pcall(vim.cmd.AlphaRedraw)
       end,
     })
-    vim.keymap.set("n", "<leader>A", function()
-      vim.cmd.Alpha()
-    end, { desc = "" })
   end,
 }
