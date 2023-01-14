@@ -6,7 +6,7 @@ end
 
 return {
   "gpanders/editorconfig.nvim",
-  event = "VimEnter",
+  lazy = false,
   config = function()
     vim.api.nvim_create_user_command("EditorConfigConfig", function()
       ---@diagnostic disable-next-line: undefined-field
