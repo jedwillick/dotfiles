@@ -63,7 +63,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-calc",
-      -- "hrsh7th/cmp-nvim-lsp-signature-help",
+      { "hrsh7th/cmp-nvim-lsp-signature-help", enabled = false },
       "chrisgrieser/cmp-nerdfont",
       "saadparwaiz1/cmp_luasnip",
     },
