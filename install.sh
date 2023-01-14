@@ -50,7 +50,6 @@ install_apt() {
 
   local ppas=(
     git-core/ppa
-    neovim-ppa/unstable # Neovim nightly
   )
   local packages=(
     bear
@@ -236,6 +235,16 @@ install_lazygit() {
   log_done
 }
 
+install_neovim() {
+  log_working "Installing neovim"
+  sudo add-apt-repository -y ppa:neovim-ppa/unstable > /dev/null
+  _apt update && _apt install neovim
+  log_done
+  log_working "Installing plugins and TS parsers"
+  nvim --headless "+silent Lazy! install" +qa
+  log_done
+}
+
 show_help() {
   cat << EOF
 USAGE: $0 [-h] [INSTALL]...
@@ -248,6 +257,7 @@ INSTALL can be any of:
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
   - lazygit     Install lazygit a git client.
+  - neovim      Install neovim and plugins.
   - nvm         Install Node Version Manager.
   - ohmyposh    Install Oh-My-Posh a prompt theme manager.
   - pip         Install pip packages.
@@ -267,6 +277,7 @@ main() {
     fzf
     go
     lazygit
+    neovim
     nvm
     ohmyposh
     pip
