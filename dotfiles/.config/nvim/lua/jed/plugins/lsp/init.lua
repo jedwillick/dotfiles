@@ -121,16 +121,18 @@ return {
         root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", ".svn", "Makefile", ".editorconfig"),
         sources = {
           fmt.shfmt.with { -- If no editorconifg these defaults will be used.
+            name = "shfmt default",
             extra_args = { "--indent=2", "--case-indent", "--binary-next-line", "--space-redirects" },
-            runtime_condition = function()
+            condition = function()
               ---@diagnostic disable-next-line: undefined-field
-              return not vim.b.editorconfig
+              return vim.tbl_isempty(vim.b.editorconfig or {})
             end,
           },
           fmt.shfmt.with {
-            runtime_condition = function()
+            name = "shfmt editorconfig",
+            condition = function()
               ---@diagnostic disable-next-line: undefined-field
-              return vim.b.editorconfig
+              return not vim.tbl_isempty(vim.b.editorconfig or {})
             end,
           },
 
