@@ -110,8 +110,6 @@ if exists pygmentize; then
 fi
 
 if exists nvim; then
-  # Ensure cusor is restored to blinking line
-  export PROMPT_COMMAND="printf '\e[5 q'"
   export EDITOR=nvim
 else
   export EDITOR=vim
