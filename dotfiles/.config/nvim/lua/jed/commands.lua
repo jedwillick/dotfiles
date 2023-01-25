@@ -1,3 +1,20 @@
+local cursor
+
+vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, {
+  desc = "Restore cursor on exit/suspend",
+  callback = function()
+    cursor = vim.opt.guicursor:get()
+    vim.opt.guicursor = "a:ver1-blinkon100"
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimResume", {
+  desc = "Restore cursor on resume",
+  callback = function()
+    vim.opt.guicursor = cursor
+  end,
+})
+
 local toggleEvent = function(arg)
   for _, v in pairs(vim.opt.eventignore:get()) do
     if v == arg.args then
