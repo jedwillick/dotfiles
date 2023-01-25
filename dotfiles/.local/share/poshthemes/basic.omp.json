@@ -45,7 +45,7 @@
       "type": "prompt"
     }
   ],
-  "console_title_template": "{{ .Shell }} :: {{ .Folder }}",
   "final_space": true,
+  "pwd": "osc99",
   "version": 2
 }
