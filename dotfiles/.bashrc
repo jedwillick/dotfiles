@@ -116,6 +116,15 @@ else
 fi
 export VISUAL=$EDITOR
 
+function set_win_title() {
+  local cmd="$1"
+  if [[ "$cmd" == "_omp_hook" ]]; then
+    cmd="$(basename "$(readlink /proc/$$/exe)")"
+  fi
+  echo -ne "\033]0; $cmd :: $(basename "$PWD") \a"
+}
+trap "set_win_title \${BASH_COMMAND}" DEBUG
+
 # Oh My Posh Prompt
 if exists oh-my-posh; then
   export POSH_THEME=~/.local/share/poshthemes/basic.omp.json
@@ -125,9 +134,6 @@ if exists oh-my-posh; then
     omputils theme "$@" && source ~/.bashrc
   }
 else
-  # Set default prompt https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html
-  # Set title: shell :: folder
-  PS1="\[\e]0;\s :: \W\a\]"
   # Set prompt: user@host:dir
   PS1="$PS1\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
 fi
