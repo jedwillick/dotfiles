@@ -248,6 +248,13 @@ install_fish() {
   log_done
 }
 
+install_exercism() {
+  log_working "Installing exercism"
+  curl -Lo exercism.tar.gz https://github.com/exercism/cli/releases/download/v3.1.0/exercism-3.1.0-linux-x86_64.tar.gz
+  tar xaf exercism.tar.gz -C ~/.local/bin exercism
+  log_done
+}
+
 show_help() {
   cat << EOF
 USAGE: $0 [-h] [INSTALL]...
@@ -257,6 +264,7 @@ INSTALL can be any of:
   - apt         Install apt packages.
   - btop        Install btop.
   - debs        Install deb packages from github.
+  - exercism    Install exercism CLI.
   - fish        Install fish-shell and plugins.
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
@@ -277,6 +285,7 @@ main() {
     apt
     btop
     debs
+    exercism
     fish
     fzf
     go
