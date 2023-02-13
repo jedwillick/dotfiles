@@ -89,13 +89,6 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export SEM=$OD/UNI/2022/sem-2
   alias yank='win32yank.exe -i'
   alias put='win32yank.exe -o'
-
-  explorer() {
-    local dest
-    [[ -n "$1" ]] && dest=$(wslpath -w "$1") || dest="."
-    /mnt/c/Windows/explorer.exe "$dest"
-    return 0
-  }
 fi
 
 source ~/.local/share/util.sh
