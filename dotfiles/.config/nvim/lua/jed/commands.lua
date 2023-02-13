@@ -39,35 +39,42 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_user_command("Shebang", function()
   local bangs = {
-    sh = "#!/usr/bin/env bash",
-    python = "#!/usr/bin/env python3",
+    sh = { "sh", "bash" },
+    bash = "bash",
+    fish = "fish",
+    python = "python3",
   }
+  local has_shebang = function()
+    return vim.api.nvim_buf_get_text(0, 0, 0, 0, 2, {})[1] == "#!"
+  end
   local callback = function(bang)
-    local text = vim.api.nvim_buf_get_text(0, 0, 0, 0, 2, {})[1]
-    if text == "#!" then
+    if has_shebang() then
       vim.notify("Shebang already exists")
       return
     end
 
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, { bang })
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, { "#!/usr/bin/env " .. bang })
     vim.api.nvim_create_autocmd("BufWritePost", {
-      command = "silent !chmod u+x %",
+      callback = function()
+        if has_shebang() then
+          vim.cmd([[silent !chmod u+x %]])
+        end
+      end,
       buffer = 0,
       once = true,
     })
   end
 
   local ft = vim.bo.filetype
-  if ft == "" then
-    vim.ui.select(vim.tbl_values(bangs), {
+  if not bangs[ft] or type(bangs[ft]) == "table" then
+    vim.ui.select(not bangs[ft] and vim.tbl_values(bangs) or bangs[ft], {
       prompt = "Select shebang",
     }, function(choice)
       if not choice then
         return
       end
       callback(choice)
-      local lookup = vim.tbl_add_reverse_lookup(bangs)
-      vim.bo.filetype = lookup[choice]
+      vim.cmd([[filetype detect]])
     end)
   elseif bangs[ft] then
     callback(bangs[ft])
@@ -98,6 +105,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.bo.expandtab = false
     vim.bo.tabstop = 4
+    vim.bo.shiftwidth = 4
   end,
   desc = "Use tabs",
 })
@@ -128,6 +136,22 @@ vim.api.nvim_create_autocmd("LspDetach", {
   end,
 })
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 1 then
+      local file = vim.fn.fnamemodify(vim.fn.argv(0), ":p")
+      local stat = vim.loop.fs_stat(file)
+      if stat and stat.type == "directory" then
+        vim.cmd.chdir(file)
+        vim.cmd.Alpha()
+        require("telescope.builtin").find_files {
+          cwd = file,
+        }
+      end
+    end
+  end,
+})
+
 vim.keymap.set({ "n", "t" }, "<A-m>", function()
   ---@diagnostic disable-next-line: undefined-field
   if vim.opt.mouse:get().a then
@@ -141,3 +165,4 @@ end, { desc = "Toggle Mouse" })
 
 vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr><esc>")
 vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
+vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>")

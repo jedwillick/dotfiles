@@ -7,7 +7,22 @@ return {
   "goolord/alpha-nvim",
   cmd = "Alpha",
   keys = {
-    { "<leader>A", "<cmd>Alpha<cr>", desc = "Alpha" },
+    {
+      "<leader>A",
+      function()
+        vim.cmd.Alpha()
+        for _, e in ipairs(require("bufferline").get_elements().elements) do
+          vim.schedule(function()
+            if e.id == vim.api.nvim_get_current_buf() then
+              return
+            else
+              vim.cmd("bd " .. e.id)
+            end
+          end)
+        end
+      end,
+      desc = "Alpha",
+    },
   },
   event = "VimEnter",
   config = function()

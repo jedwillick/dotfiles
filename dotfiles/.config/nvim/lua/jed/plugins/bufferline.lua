@@ -7,9 +7,16 @@ return {
     },
   },
   {
+    "tiagovla/scope.nvim",
+    event = "BufReadPre",
+    opts = {},
+  },
+  {
     "akinsho/bufferline.nvim",
     event = "BufReadPre",
     keys = {
+      { "L", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
+      { "H", "<cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
       { "]b", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
       { "[b", "<cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
       { "<leader>b]", ":BufferLineMoveNext<CR>", desc = "Move buffer left" },

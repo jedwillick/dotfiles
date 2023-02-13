@@ -37,11 +37,4 @@ require("lazy").setup("jed.plugins", {
     },
   },
 })
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "VeryLazy",
-  callback = function()
-    require("jed.commands")
-    vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>")
-  end,
-})
+require("jed.commands")

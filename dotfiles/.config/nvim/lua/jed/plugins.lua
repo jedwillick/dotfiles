@@ -7,10 +7,7 @@ return {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
   },
-  {
-    "jedwillick/version.nvim",
-    config = true,
-  },
+
   {
     "windwp/nvim-autopairs",
     opts = { check_ts = true },
@@ -44,7 +41,9 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufReadPre",
     opts = {
-      char = "▏",
+      -- char = "▏",
+      char = "│",
+      context_char = "│",
       show_trailing_blankline_indent = false,
       show_current_context = true,
     },
@@ -108,40 +107,37 @@ return {
   {
     "aserowy/tmux.nvim",
     lazy = false,
-    init = function()
-      vim.keymap.set({ "n", "t" }, "<A-up>", function()
-        require("tmux").move_top()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-down>", function()
-        require("tmux").move_bottom()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-left>", function()
-        require("tmux").move_left()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-right>", function()
-        require("tmux").move_right()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-S-up>", function()
-        require("tmux").resize_top()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-S-down>", function()
-        require("tmux").resize_bottom()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-S-left>", function()
-        require("tmux").resize_left()
-      end)
-      vim.keymap.set({ "n", "t" }, "<A-S-right>", function()
-        require("tmux").resize_right()
-      end)
-    end,
+    -- init = function()
+    --   vim.keymap.set({ "n", "t" }, "<A-up>", function()
+    --     require("tmux").move_top()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-down>", function()
+    --     require("tmux").move_bottom()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-left>", function()
+    --     require("tmux").move_left()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-right>", function()
+    --     require("tmux").move_right()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-S-up>", function()
+    --     require("tmux").resize_top()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-S-down>", function()
+    --     require("tmux").resize_bottom()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-S-left>", function()
+    --     require("tmux").resize_left()
+    --   end)
+    --   vim.keymap.set({ "n", "t" }, "<A-S-right>", function()
+    --     require("tmux").resize_right()
+    --   end)
+    -- end,
     opts = {
       navigation = {
-        enable_default_keybindings = false,
         persist_zoom = true,
       },
-      resize = {
-        enable_default_keybindings = false,
-      },
+      resize = {},
     },
   },
   {
@@ -177,7 +173,7 @@ return {
   {
     "rmagatti/auto-session",
     lazy = false,
-    config = {
+    opts = {
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/dev" },
       auto_session_use_git_branch = true,
@@ -203,7 +199,7 @@ return {
     keys = {
       { "<leader>fs", "<cmd>SearchSession<cr>", desc = "Sessions" },
     },
-    config = {
+    opts = {
       path_display = { "truncate" },
       theme_conf = {},
       previewer = false,
@@ -260,13 +256,22 @@ return {
   },
   {
     "petertriho/nvim-scrollbar",
-    event = "BufReadPost",
+    -- event = "BufReadPost",
     config = function()
-      local scrollbar = require("scrollbar")
-      scrollbar.setup {
+      require("scrollbar").setup {
         excluded_filetypes = { "prompt", "TelescopePrompt", "noice", "notify" },
       }
+      require("scrollbar.handlers.gitsigns").setup()
     end,
+  },
+  {
+    "lewis6991/satellite.nvim",
+    enabled = false,
+    event = "BufReadPost",
+    opts = {
+      handlers = { marks = { enable = false } },
+      excluded_filetypes = { "neo-tree" },
+    },
   },
   {
     "danymat/neogen",
@@ -294,5 +299,17 @@ return {
   {
     "tpope/vim-repeat",
     event = "VeryLazy",
+  },
+  {
+    "EtiamNullam/deferred-clipboard.nvim",
+    lazy = false,
+    opts = {
+      lazy = true,
+    },
+  },
+  {
+    "RaafatTurki/hex.nvim",
+    lazy = false,
+    opts = {},
   },
 }

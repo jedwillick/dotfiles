@@ -20,6 +20,7 @@ return {
           "css",
           "diff",
           "dockerfile",
+          "fish",
           "gitcommit",
           "gitignore",
           "go",
@@ -52,7 +53,7 @@ return {
         sync_install = #vim.api.nvim_list_uis() == 0,
         auto_install = false,
         highlight = { enable = true },
-        indent = { enable = true },
+        indent = { enable = false },
         incremental_selection = {
           enable = true,
           keymaps = {

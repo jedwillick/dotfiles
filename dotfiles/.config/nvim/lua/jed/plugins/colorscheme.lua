@@ -1,9 +1,11 @@
 return {
   {
     "EdenEast/nightfox.nvim",
-    -- lazy = false,
     event = "User LazyVimStarted",
-    priority = 999,
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    event = "User LazyVimStarted",
   },
 
   {

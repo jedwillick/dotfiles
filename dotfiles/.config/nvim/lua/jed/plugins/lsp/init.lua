@@ -159,6 +159,9 @@ return {
           fmt.prettier,
 
           act.gitsigns,
+
+          diag.fish,
+          fmt.fish_indent,
         },
       }
       -- Auto-install null-ls sources
@@ -181,18 +184,17 @@ return {
     },
   },
   {
-    "SmiteshP/nvim-navic",
-    init = function()
-      require("jed.util").on_attach(function(client, bufnr)
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, bufnr)
-        end
-      end)
-    end,
-    opts = {
-      depth_limit = 5,
-      separator = "  ",
-      highlight = true,
+    "utilyre/barbecue.nvim",
+    opts = {},
+    enabled = false,
+    event = "BufReadPre",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      opts = {
+        depth_limit = 5,
+        separator = "  ",
+        highlight = true,
+      },
     },
   },
   {

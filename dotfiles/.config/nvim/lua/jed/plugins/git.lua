@@ -8,4 +8,8 @@ return {
     event = "BufReadPre",
     config = true,
   },
+  {
+    "tpope/vim-fugitive",
+    event = "User VeryLazy",
+  },
 }
