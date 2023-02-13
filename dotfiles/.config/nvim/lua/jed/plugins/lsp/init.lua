@@ -26,7 +26,7 @@ return {
       local servers = {
         bashls = { cmd_env = { SHELLCHECK_PATH = "" } },
         clangd = { -- Will be passed to clangd_extensions
-          server = {},
+          server = { capabilities = { offsetEncoding = "utf-16" } },
           extensions = {
             autoSetHints = false,
             ast = {
@@ -95,12 +95,10 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       for lsp, opts in pairs(servers) do
+        capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
         if lsp == "clangd" then
-          opts.server.capabilities = capabilities
-          opts.server.capabilities.offsetEncoding = "utf-8"
           require("clangd_extensions").setup(opts)
         else
-          opts.capabilities = capabilities
           require("lspconfig")[lsp].setup(opts)
         end
       end
