@@ -49,6 +49,12 @@ return {
         ["cmp.entry.get_documentation"] = true,
       },
     },
+    views = {
+      mini = {
+        position = { row = -2 },
+        win_options = { winblend = 100 },
+      },
+    },
     commands = {
       history = { view = "popup" },
       last = { view = "popup" },
