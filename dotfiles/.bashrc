@@ -46,12 +46,16 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias lt='tree -aI .git'
 
-alias brc='source ~/.bashrc'
 alias sudo='sudo '
+alias brc='source ~/.bashrc'
+alias mkdir='mkdir -p'
+
 alias psu='ps -u $USER'
 alias pgu='pgrep -u $USER'
 alias pku='pkill -u $USER'
+
 alias svn-ignore='svn propedit svn:ignore .'
 alias diff='diff --color=auto'
 alias ldhere='LD_LIBRARY_PATH=.:${LD_LIBRARY_PATH}'
@@ -141,7 +145,8 @@ fi
 [[ -d /usr/local/go/bin ]] && export GOPATH=~/.local/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 [[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+[[ -d ~/.local/share/neovim/bin ]] && export PATH=~/.local/share/neovim/bin:$PATH
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 _fzf_comprun() {
   local command=$1
@@ -160,3 +165,8 @@ if [[ -d "$HOME/.nvm" ]]; then
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
   [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 fi
+
+exists fnm && eval "$(fnm env --use-on-cd)"
+exists zoxide && eval "$(zoxide init bash)"
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
