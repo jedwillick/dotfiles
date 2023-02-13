@@ -113,6 +113,7 @@ install_debs() {
     'sharkdp/fd'
     'sharkdp/hexyl'
     'sharkdp/hyperfine'
+    'ajeetdsouza/zoxide'
   )
   set +e
   for repo in "${repos[@]}"; do
@@ -124,17 +125,17 @@ install_debs() {
   gh completion -s bash > "$BASH_COMP/gh"
 }
 
-install_nvm() {
-  log_working "Installing nvm"
-  curl -Lo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash > /dev/null
+install_node() {
+  log_working "Installing fnm"
+  curl -LO https://github.com/Schniz/fnm/releases/download/v1.33.1/fnm-linux.zip
+  unzip fnm-linux.zip
+  chmod +x fnm
+  cp fnm ~/.local/bin/fnm
+  eval "$(fnm env --use-on-cd)"
   log_done
-  if [[ -z "${NVM_DIR:-}" ]]; then
-    export NVM_DIR="$HOME/.nvm"
-  fi
-  source "$NVM_DIR/nvm.sh"
 
   log_working "Installing node"
-  nvm install 17
+  fnm use 17 --install-if-missing
   log_done
 
   log_working "Installing npm packages"
@@ -176,23 +177,7 @@ install_fzf() {
   else
     git clone -q --depth 1 https://github.com/junegunn/fzf.git "$fzfDir"
   fi
-  "$fzfDir/install" --all --xdg
-  log_done
-}
-
-install_wsl() {
-  # WSL Only
-  if [[ -z "${WSL_DISTRO_NAME-}" ]]; then
-    log_warn "Not running on WSL... skipping"
-    return
-  fi
-
-  # WIN32 Yank for Nvim
-  log_working "Installing win32yank"
-  curl -Lo win32yank.zip https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x64.zip
-  unzip -p win32yank.zip win32yank.exe > "win32yank.exe"
-  chmod +x win32yank.exe
-  sudo mv win32yank.exe /usr/local/bin/
+  "$fzfDir/install" --all --xdg --no-fish
   log_done
 }
 
@@ -243,6 +228,24 @@ install_neovim() {
   log_working "Installing plugins and TS parsers"
   nvim --headless "+silent Lazy! install" +qa
   log_done
+  # WSL Only
+  if [[ -n "${WSL_DISTRO_NAME-}" ]]; then
+    log_working "Installing clipboard provider: win32yank"
+    curl -LO https://github.com/jedwillick/win32yank/releases/download/latest/win32yank.exe
+    chmod +x win32yank.exe
+    sudo mv win32yank.exe /usr/local/bin/win32yank.exe
+    log_done
+  fi
+}
+
+install_fish() {
+  log_working "Installing fish"
+  sudo apt-add-repository -y ppa:fish-shell/release-3 > /dev/null
+  _apt update && _apt install fish
+  log_done
+  log_working "Installing plugins"
+  fish -ic "curl -sL https://git.io/fisher | source && fisher update"
+  log_done
 }
 
 show_help() {
@@ -254,15 +257,15 @@ INSTALL can be any of:
   - apt         Install apt packages.
   - btop        Install btop.
   - debs        Install deb packages from github.
+  - fish        Install fish-shell and plugins.
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
   - lazygit     Install lazygit a git client.
   - neovim      Install neovim and plugins.
-  - nvm         Install Node Version Manager.
+  - node        Install Node & npm
   - ohmyposh    Install Oh-My-Posh a prompt theme manager.
   - pip         Install pip packages.
   - spotifytui  Install spotify-tui a spotify client.
-  - wsl         Install WSL specific things, such as win32yank.
 
 OPTIONS:
   -h, --help  Show this help message and exit.
@@ -274,15 +277,15 @@ main() {
     apt
     btop
     debs
+    fish
     fzf
     go
     lazygit
     neovim
-    nvm
+    node
     ohmyposh
     pip
     spotifytui
-    wsl
   )
 
   for arg in "$@"; do
