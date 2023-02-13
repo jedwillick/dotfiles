@@ -135,6 +135,14 @@ else
   PS1="$PS1\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
 fi
 
+if [[ -n $DISPLAY ]]; then
+  copy_line_to_clipboard() {
+    printf %s "$READLINE_LINE" | yank
+  }
+
+  bind -x '"\C-x": copy_line_to_clipboard'
+fi
+
 [[ -d /usr/local/go/bin ]] && export GOPATH=~/.local/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 [[ -f ~/.config/exercism/exercism_completion.bash ]] && source ~/.config/exercism/exercism_completion.bash
 [[ -f ~/.ghcup/env ]] && source ~/.ghcup/env
