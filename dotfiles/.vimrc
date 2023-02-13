@@ -3,11 +3,11 @@ set nocompatible
 "--------------------------------------------------------------------
 "   HIGHLIGHTING AND SYNTAX
 "--------------------------------------------------------------------
-set background=dark             " Use a dark background by default
+" set background=dark             " Use a dark background by default
 syntax on                       " Enable syntax highlighting
 set t_Co=256                    " Allow vim to display all colours
 set showmatch                   " Highlight matching parentheses
-colorscheme desert
+" colorscheme desert
 
 "--------------------------------------------------------------------
 "   INDENTATION
@@ -58,7 +58,32 @@ Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'AndrewRadev/sideways.vim'
+Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
+
+set termguicolors
+
+if &term =~ '^xterm'
+  " Cursor in terminal:
+	" Link: https://vim.fandom.com/wiki/Configuring_the_cursor
+	" 0 -> blinking block not working in wsl
+	" 1 -> blinking block
+	" 2 -> solid block
+	" 3 -> blinking underscore
+	" 4 -> solid underscore
+	" Recent versions of xterm (282 or above) also support
+	" 5 -> blinking vertical bar
+	" 6 -> solid vertical bar
+  let &t_EI = "\e[2 q" " Normal mode
+  let &t_SI = "\e[6 q" " Insert mode
+  let &t_SR = "\e[3 q" " Replace mode
+  silent !echo -ne "\e[2 q"
+  autocmd VimLeave * silent !echo -ne "\e[5 q"
+endif
+
+
+let g:tokyonight_style = 'storm'
+colorscheme tokyonight
 
 nnoremap <C-h> :SidewaysLeft<CR>
 nnoremap <C-l> :SidewaysRight<CR>
