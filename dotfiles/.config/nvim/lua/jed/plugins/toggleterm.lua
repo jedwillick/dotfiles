@@ -2,9 +2,6 @@ local function new_float(opts)
   opts = vim.tbl_deep_extend("force", {
     direction = "float",
     hidden = true,
-    on_open = function(term)
-      pcall(vim.keymap.del, "t", "<esc>", { buffer = term.bufnr })
-    end,
   }, opts or {})
   return require("toggleterm.terminal").Terminal:new(opts)
 end
@@ -104,12 +101,22 @@ return {
       float:toggle()
     end, { desc = "Float" })
 
-    local spt = new_float { cmd = "spt" }
+    local spt = new_float {
+      cmd = "spt",
+      on_open = function(term)
+        pcall(vim.keymap.del, "t", "<esc>", { buffer = term.bufnr })
+      end,
+    }
     vim.keymap.set("n", "<leader>ts", function()
       spt:toggle()
     end, { desc = "Spotify-tui" })
 
-    local btop = new_float { cmd = "btop" }
+    local btop = new_float {
+      cmd = "btop",
+      on_open = function(term)
+        pcall(vim.keymap.del, "t", "<esc>", { buffer = term.bufnr })
+      end,
+    }
     vim.keymap.set("n", "<leader>tb", function()
       btop:toggle()
     end, { desc = "btop" })
