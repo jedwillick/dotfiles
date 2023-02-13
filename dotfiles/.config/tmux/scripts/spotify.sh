@@ -11,10 +11,10 @@ trim() {
 }
 
 if ! command -v spt &> /dev/null; then
-  exit 1
+  exit
 fi
 
-raw=$(spt playback --format "%s %t;%a")
+raw=$(spt playback --format "%s %t;%a") || exit
 
 [ -z "$raw" ] && exit
 
