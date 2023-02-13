@@ -1,2 +1,4 @@
 backup/
 packer_compiled.lua
+wsl-shims/__*
+.gdb_history

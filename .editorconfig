@@ -12,7 +12,7 @@ space_redirects = true
 binary_next_line = true
 ; }}}
 
-[*.{py,ps1}]
+[*.{py,ps1,fish}]
 indent_size = 4
 
 [*.md]
