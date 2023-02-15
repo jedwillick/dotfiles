@@ -1,4 +1,4 @@
-$env:SEM = "~\OneDrive\UNI\2022\sem-2"
+$env:SEM = "~\OneDrive\UNI\2023\sem-1"
 
 Import-Module PSReadLine
 Import-Module PSFzf
