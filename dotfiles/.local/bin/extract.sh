@@ -33,7 +33,7 @@ _unzip() {
 }
 
 _gunzip() {
-  read -ra opts < <(getOptions "-k" "-l" "-v")
+  read -ra opts < <(getOptions "" "-l" "-v")
   gunzip "${opts[@]}" "$1"
 }
 
@@ -71,6 +71,16 @@ _dpkg-deb() {
   dpkg-deb "${opts[@]}"
 }
 
+_xz() {
+  read -ra opts < <(getOptions "-d" "-l" "")
+  xz "${opts[@]}" "$1"
+}
+
+_bzip2() {
+  read -ra opts < <(getOptions "-d" "-tvv" "-v")
+  bzip2 "${opts[@]}" "$1"
+}
+
 extract() {
   for archive in "$@"; do
     case $archive in
@@ -95,6 +105,12 @@ extract() {
       *.deb)
         _dpkg-deb "$archive"
         ;;
+      *.xz | *.lzma | *.txz | *.tlz)
+        _xz "$archive"
+        ;;
+      *.bz | *.bz2 | *.tbz | *.tbz2)
+        _bzip2 "$archive"
+        ;;
       *)
         echo "Unknown extension $archive" >&2
         ;;
@@ -107,7 +123,8 @@ show_help() {
 USAGE: $PROG [OPTIONS]... ARCHIVES...
 
 Extract various compressed files/archives.
-Currently supported programs are tar, gunzip, unzip, 7z, rar, appimage, dpkg-deb.
+Currently supported programs are tar, gunzip, unzip, 7z,
+rar, xz, bzip2, appimage, dpkg-deb.
 
 OPTIONS:
   -h, --help      Show this help message and exit.
