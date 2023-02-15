@@ -16,6 +16,7 @@ function Edit-PoshTheme {
 }
 
 Set-Alias theme Edit-PoshTheme
+Set-Alias python3 python
 
 Invoke-Expression (& {
         $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
