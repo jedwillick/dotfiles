@@ -111,6 +111,7 @@
     }
   ],
   "console_title_template": "{{ .Shell }} :: {{ .Folder }}",
+  "pwd": "osc99",
   "final_space": true,
   "version": 2
 }
