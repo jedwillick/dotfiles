@@ -12,6 +12,11 @@ function WingetCmd([string]$package) {
     Write-Host $package.PadRight(30) $last
 }
 
+function InstallModules() {
+    Install-Module PSReadLine -Force
+    Install-Module PSFzf
+}
+
 function InstallWinget() {
     $PACKAGES = @(
         "Discord.Discord",
@@ -33,6 +38,8 @@ function InstallWinget() {
         "Valve.Steam",
         "Zoom.Zoom",
         "elvirbrk.notehighlight2016",
+        "ajeetdsouza.zoxide",
+        "junegunn.fzf",
     )
     $funcDef = ${function:WingetCmd}.ToString()
     Write-Host "Installing winget packages..."
@@ -69,12 +76,16 @@ Switch ($action) {
     "pip" {
         InstallPip
     }
+    "modules" {
+        InstallModules
+    }
     "all" {
         InstallPwsh
         InstallWinget
         InstallPip
+        InstallModules
     }
     default {
-        Write-Host "Usage: $(Split-Path $PSCommandPath -Leaf) [pwsh|winget|pip|all]"
+        Write-Host "Usage: $(Split-Path $PSCommandPath -Leaf) [pwsh|winget|pip|modules|all]"
     }
 }
