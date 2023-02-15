@@ -2,8 +2,9 @@ $env:SEM = "~\OneDrive\UNI\2023\sem-1"
 
 Import-Module PSReadLine
 Import-Module PSFzf
-Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
+Import-Module posh-git
 
+Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 
 $env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\basic.omp.json"

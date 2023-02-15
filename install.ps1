@@ -15,6 +15,7 @@ function WingetCmd([string]$package) {
 function InstallModules() {
     Install-Module PSReadLine -Force
     Install-Module PSFzf
+    Install-Module posh-git
 }
 
 function InstallWinget() {
