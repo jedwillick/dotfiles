@@ -39,7 +39,7 @@ function InstallWinget() {
         "Zoom.Zoom",
         "elvirbrk.notehighlight2016",
         "ajeetdsouza.zoxide",
-        "junegunn.fzf",
+        "junegunn.fzf"
     )
     $funcDef = ${function:WingetCmd}.ToString()
     Write-Host "Installing winget packages..."

@@ -6,7 +6,7 @@ Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 
 Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 
-$env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
+$env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\basic.omp.json"
 oh-my-posh init pwsh | Invoke-Expression
 
 function Edit-PoshTheme {
