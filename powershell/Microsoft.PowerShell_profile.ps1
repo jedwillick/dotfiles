@@ -1,15 +1,25 @@
 $env:SEM = "~\OneDrive\UNI\2022\sem-2"
 
+Import-Module PSReadLine
+Import-Module PSFzf
+Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
+
+Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
+
 $env:POSH_THEME = "~\AppData\Local\Programs\oh-my-posh\themes\min.omp.json"
 oh-my-posh init pwsh | Invoke-Expression
 
-Set-PSReadlineKeyHandler -Key ctrl+d -Function ViExit
 function Edit-PoshTheme {
     omputils theme $args
     . $PROFILE
 }
 
 Set-Alias theme Edit-PoshTheme
+
+Invoke-Expression (& {
+        $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+    (zoxide init --hook $hook powershell | Out-String)
+})
 
 function Backup-Onedrive([array]$folders = @("UNI", "Programming", "Tutoring"), [switch]$usb = $false) {
     if ($usb -AND -NOT (Get-PSDrive F -ErrorAction SilentlyContinue)) {
