@@ -46,9 +46,7 @@
       "segments": [
         {
           "foreground": "#ffffff",
-          "foreground_templates": [
-            "{{ if ne .Code 0 }}#e91e63{{ end }}"
-          ],
+          "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
           "properties": {
             "always_enabled": true
           },
@@ -125,6 +123,6 @@
   ],
   "console_title_template": "{{ .Shell }} :: {{ .Folder }}",
   "final_space": true,
-  "osc99": true,
+  "pwd": "osc99",
   "version": 2
 }
