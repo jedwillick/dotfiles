@@ -257,6 +257,15 @@ install_exercism() {
   log_done
 }
 
+install_haskell() {
+  log_working "Installing ghcup"
+  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+  log_done
+  log_working "Installing cabal-fmt"
+  cabal install cabal-fmt
+  log_done
+}
+
 show_help() {
   cat << EOF
 USAGE: $0 [-h] [INSTALL]...
