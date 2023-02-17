@@ -77,7 +77,7 @@ if [[ -n $SSH_CONNECTION ]]; then
   mesg n &> /dev/null || true
   export CSSE2310=/local/courses/csse2310
 else
-  pgrep -u "$USER" ssh-agent &> /dev/null || eval "$(ssh-agent -s)" &> /dev/null
+  eval "$(keychain --eval id_ed25519 --noask --timeout 5 --clear --quiet)"
   export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
 fi
 

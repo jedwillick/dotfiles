@@ -63,6 +63,7 @@ install_apt() {
     gdb
     git
     jq
+    keychain
     libsqlite3-dev
     lolcat
     manpages-posix
