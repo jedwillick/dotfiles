@@ -169,5 +169,6 @@ fi
 
 exists fnm && eval "$(fnm env --use-on-cd)"
 exists zoxide && eval "$(zoxide init bash)"
+exists direnv && eval "$(direnv hook bash)"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash

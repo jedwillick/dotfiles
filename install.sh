@@ -57,6 +57,7 @@ install_apt() {
     cmake
     cowsay
     curl
+    direnv
     dos2unix
     fortune
     gdb
