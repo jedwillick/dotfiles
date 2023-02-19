@@ -101,6 +101,7 @@ return {
         ["<leader>f"] = { name = "+find" },
         ["<leader>t"] = { name = "+term" },
         ["<leader>n"] = { name = "+notify/noice" },
+        ["<leader>r"] = { name = "+replace" },
       }
     end,
   },
