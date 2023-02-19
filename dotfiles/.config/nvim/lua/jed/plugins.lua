@@ -107,6 +107,9 @@ return {
   },
   {
     "aserowy/tmux.nvim",
+    cond = function()
+      return vim.env.TMUX ~= nil
+    end,
     lazy = false,
     -- init = function()
     --   vim.keymap.set({ "n", "t" }, "<A-up>", function()
