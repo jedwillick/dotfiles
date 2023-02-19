@@ -312,4 +312,30 @@ return {
     lazy = false,
     opts = {},
   },
+  {
+    "windwp/nvim-spectre",
+    keys = {
+      {
+        "<leader>rr",
+        function()
+          require("spectre").open()
+        end,
+        desc = "Replace (Spectre)",
+      },
+      {
+        "<leader>rw",
+        function()
+          require("spectre").open_visual { select_word = true }
+        end,
+        desc = "Replace current word (Spectre)",
+      },
+      {
+        "<leader>r",
+        function()
+          require("spectre").open_visual()
+        end,
+        desc = "Replace current selection (Spectre)",
+      },
+    },
+  },
 }
