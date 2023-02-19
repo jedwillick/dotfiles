@@ -22,7 +22,7 @@ return {
       ft.c = "// %s"
       ft.editorconfig = "; %s"
     end,
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
   },
   {
     "NvChad/nvim-colorizer.lua",
@@ -39,7 +39,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       -- char = "▏",
       char = "│",
@@ -142,7 +142,7 @@ return {
   },
   {
     "wakatime/vim-wakatime",
-    event = "BufReadPost",
+    event = { "BufReadPost", "BufNewFile" },
     build = function()
       local cli = (os.getenv("WAKATIME_HOME") or os.getenv("HOME")) .. "/.wakatime/wakatime-cli"
       local dest = (os.getenv("XDG_DATA_HOME") or os.getenv("HOME") .. "/.local") .. "/bin/wakatime-cli"
@@ -207,7 +207,7 @@ return {
   },
   {
     "gbprod/yanky.nvim",
-    event = "BufReadPost",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = { "kkharji/sqlite.lua" },
     config = function()
       require("yanky").setup {
@@ -256,7 +256,7 @@ return {
   },
   {
     "petertriho/nvim-scrollbar",
-    -- event = "BufReadPost",
+    -- event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("scrollbar").setup {
         excluded_filetypes = { "prompt", "TelescopePrompt", "noice", "notify" },
@@ -267,7 +267,7 @@ return {
   {
     "lewis6991/satellite.nvim",
     enabled = false,
-    event = "BufReadPost",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       handlers = { marks = { enable = false } },
       excluded_filetypes = { "neo-tree" },
@@ -291,7 +291,7 @@ return {
   },
   {
     "andymass/vim-matchup",
-    event = "BufReadPost",
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
     end,

@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       {
@@ -108,7 +108,7 @@ return {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       local nls = require("null-ls")
       local fmt = nls.builtins.formatting
@@ -179,7 +179,7 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       window = { relative = "editor" },
       text = { spinner = "dots" },
@@ -189,7 +189,7 @@ return {
     "utilyre/barbecue.nvim",
     opts = {},
     enabled = false,
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "SmiteshP/nvim-navic",
       opts = {

@@ -8,12 +8,12 @@ return {
   },
   {
     "tiagovla/scope.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
   },
   {
     "akinsho/bufferline.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     keys = {
       { "L", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
       { "H", "<cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
