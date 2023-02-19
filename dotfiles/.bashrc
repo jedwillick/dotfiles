@@ -79,6 +79,14 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   eval "$(keychain --eval id_ed25519 --noask --timeout 5 --clear --quiet)"
   export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
+  function set_win_title() {
+    local cmd="$1"
+    if [[ "$cmd" == "_omp_hook" ]]; then
+      cmd="$(basename "$(readlink /proc/$$/exe)")"
+    fi
+    echo -ne "\033]0; $cmd :: $(basename "$PWD") \a"
+  }
+  trap "set_win_title \${BASH_COMMAND}" DEBUG
 fi
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
@@ -113,15 +121,6 @@ else
 fi
 export VISUAL=$EDITOR
 
-function set_win_title() {
-  local cmd="$1"
-  if [[ "$cmd" == "_omp_hook" ]]; then
-    cmd="$(basename "$(readlink /proc/$$/exe)")"
-  fi
-  echo -ne "\033]0; $cmd :: $(basename "$PWD") \a"
-}
-trap "set_win_title \${BASH_COMMAND}" DEBUG
-
 # Oh My Posh Prompt
 if exists oh-my-posh; then
   export POSH_THEME=~/.local/share/poshthemes/basic.omp.json
@@ -130,7 +129,7 @@ if exists oh-my-posh; then
   theme() {
     omputils theme "$@" && source ~/.bashrc
   }
-elif [[ -n $SSH_CONNECTION ]]; then
+else
   # Set prompt: user@host:dir
   PS1="\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
 fi
