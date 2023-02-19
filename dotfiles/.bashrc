@@ -132,7 +132,7 @@ if exists oh-my-posh; then
   }
 else
   # Set prompt: user@host:dir
-  PS1="$PS1\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
+  PS1="\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
 fi
 
 if [[ -n $DISPLAY ]]; then
