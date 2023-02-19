@@ -89,7 +89,7 @@ return {
       }
 
       require("jed.util").on_attach(function(client, buf)
-        client.server_capabilities.semanticTokensProvider = nil
+        -- client.server_capabilities.semanticTokensProvider = nil
         require("jed.plugins.lsp.formatting").on_attach(client, buf)
         require("jed.plugins.lsp.keys").on_attach(client, buf)
       end)
