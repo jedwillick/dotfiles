@@ -130,7 +130,7 @@ if exists oh-my-posh; then
   theme() {
     omputils theme "$@" && source ~/.bashrc
   }
-else
+elif [[ -n $SSH_CONNECTION ]]; then
   # Set prompt: user@host:dir
   PS1="\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ "
 fi
