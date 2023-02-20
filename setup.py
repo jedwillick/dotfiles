@@ -174,8 +174,8 @@ class Setup:
     def is_excluded(self, path: Path):
         return any(fnmatch.fnmatch(str(path), exclude) for exclude in self.exclude)
 
-    def setup_dotfile(self, src, dst):
-        if self.missing and dst.exists():
+    def setup_dotfile(self, src: Path, dst: Union[Path, None]):
+        if dst is None or (self.missing and dst.exists()):
             log.debug(f"Skipping... {dst}", prefix="EXISTS")
             return
 
@@ -203,8 +203,6 @@ class Setup:
                 log.debug(f"Skipping... {file}", prefix="EXCLUDE")
                 continue
             dest = dotfile_to_realpath(file)
-            if dest is None:
-                continue
             self.setup_dotfile(file, dest)
         if os.environ.get("WSL_DISTRO_NAME"):
             self.setup_wsl()
