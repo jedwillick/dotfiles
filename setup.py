@@ -247,7 +247,14 @@ class Setup:
             text=True,
         )
         profile = Path(p.stdout.strip())
-        self.setup_dotfile(Path(f"powershell/{profile.name}"), profile)
+        self.setup_dotfile(Path(f"windows/{profile.name}"), profile)
+
+        windowsTerminal = Path(
+            f'{os.getenv("LOCALAPPDATA")}'
+            "/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe"
+            "/LocalState/settings.json"
+        )
+        self.setup_dotfile(Path("windows/windows-terminal.json"), windowsTerminal)
 
         INCLUDE = (
             ".gitconfig",
