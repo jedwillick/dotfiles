@@ -152,17 +152,21 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
-vim.keymap.set({ "n", "t" }, "<A-m>", function()
-  ---@diagnostic disable-next-line: undefined-field
-  if vim.opt.mouse:get().a then
-    vim.opt.mouse = ""
-    vim.notify("Mouse disabled")
-  else
-    vim.opt.mouse = "a"
-    vim.notify("Mouse enabled")
+local function reload()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    require("editorconfig").config(buf)
   end
-end, { desc = "Toggle Mouse" })
+end
 
-vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr><esc>")
-vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
-vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>")
+vim.api.nvim_create_user_command("EditorConfigConfig", function()
+  ---@diagnostic disable-next-line: undefined-field
+  vim.pretty_print(vim.b.editorconfig)
+end, { desc = "Show the editorconfig conifg" })
+
+vim.api.nvim_create_user_command("EditorConfigReload", reload, { desc = "Reload editorconfig" })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "editorconfig",
+  desc = "Automatically reload editorconfig",
+  pattern = ".editorconfig",
+  callback = reload,
+})

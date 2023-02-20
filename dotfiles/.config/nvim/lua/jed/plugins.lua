@@ -342,4 +342,11 @@ return {
       },
     },
   },
+  {
+    "gpanders/editorconfig.nvim",
+    lazy = false,
+    enabled = function()
+      return vim.fn.has("nvim-0.9") == 0
+    end,
+  },
 }

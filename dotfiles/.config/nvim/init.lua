@@ -38,3 +38,4 @@ require("lazy").setup("jed.plugins", {
   },
 })
 require("jed.commands")
+require("jed.keys")
