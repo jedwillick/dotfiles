@@ -260,9 +260,17 @@ install_exercism() {
 install_haskell() {
   log_working "Installing ghcup"
   curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+  source ~/.ghcup/env
   log_done
-  log_working "Installing cabal-fmt"
-  cabal install cabal-fmt
+  log_working "Installing cabal packages"
+  cabal update
+  cabal install cabal-fmt fast-tags
+  log_done
+  log_working "Installing hoogle and generating index"
+  git clone https://github.com/ndmitchell/hoogle.git
+  cd hoogle
+  cabal install
+  hoogle generate
   log_done
 }
 
