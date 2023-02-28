@@ -117,9 +117,10 @@ vim.api.nvim_create_autocmd("FileType", {
     "startuptime",
     "lspinfo",
     "tsplayground",
+    "qf",
   },
-  callback = function()
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { silent = true, buffer = 0 })
+  callback = function(event)
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { silent = true, buffer = event.buf })
     vim.bo.buflisted = false
   end,
 })
