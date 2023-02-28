@@ -54,7 +54,7 @@ local function repl()
     cmd = string.format("rlwrap %s %s", rlwrap[ft], cmd)
   end
 
-  repls[ft] = new_float { cmd = cmd, on_open = nil }
+  repls[ft] = require("toggleterm.terminal").Terminal:new { cmd = cmd }
   return repls[ft]
 end
 
