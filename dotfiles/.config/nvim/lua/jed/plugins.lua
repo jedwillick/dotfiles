@@ -111,37 +111,40 @@ return {
       return vim.env.TMUX ~= nil
     end,
     lazy = false,
-    -- init = function()
-    --   vim.keymap.set({ "n", "t" }, "<A-up>", function()
-    --     require("tmux").move_top()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-down>", function()
-    --     require("tmux").move_bottom()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-left>", function()
-    --     require("tmux").move_left()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-right>", function()
-    --     require("tmux").move_right()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-S-up>", function()
-    --     require("tmux").resize_top()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-S-down>", function()
-    --     require("tmux").resize_bottom()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-S-left>", function()
-    --     require("tmux").resize_left()
-    --   end)
-    --   vim.keymap.set({ "n", "t" }, "<A-S-right>", function()
-    --     require("tmux").resize_right()
-    --   end)
-    -- end,
+    init = function()
+      vim.keymap.set({ "n", "t" }, "<C-up>", function()
+        require("tmux").move_top()
+      end)
+      vim.keymap.set({ "n", "t" }, "<C-down>", function()
+        require("tmux").move_bottom()
+      end)
+      vim.keymap.set({ "n", "t" }, "<C-left>", function()
+        require("tmux").move_left()
+      end)
+      vim.keymap.set({ "n", "t" }, "<C-right>", function()
+        require("tmux").move_right()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-up>", function()
+        require("tmux").resize_top()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-down>", function()
+        require("tmux").resize_bottom()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-left>", function()
+        require("tmux").resize_left()
+      end)
+      vim.keymap.set({ "n", "t" }, "<A-right>", function()
+        require("tmux").resize_right()
+      end)
+    end,
     opts = {
       navigation = {
+        enable_default_keybindings = false,
         persist_zoom = true,
       },
-      resize = {},
+      resize = {
+        enable_default_keybindings = false,
+      },
     },
   },
   {
