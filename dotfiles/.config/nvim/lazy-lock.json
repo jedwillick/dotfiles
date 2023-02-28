@@ -21,6 +21,7 @@
   "flit.nvim": { "branch": "main", "commit": "980e80e8fe44caaeb9de501c8e97a559b17db2f4" },
   "friendly-snippets": { "branch": "main", "commit": "6fa50a94ba5378bb73013a6e163376d8e69bd8a5" },
   "gitsigns.nvim": { "branch": "main", "commit": "f388995990aba04cfdc7c3ab870c33e280601109" },
+  "haskell-tools.nvim": { "branch": "master", "commit": "b2eac1273d237fac65616930a8c240de8c598a75" },
   "hex.nvim": { "branch": "master", "commit": "317915ffcb160a2039be5250825f658002435c39" },
   "inc-rename.nvim": { "branch": "main", "commit": "21c23c379342a731a0c90f226601ec0434627b26" },
   "indent-blankline.nvim": { "branch": "master", "commit": "018bd04d80c9a73d399c1061fa0c3b14a7614399" },
