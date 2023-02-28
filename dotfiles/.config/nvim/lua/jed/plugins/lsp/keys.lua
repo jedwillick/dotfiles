@@ -35,5 +35,16 @@ function M.on_attach(client, buf)
     M.map({ "n", "v" }, "<leader>cf", fmt.format, { desc = "Format" })
     M.map("n", "<leader>cF", fmt.toggle, { desc = "Toggle format on save" })
   end
+  if client.supports_method("textDocument/codeLens") then
+    M.map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run Code Lens" })
+  end
+  if client.name == "haskell-tools.nvim" then
+    M.map("n", "<leader>ch", function()
+      require("haskell-tools").hoogle.hoogle_signature()
+    end, { desc = "Search Hoogle (Signature)" })
+    M.map("n", "<leader>cH", function()
+      require("haskell-tools").hoogle.hoogle_signature { search_term = vim.fn.expand("<cword>") }
+    end, { desc = "Search Hoogle (Current word)" })
+  end
 end
 return M

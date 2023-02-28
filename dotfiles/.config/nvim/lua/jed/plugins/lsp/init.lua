@@ -20,7 +20,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "p00f/clangd_extensions.nvim",
       "b0o/schemastore.nvim",
-      -- "mrcjkb/haskell-tools.nvim",
+      "mrcjkb/haskell-tools.nvim",
     },
     config = function()
       local servers = {
@@ -52,7 +52,19 @@ return {
         },
         gopls = {},
         hls = {
-          filetypes = { "haskell", "lhaskell", "cabal" },
+          hls = {
+            settings = {
+              haskell = { formattingProvider = "ormolu" },
+            },
+          },
+          tools = {
+            hover = {
+              disable = true,
+            },
+            repl = {
+              handler = "toggleterm",
+            },
+          },
         },
         jsonls = {
           on_new_config = function(new_config)
@@ -88,6 +100,20 @@ return {
         yamlls = {},
       }
 
+      local default_on_codelens = vim.lsp.codelens.on_codelens
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.lsp.codelens.on_codelens = function(err, lenses, ctx, _)
+        if err or not lenses or not next(lenses) then
+          return default_on_codelens(err, lenses, ctx, _)
+        end
+        for _, lens in pairs(lenses) do
+          if lens and lens.command and lens.command.title then
+            lens.command.title = "     " .. lens.command.title
+          end
+        end
+        return default_on_codelens(err, lenses, ctx, _)
+      end
+
       require("jed.util").on_attach(function(client, buf)
         -- client.server_capabilities.semanticTokensProvider = nil
         require("jed.plugins.lsp.formatting").on_attach(client, buf)
@@ -100,6 +126,8 @@ return {
         capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities or {})
         if lsp == "clangd" then
           require("clangd_extensions").setup(opts)
+        elseif lsp == "hls" then
+          require("haskell-tools").setup(opts)
         else
           require("lspconfig")[lsp].setup(opts)
         end
