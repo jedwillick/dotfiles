@@ -95,6 +95,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export WIN_HOME=/mnt/c/Users/$WIN_USER
   export OD=$WIN_HOME/OneDrive
   export SEM=$OD/UNI/2023/sem-1
+  export BROWSER=explorer.exe
   alias yank='win32yank.exe -i'
   alias put='win32yank.exe -o'
 fi
