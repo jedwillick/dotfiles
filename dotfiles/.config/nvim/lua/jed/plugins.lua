@@ -356,7 +356,13 @@ return {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = { "BufReadPost", "BufNewFile" },
-    config = true,
+    opts = {
+      highlight = {
+        before = "",
+        keyword = "wide_fg",
+        after = "",
+      },
+    },
     keys = {
       {
         "]t",
