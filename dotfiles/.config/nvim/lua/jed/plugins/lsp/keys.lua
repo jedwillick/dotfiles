@@ -37,6 +37,7 @@ function M.on_attach(client, buf)
   end
   if client.supports_method("textDocument/codeLens") then
     M.map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run Code Lens" })
+    M.map("n", "<leader>cL", vim.lsp.codelens.refresh, { desc = "Refresh Code Lens" })
   end
   if client.name == "haskell-tools.nvim" then
     M.map("n", "<leader>ch", function()
