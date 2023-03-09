@@ -16,11 +16,11 @@ return {
           end,
         },
       },
-      { "williamboman/mason-lspconfig.nvim", opts = { automatic_installation = true } },
       "hrsh7th/cmp-nvim-lsp",
       "p00f/clangd_extensions.nvim",
       "b0o/schemastore.nvim",
       "mrcjkb/haskell-tools.nvim",
+      "mason.nvim",
     },
     config = function()
       local servers = {
@@ -136,6 +136,9 @@ return {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
+    dependencies = {
+      "mason.nvim",
+    },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local nls = require("null-ls")
@@ -194,15 +197,6 @@ return {
           fmt.fish_indent,
         },
       }
-      -- Auto-install null-ls sources
-      local mr = require("mason-registry")
-      local sources = nls.get_sources()
-      for _, source in ipairs(sources) do
-        local ok, p = pcall(mr.get_package, source.name:gsub("_", "-"))
-        if ok and not p:is_installed() then
-          p:install()
-        end
-      end
     end,
   },
   {
