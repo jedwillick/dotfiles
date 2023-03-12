@@ -274,6 +274,14 @@ install_haskell() {
   log_done
 }
 
+install_dafny() {
+  log_working "Installing dafny 4.0.0"
+  curl -LO https://github.com/dafny-lang/dafny/releases/download/v4.0.0/dafny-4.0.0-x64-ubuntu-20.04.zip
+  extract dafny-*
+  mv dafny ~/.local/
+  log_done
+}
+
 show_help() {
   cat << EOF
 USAGE: $0 [-h] [INSTALL]...
@@ -282,6 +290,7 @@ If no INSTALL is specified then all will be run.
 INSTALL can be any of:
   - apt         Install apt packages.
   - btop        Install btop.
+  - dafny       Install dafny.
   - debs        Install deb packages from github.
   - exercism    Install exercism CLI.
   - fish        Install fish-shell and plugins.
@@ -303,6 +312,7 @@ main() {
   local validOptions=(
     apt
     btop
+    dafny
     debs
     exercism
     fish
