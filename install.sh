@@ -287,6 +287,7 @@ INSTALL can be any of:
   - fish        Install fish-shell and plugins.
   - fzf         Install fzf a fuzzy finder.
   - go          Install Golang.
+  - haskell     Install ghcup, haskell, haskell-language-server, stack and cabal
   - lazygit     Install lazygit a git client.
   - neovim      Install neovim and plugins.
   - node        Install Node & npm
@@ -308,6 +309,7 @@ main() {
     fish
     fzf
     go
+    haskell
     lazygit
     neovim
     node
