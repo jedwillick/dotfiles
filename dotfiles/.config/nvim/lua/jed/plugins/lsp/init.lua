@@ -50,6 +50,18 @@ return {
             },
           },
         },
+        dafny = {
+          cmd = {
+            vim.env.HOME .. "/.local/dafny/dafny",
+            "server",
+            "--verify-on=Change",
+            "--verification-time-limit=20",
+            "--cache-verification=0",
+            "--cores=5",
+            "--notify-ghostness",
+            "--notify-line-verification-status",
+          },
+        },
         gopls = {},
         hls = {
           hls = {
