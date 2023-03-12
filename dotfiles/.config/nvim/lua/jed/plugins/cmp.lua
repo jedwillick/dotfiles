@@ -1,7 +1,7 @@
 return {
   {
     "zbirenbaum/copilot-cmp",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = true,
     dependencies = {
