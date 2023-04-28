@@ -51,7 +51,7 @@ return {
           },
         },
         gopls = {},
-        hls = {
+        hls = { -- Pased to haskell-tools.nvim
           hls = {
             settings = {
               haskell = { formattingProvider = "ormolu" },
@@ -190,6 +190,7 @@ return {
           diag.markdownlint,
           fmt.markdownlint,
           fmt.prettier,
+          fmt.cbfmt,
 
           act.gitsigns,
 
