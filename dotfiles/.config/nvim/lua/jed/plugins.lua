@@ -362,6 +362,7 @@ return {
         before = "",
         keyword = "wide_fg",
         after = "",
+        pattern = [[.*<(KEYWORDS)\s*:?]],
       },
     },
     keys = {
