@@ -107,10 +107,11 @@ return {
   },
   {
     "aserowy/tmux.nvim",
-    cond = function()
-      return vim.env.TMUX ~= nil
-    end,
-    lazy = false,
+    enabled = false,
+    -- cond = function()
+    --   return vim.env.TMUX ~= nil
+    -- end,
+    -- lazy = false,
     init = function()
       vim.keymap.set({ "n", "t" }, "<C-up>", function()
         require("tmux").move_top()
