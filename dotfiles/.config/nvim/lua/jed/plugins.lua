@@ -181,6 +181,19 @@ return {
   {
     "rmagatti/auto-session",
     lazy = false,
+    keys = {
+      {
+        "<leader>fs",
+        function()
+          require("auto-session.session-lens").search_session {
+            theme_conf = {},
+            previewer = false,
+            path_display = { "truncate" },
+          }
+        end,
+        desc = "Sessions",
+      },
+    },
     opts = {
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/dev" },
@@ -200,17 +213,6 @@ return {
           end
         end,
       },
-    },
-  },
-  {
-    "rmagatti/session-lens",
-    keys = {
-      { "<leader>fs", "<cmd>SearchSession<cr>", desc = "Sessions" },
-    },
-    opts = {
-      path_display = { "truncate" },
-      theme_conf = {},
-      previewer = false,
     },
   },
   {
