@@ -24,7 +24,13 @@ return {
     },
     config = function()
       local servers = {
-        bashls = { cmd_env = { SHELLCHECK_PATH = "" } },
+        bashls = {
+          settings = {
+            bashIde = {
+              shellcheckArguments = { "--exclude=1090,1091" },
+            },
+          },
+        },
         clangd = { -- Will be passed to clangd_extensions
           server = { capabilities = { offsetEncoding = "utf-16" } },
           extensions = {
@@ -148,8 +154,6 @@ return {
       -- local hover = nls.builtins.hover
       -- local cmp = nls.builtins.completion
 
-      local shellcheck = { extra_args = { "--exclude=1090,1091" } }
-
       nls.setup {
         root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", ".svn", "Makefile", ".editorconfig"),
         sources = {
@@ -168,9 +172,6 @@ return {
               return not vim.tbl_isempty(vim.b.editorconfig or {})
             end,
           },
-
-          act.shellcheck.with(shellcheck),
-          diag.shellcheck.with(shellcheck),
 
           fmt.gofmt,
           diag.golangci_lint,

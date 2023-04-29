@@ -2,6 +2,7 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
+    build = ":MasonUpdate",
     opts = {
       ui = {
         icons = {
@@ -13,13 +14,13 @@ return {
       -- install_root_dir = os.getenv("HOME") .. "/.local",
       ensure_installed = {
         -- Bash
-        { "bash-language-server", version = "4.2.0" }, -- newer versions crash frequently
+        "bash-language-server",
         "shellcheck",
         "shfmt",
         -- Lua
         "lua-language-server",
         "stylua",
-        -- C/C++
+        -- C
         "clangd",
         "clang-format",
         -- Python
@@ -42,19 +43,21 @@ return {
       require("mason").setup(opts)
       local mr = require("mason-registry")
       local tool, version
-      for _, ensure in ipairs(opts.ensure_installed) do
-        if type(ensure) == "table" then
-          tool = ensure[1]
-          version = ensure.version
-        else
-          tool = ensure
-          version = nil
+      mr.refresh(function()
+        for _, ensure in ipairs(opts.ensure_installed) do
+          if type(ensure) == "table" then
+            tool = ensure[1]
+            version = ensure.version
+          else
+            tool = ensure
+            version = nil
+          end
+          local status, p = pcall(mr.get_package, tool)
+          if status and not p:is_installed() then
+            p:install { version = version }
+          end
         end
-        local p = mr.get_package(tool)
-        if not p:is_installed() then
-          p:install { version = version }
-        end
-      end
+      end)
     end,
   },
 }
