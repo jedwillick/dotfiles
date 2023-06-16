@@ -47,6 +47,7 @@ return {
           "tsx",
           "typescript",
           "vim",
+          "vimdoc",
           "yaml",
         },
         sync_install = #vim.api.nvim_list_uis() == 0,
