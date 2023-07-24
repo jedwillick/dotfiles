@@ -1,7 +1,7 @@
 return {
   {
     "williamboman/mason.nvim",
-    cmd = "Mason",
+    cmd = { "Mason", "MasonUpdate" },
     build = ":MasonUpdate",
     opts = {
       ui = {

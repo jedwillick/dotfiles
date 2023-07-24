@@ -26,7 +26,7 @@ return {
           "gomod",
           "gosum",
           "haskell",
-          "help",
+          "vimdoc",
           "html",
           "http",
           "java",
