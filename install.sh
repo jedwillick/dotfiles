@@ -228,7 +228,7 @@ install_neovim() {
   _apt update && _apt install neovim
   log_done
   log_working "Installing plugins and TS parsers"
-  nvim --headless "+silent Lazy! install" +qa
+  nvim --headless "+Lazy! install" "+MasonUpdate" +qa
   log_done
   # WSL Only
   if [[ -n "${WSL_DISTRO_NAME-}" ]]; then
