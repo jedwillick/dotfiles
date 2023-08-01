@@ -32,6 +32,9 @@ let g:clang_format#auto_format = 1
 let g:clang_format#detect_style_file = 1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+function! ToggleFormatSave()
+  let g:clang_format#auto_format = !g:clang_format#auto_format
+endfunction
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -62,6 +65,7 @@ Plug 'tpope/vim-surround'
 
 Plug 'andymass/vim-matchup'
 let g:loaded_matchit = 1
+let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
 
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
@@ -99,6 +103,7 @@ autocmd FileType c setlocal commentstring=//\ %s
 
 
 nnoremap <C-s> :w<CR>
+inoremap <C-s> <C-o>:w<CR>
 nnoremap <silent> <CR> :noh<CR><CR>
 nnoremap <silent> L :bnext<CR>
 nnoremap <silent> H :bprev<CR>
@@ -150,6 +155,6 @@ if &term =~ '^xterm'
   let &t_EI = "\e[2 q" " Normal mode
   let &t_SI = "\e[6 q" " Insert mode
   let &t_SR = "\e[3 q" " Replace mode
-  silent !echo -ne "\e[2 q"
+  " silent !echo -ne "\e[2 q"
   autocmd VimLeave * silent !echo -ne "\e[5 q"
 endif
