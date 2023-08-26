@@ -86,6 +86,8 @@ install_apt() {
     zip
   )
 
+  sudo apt-get install --reinstall python3-apt
+
   _apt install software-properties-common
 
   for ppa in "${ppas[@]}"; do
