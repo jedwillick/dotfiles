@@ -1,3 +1,26 @@
+local function get_python_path(workspace)
+  -- Use activated virtualenv.
+  if vim.env.VIRTUAL_ENV then
+    return vim.fs.joinpath(vim.env.VIRTUAL_ENV, "bin", "python")
+  end
+
+  local match = vim.fn.glob(vim.fs.joinpath(workspace, "poetry.lock"))
+  if match ~= "" then
+    local venv = vim.fn.trim(vim.fn.system("poetry env info -p"))
+    return vim.fs.joinpath(venv, "bin", "python")
+  end
+
+  -- Find and use virtualenv from pipenv in workspace directory.
+  match = vim.fn.glob(vim.fs.joinpath(workspace, "Pipfile"))
+  if match ~= "" then
+    local venv = vim.fn.trim(vim.fn.system("PIPENV_PIPFILE=" .. match .. " pipenv --venv"))
+    return vim.fs.joinpath(venv, "bin", "python")
+  end
+
+  -- Fallback to system Python.
+  return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
+end
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -83,7 +106,11 @@ return {
             },
           },
         },
-        pyright = {},
+        pyright = {
+          before_init = function(_, config)
+            config.settings.python.pythonPath = get_python_path(config.root_dir)
+          end,
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -104,6 +131,7 @@ return {
         },
         vimls = {},
         yamlls = {},
+        typst_lsp = {},
       }
 
       local default_on_codelens = vim.lsp.codelens.on_codelens
