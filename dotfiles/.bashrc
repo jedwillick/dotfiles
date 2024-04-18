@@ -77,7 +77,7 @@ if [[ -n $SSH_CONNECTION ]]; then
   mesg n &> /dev/null || true
   export CSSE2310=/local/courses/csse2310
 else
-  eval "$(keychain --eval id_ed25519 --noask --timeout 5 --clear --quiet)"
+  # eval "$(keychain --eval id_ed25519 --noask --timeout 5 --clear --quiet)"
   export LS_COLORS=$LS_COLORS:'tw=01;34:ow=01;34:'
   function set_win_title() {
     local cmd="$1"
@@ -94,7 +94,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   export WIN_USER
   export WIN_HOME=/mnt/c/Users/$WIN_USER
   export OD=$WIN_HOME/OneDrive
-  export SEM=$OD/UNI/2023/sem-1
+  export SEM=$OD/UNI/2024/sem-1
   export BROWSER=explorer.exe
   alias yank='win32yank.exe -i'
   alias put='win32yank.exe -o'
@@ -167,8 +167,12 @@ if [[ -d "$HOME/.nvm" ]]; then
   [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 fi
 
+export XDG_RUNTIME_DIR="$HOME/.cache/xdgr"
 exists fnm && eval "$(fnm env --use-on-cd)"
 exists zoxide && eval "$(zoxide init bash)"
 exists direnv && eval "$(direnv hook bash)"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"

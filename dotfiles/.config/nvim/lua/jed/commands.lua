@@ -27,9 +27,12 @@ local toggleEvent = function(arg)
   vim.notify(arg.args .. " disabled")
 end
 
-vim.api.nvim_create_user_command("ToggleFormatSave", function()
-  require("jed.plugins.lsp.formatting").toggle()
-end, { desc = "Toggle format on save" })
+vim.api.nvim_create_user_command("FormatToggle", function(args)
+  require("jed.util.format").toggle(args.bang)
+end, {
+  desc = "Toggle autoformat-on-save",
+  bang = true,
+})
 
 vim.api.nvim_create_user_command(
   "ToggleEvent",
