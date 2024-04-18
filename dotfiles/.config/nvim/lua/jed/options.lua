@@ -14,7 +14,19 @@ vim.opt.number = true -- Print line number
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.autowrite = true -- auto write changes
 vim.opt.termguicolors = true -- True color support
--- vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
+vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
+-- vim.g.clipboard = {
+--   name = "xsel_override",
+--   copy = {
+--     ["+"] = "xsel --input --clipboard",
+--     ["*"] = "xsel --input --primary",
+--   },
+--   paste = {
+--     ["+"] = "xsel --output --clipboard",
+--     ["*"] = "xsel --output --primary",
+--   },
+--   cache_enabled = 1,
+-- }
 vim.opt.cursorline = true -- Enable highlighting of the current line
 vim.opt.mouse = "a" -- enable mouse mode
 vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time

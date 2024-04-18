@@ -12,3 +12,6 @@ end, { desc = "Toggle Mouse" })
 vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr><esc>")
 vim.keymap.set({ "n", "i" }, "<esc>", "<cmd>noh<cr><esc>", { silent = true })
 vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>")
+
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })

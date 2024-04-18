@@ -43,8 +43,8 @@ log_done() {
 }
 
 install_apt() {
-  if ! exists apt; then
-    log_warn "apt not found... skipping"
+  if ! exists apt-get; then
+    log_warn "apt-get not found... skipping"
     return
   fi
 
@@ -63,9 +63,9 @@ install_apt() {
     gdb
     git
     jq
-    keychain
+#    keychain
     libsqlite3-dev
-    lolcat
+ #   lolcat
     manpages-posix
     ncat
     ncdu
@@ -86,7 +86,13 @@ install_apt() {
     zip
   )
 
+  sudo apt-get update
   sudo apt-get install --reinstall python3-apt
+
+  if ! exists apt; then
+    log_warn "apt not found... skipping"
+    return
+  fi
 
   _apt install software-properties-common
 
@@ -131,7 +137,7 @@ install_debs() {
 
 install_node() {
   log_working "Installing fnm"
-  curl -LO https://github.com/Schniz/fnm/releases/download/v1.33.1/fnm-linux.zip
+  curl -LO https://github.com/Schniz/fnm/releases/latest/download/fnm-linux.zip
   unzip fnm-linux.zip
   chmod +x fnm
   cp fnm ~/.local/bin/fnm
@@ -148,7 +154,7 @@ install_node() {
 }
 
 install_go() {
-  GO="go1.19.2.linux-amd64.tar.gz"
+  GO="go1.21.5.linux-amd64.tar.gz"
 
   log_working "Installing go $(grep -Eo "[0-9]+.[0-9]+.[0-9]+" <<< "$GO")"
   curl -Lo "$GO" https://go.dev/dl/$GO
@@ -276,6 +282,14 @@ install_haskell() {
   log_done
 }
 
+install_typst() {
+  log_working "Installing typst"
+  curl -Lo- https://github.com/typst/typst/releases/latest/download/typst-x86_64-unknown-linux-musl.tar.xz | tar -x --xz
+  sudo mv typst*/typst /usr/local/bin/typst
+  log_done
+
+}
+
 show_help() {
   cat << EOF
 USAGE: $0 [-h] [INSTALL]...
@@ -296,6 +310,7 @@ INSTALL can be any of:
   - ohmyposh    Install Oh-My-Posh a prompt theme manager.
   - pip         Install pip packages.
   - spotifytui  Install spotify-tui a spotify client.
+  - typst       Install typst.
 
 OPTIONS:
   -h, --help  Show this help message and exit.
@@ -318,6 +333,7 @@ main() {
     ohmyposh
     pip
     spotifytui
+    typst
   )
 
   for arg in "$@"; do

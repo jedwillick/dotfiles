@@ -32,6 +32,15 @@
           "type": "path"
         },
         {
+          "foreground": "lightRed",
+          "properties": {
+            "branch_icon": ""
+          },
+          "template": " ({{ .HEAD }})",
+          "style": "plain",
+          "type": "git"
+        },
+        {
           "foreground": "#ffffff",
           "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
           "properties": {

@@ -14,8 +14,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require("lazy").setup("jed.plugins", {
-  defaults = { lazy = true },
+require("lazy").setup {
+  spec = {
+    { import = "jed.plugins" },
+    { import = "jed.plugins.lang" },
+  },
+  defaults = { lazy = true, version = "*" },
   dev = { path = "~/dev", patterns = { "jedwillick" } },
   install = { missing = true, colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = false },
@@ -36,6 +40,6 @@ require("lazy").setup("jed.plugins", {
       },
     },
   },
-})
+}
 require("jed.commands")
 require("jed.keys")
