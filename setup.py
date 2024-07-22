@@ -220,6 +220,7 @@ class Setup:
             "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
             # oh-my-posh uses this to speed up access in windows directories
             "/mnt/c/Program Files/Git/cmd/git.exe",
+            "git",
         ]
         for shim in shims:
             name = Path(shim).name
