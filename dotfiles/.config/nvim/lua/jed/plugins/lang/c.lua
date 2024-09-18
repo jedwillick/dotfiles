@@ -17,6 +17,7 @@ return true
         vim.list_extend(opts.ensure_installed, {
           "clangd",
           "clang-format",
+          "neocmakelsp",
         })
       end,
     },
@@ -49,6 +50,7 @@ return true
       "nvim-lspconfig",
       opts = {
         servers = {
+          neocmake = {},
           clangd = {
             capabilities = { offsetEncoding = "utf-16" },
           },

@@ -59,15 +59,25 @@ return {
       end)
 
       for lsp, lsp_opts in pairs(opts.servers) do
-        if lspconfig[lsp] and lspconfig[lsp].setup and lsp_binary_exists(lspconfig[lsp]) then
-          lsp_opts.capabilities = vim.tbl_deep_extend("force", capabilities, lsp_opts.capabilities or {})
-          if lsp == "hls" then
-            lsp_opts.keys = nil
-            vim.g.haskell_tools = lsp_opts
-          else
-            lspconfig[lsp].setup(lsp_opts)
-          end
+        if not (lspconfig[lsp] and lspconfig[lsp].setup) then
+          goto continue
         end
+
+        if lsp_opts.prefer_local then
+          local default_conf = require("lspconfig.server_configurations." .. lsp)
+          lsp_opts.cmd = vim.list_extend(lsp_opts.prefer_local, lsp_opts.cmd or default_conf.default_config.cmd)
+        end
+
+        --[[ and lsp_binary_exists(lspconfig[lsp])  ]]
+
+        lsp_opts.capabilities = vim.tbl_deep_extend("force", capabilities, lsp_opts.capabilities or {})
+        if lsp == "hls" then
+          lsp_opts.keys = nil
+          vim.g.haskell_tools = lsp_opts
+        else
+          lspconfig[lsp].setup(lsp_opts)
+        end
+        ::continue::
       end
     end,
   },

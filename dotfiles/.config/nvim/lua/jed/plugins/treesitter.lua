@@ -1,12 +1,19 @@
 return {
   { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
-
+  {
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     dependencies = {
-      "RRethy/nvim-treesitter-endwise",
+      -- "RRethy/nvim-treesitter-endwise",
       "nvim-treesitter/nvim-treesitter-textobjects",
+
+      -- "hiphish/rainbow-delimiters.nvim",
     },
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
@@ -49,7 +56,7 @@ return {
         },
       },
       -- extensions
-      endwise = { enable = true },
+      -- endwise = { enable = true },
       playground = { enable = true },
       query_linter = {
         enable = true,

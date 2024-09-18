@@ -26,21 +26,30 @@ return {
       disable = {
         filetypes = { "TelescopePrompt", "neo-tree" },
       },
-      key_labels = { ["<leader>"] = "SPC" },
+      replace = { ["<leader>"] = "SPC" },
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show { global = false }
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
     },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
-      wk.register {
-        ["g"] = { name = "+goto" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>f"] = { name = "+find" },
-        ["<leader>t"] = { name = "+term" },
-        ["<leader>n"] = { name = "+notify/noice" },
-        ["<leader>r"] = { name = "+replace" },
+      wk.add {
+        { "g", group = "+goto" },
+        { "]", group = "+next" },
+        { "[", group = "+prev" },
+        { "<leader>b", group = "+buffer" },
+        { "<leader>c", group = "+code" },
+        { "<leader>f", group = "+find" },
+        { "<leader>t", group = "+term" },
+        { "<leader>n", group = "+notify/noice" },
+        { "<leader>r", group = "+replace" },
       }
     end,
   },

@@ -57,8 +57,19 @@ return {
       { "<leader>uc", "<cmd>ColorizerToggle<cr>", desc = "Toggle Colorizer" },
     },
     opts = {
-      filetypes = { "css", "javascript", "html", "json", "yaml", "toml" },
+      filetypes = {
+        "css",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "json",
+        "yaml",
+        "toml",
+      },
       user_default_options = {
+        tailwind = true,
         names = false,
       },
     },

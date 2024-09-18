@@ -3,6 +3,24 @@ local Lint = require("jed.util.lint")
 
 return {
   {
+    "windwp/nvim-ts-autotag",
+    lazy = false,
+    config = {},
+  },
+
+  {
+    "amitds1997/remote-nvim.nvim",
+    enabled = false,
+    version = "v0.3.9",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- For standard functions
+      "MunifTanjim/nui.nvim", -- To build the plugin UI
+      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    config = true,
+  },
+
+  {
     "ggandor/leap.nvim",
     event = "User VeryLazy",
     dependencies = { "ggandor/flit.nvim" },
@@ -88,7 +106,7 @@ return {
       {
         "<leader>cf",
         function()
-          Format.format { lsp_fallback = true }
+          Format.format { lsp_format = "fallback" }
         end,
         mode = { "n", "v" },
         desc = "Format buffer",
@@ -116,10 +134,13 @@ return {
         pattern = "*",
         callback = function()
           if Format.enabled() then
-            Format.format { lsp_fallback = true }
+            Format.format()
           end
         end,
       })
+      return { default_format_opts = {
+        lsp_format = "fallback",
+      } }
     end,
   },
   {

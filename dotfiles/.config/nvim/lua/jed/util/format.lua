@@ -72,7 +72,7 @@ function M.format(opts)
   local conform = require("conform")
 
   -- get current formatter names
-  local formatters = conform.list_formatters()
+  local formatters, isLsp = conform.list_formatters_to_run()
   local fmt_names = {}
 
   if not vim.tbl_isempty(formatters) then
@@ -80,11 +80,13 @@ function M.format(opts)
       return f.name
     end, formatters)
   end
-  if conform.will_fallback_lsp() then
+
+  if isLsp then
     fmt_names = vim.list_extend(fmt_names, require("jed.util.lsp").get_format_clients())
   end
-  if vim.tbl_isempty(fmt_names) and not conform.will_fallback_lsp() then
-    return
+
+  if vim.tbl_isempty(fmt_names) then
+    vim.notify("No formatters configured!", vim.log.WARN)
   end
 
   local msg_handle = require("fidget.progress").handle.create {

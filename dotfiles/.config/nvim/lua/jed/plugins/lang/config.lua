@@ -65,21 +65,20 @@ return true
               settings = {
                 json = {
                   validate = { enable = true },
-                  format = { enable = true },
                 },
               },
             },
           },
         },
       },
-      {
-        "conform.nvim",
-        opts = {
-          formatters_by_ft = {
-            -- json = { "prettier" },
-            -- yaml = { "prettier" },
-          },
-        },
-      },
+      -- {
+      --   "conform.nvim",
+      --   opts = {
+      --     formatters_by_ft = {
+      --       json = { "biome-check", "prettier", stop_after_first = true },
+      --       jsonc = { "biome-check", "prettier", stop_after_first = true },
+      --     },
+      --   },
+      -- },
     }
   or {}

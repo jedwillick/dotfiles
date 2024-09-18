@@ -1,5 +1,16 @@
 return {
   {
+    "ThePrimeagen/refactoring.nvim",
+    event = "User VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup()
+    end,
+  },
+  {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
@@ -43,6 +54,9 @@ return {
     },
     opts = {
       snippet_engine = "luasnip",
+      languages = {
+        typescript = { template = { annotation_convention = "tsdoc" } },
+      },
     },
   },
   -- {
