@@ -1,3 +1,5 @@
+local filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
+
 return true
     and {
       {
@@ -14,13 +16,13 @@ return true
         "mason.nvim",
         opts = function(_, opts)
           vim.list_extend(opts.ensure_installed, {
-            -- "typescript-language-server",
+            "typescript-language-server",
           })
         end,
       },
       {
         "pmizio/typescript-tools.nvim",
-        ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+        ft = filetypes,
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {},
       },
@@ -40,6 +42,19 @@ return true
         opts = {
           servers = {
             cssls = {},
+            css_variables = {
+              settings = {
+                cssVariables = {
+                  lookupFiles = {
+                    "**/*.css",
+                    "**/*.scss",
+                    "**/*.sass",
+                    "**/*.less",
+                    "node_modules/@mantine/core/styles.css",
+                  },
+                },
+              },
+            },
             biome = {
               prefer_local = { "npx" },
               keys = {
@@ -87,7 +102,6 @@ return true
                 },
               },
             },
-            tailwindcss = {},
             eslint = {
               prefer_local = { "npx" },
               handlers = {

@@ -28,33 +28,33 @@ return {
       }
     end,
   },
-  {
-    "rcarriga/nvim-notify",
-    lazy = false,
-    -- event = "VeryLazy",
-    keys = {
-      {
-        "<leader>nn",
-        function()
-          require("notify").dismiss { silent = true, pending = true }
-        end,
-        desc = "Dismiss all notifications",
-      },
-    },
-    config = function()
-      require("notify").setup {
-        timeout = 3000,
-        max_height = function()
-          return math.floor(vim.o.lines * 0.75)
-        end,
-        max_width = function()
-          return math.floor(vim.o.columns * 0.75)
-        end,
-        stages = "slide",
-      }
-      vim.notify = require("notify")
-    end,
-  },
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   lazy = false,
+  --   -- event = "VeryLazy",
+  --   keys = {
+  --     {
+  --       "<leader>nn",
+  --       function()
+  --         require("notify").dismiss { silent = true, pending = true }
+  --       end,
+  --       desc = "Dismiss all notifications",
+  --     },
+  --   },
+  --   config = function()
+  --     require("notify").setup {
+  --       timeout = 3000,
+  --       max_height = function()
+  --         return math.floor(vim.o.lines * 0.75)
+  --       end,
+  --       max_width = function()
+  --         return math.floor(vim.o.columns * 0.75)
+  --       end,
+  --       stages = "slide",
+  --     }
+  --     vim.notify = require("notify")
+  --   end,
+  -- },
   {
     "petertriho/nvim-scrollbar",
     -- event = { "BufReadPost", "BufNewFile" },

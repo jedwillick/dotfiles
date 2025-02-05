@@ -1,11 +1,11 @@
 return {
-  {
-    "famiu/bufdelete.nvim",
-    keys = {
-      { "<leader>bd", "<cmd>Bdelete<CR>", desc = "Delete buffer" },
-      { "<leader>bD", "<cmd>Bdelete!<CR>", desc = "Delete buffer (force)" },
-    },
-  },
+  -- {
+  --   "famiu/bufdelete.nvim",
+  --   keys = {
+  --     { "<leader>bd", "<cmd>Bdelete<CR>", desc = "Delete buffer" },
+  --     { "<leader>bD", "<cmd>Bdelete!<CR>", desc = "Delete buffer (force)" },
+  --   },
+  -- },
   {
     "tiagovla/scope.nvim",
     event = { "BufReadPre", "BufNewFile" },

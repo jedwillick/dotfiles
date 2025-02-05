@@ -10,6 +10,7 @@ return {
 
   {
     "folke/tokyonight.nvim",
+    version = false,
     lazy = false,
     priority = 999,
     config = function()
