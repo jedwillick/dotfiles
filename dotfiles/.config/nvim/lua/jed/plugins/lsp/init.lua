@@ -15,22 +15,32 @@ end
 
 return {
   {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "lazy.nvim" },
+      },
+    },
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = "lazydev",
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+      })
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      {
-        "folke/neodev.nvim",
-        opts = {
-          override = function(root_dir, library)
-            local dots = os.getenv("DOTFILES")
-            if root_dir == dots or root_dir == dots .. "/dotfiles/.config/nvim" then
-              library.enable = true
-              library.plugins = true
-            end
-          end,
-        },
-      },
+
       "hrsh7th/cmp-nvim-lsp",
       "mason.nvim",
     },
@@ -64,7 +74,7 @@ return {
         end
 
         if lsp_opts.prefer_local then
-          local default_conf = require("lspconfig.server_configurations." .. lsp)
+          local default_conf = require("lspconfig.configs." .. lsp)
           lsp_opts.cmd = vim.list_extend(lsp_opts.prefer_local, lsp_opts.cmd or default_conf.default_config.cmd)
         end
 
