@@ -163,13 +163,14 @@ local function reload()
 end
 
 vim.api.nvim_create_user_command("EditorConfigConfig", function()
-  ---@diagnostic disable-next-line: undefined-field
-  vim.pretty_print(vim.b.editorconfig)
+  require("snacks").notify(vim.inspect(vim.b.editorconfig), {
+    title = "EditorConfig",
+    icon = "",
+  })
 end, { desc = "Show the editorconfig conifg" })
 
 vim.api.nvim_create_user_command("EditorConfigReload", reload, { desc = "Reload editorconfig" })
 vim.api.nvim_create_autocmd("BufWritePost", {
-  group = "editorconfig",
   desc = "Automatically reload editorconfig",
   pattern = ".editorconfig",
   callback = reload,
