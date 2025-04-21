@@ -29,8 +29,8 @@ return true
               settings = {
                 Lua = {
                   diagnostics = {
-                    disable = { "missing-fields" },
                     unusedLocalExclude = { "_*" },
+                    ignoredFiles = "Enable",
                   },
                   format = {
                     enable = false,
