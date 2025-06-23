@@ -37,7 +37,6 @@ return true
           vim.list_extend(opts.ensure_installed, {
             "pyright",
             "ruff",
-            "ruff-lsp",
           })
         end,
       },
@@ -45,7 +44,8 @@ return true
         "nvim-lspconfig",
         opts = {
           servers = {
-            ruff_lsp = {
+            ruff = {
+              prefer_local = { "uv", "run" },
               keys = {
                 {
                   "<leader>co",
