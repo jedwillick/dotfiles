@@ -30,7 +30,6 @@ return true
                 Lua = {
                   diagnostics = {
                     unusedLocalExclude = { "_*" },
-                    ignoredFiles = "Enable",
                   },
                   format = {
                     enable = false,

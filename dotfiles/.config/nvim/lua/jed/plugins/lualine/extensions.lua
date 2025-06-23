@@ -1,5 +1,5 @@
 local function ft_cap()
-  return vim.api.nvim_buf_get_option(0, "filetype"):gsub("^%l", string.upper)
+  return vim.api.nvim_get_option_value("filetype", { buf = 0 }):gsub("^%l", string.upper)
 end
 
 local tspg = function()
@@ -44,28 +44,6 @@ return {
     inactive_sections = {
       lualine_c = { tspg },
       lualine_x = { "progress", "location" },
-    },
-  },
-
-  {
-    filetypes = { "packer" },
-    sections = {
-      lualine_a = { ft_cap },
-      lualine_c = {
-        function()
-          return #vim.tbl_keys(packer_plugins) .. " plugins"
-        end,
-      },
-    },
-    inactive_sections = {
-      lualine_c = {
-        ft_cap,
-        {
-          function()
-            return #vim.tbl_keys(packer_plugins) .. " plugins"
-          end,
-        },
-      },
     },
   },
 }

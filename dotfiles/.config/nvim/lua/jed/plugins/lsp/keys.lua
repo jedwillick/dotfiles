@@ -48,7 +48,7 @@ function M.on_attach(client, bufnr)
   M.map("n", "<leader>cr", M.rename, { desc = "Rename", expr = true })
   M.map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
-  if client.supports_method("textDocument/codeLens") then
+  if client:supports_method("textDocument/codeLens") then
     M.map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run Code Lens" })
     M.map("n", "<leader>cL", vim.lsp.codelens.refresh, { desc = "Refresh Code Lens" })
   end

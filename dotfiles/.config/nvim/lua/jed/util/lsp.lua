@@ -6,7 +6,7 @@ function M.on_attach(on_attach)
     callback = function(args)
       local buffer = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client.name == "copilot" then
+      if not client or client.name == "copilot" then
         return -- Copilot doesn't need any extras
       end
       on_attach(client, buffer)
@@ -19,7 +19,7 @@ function M.get_format_clients()
   local fmt_clients = {}
 
   for _, client in ipairs(clients) do
-    if client.supports_method("textDocument/formatting") then
+    if client:supports_method("textDocument/formatting") then
       table.insert(fmt_clients, client.name)
     end
   end
