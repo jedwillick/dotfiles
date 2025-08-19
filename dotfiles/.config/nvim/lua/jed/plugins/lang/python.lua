@@ -62,11 +62,12 @@ return true
                 },
               },
             },
-            pyright = {
-              before_init = function(_, config)
-                config.settings.python.pythonPath = get_python_path(config.root_dir)
-              end,
-            },
+            -- pyright = {
+            --   before_init = function(_, config)
+            --     config.settings.python.pythonPath = get_python_path(config.root_dir)
+            --   end,
+            -- },
+            basedpyright = {}
           },
         },
       },

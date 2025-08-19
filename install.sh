@@ -71,12 +71,11 @@ install_apt() {
     ncdu
     neovim
     net-tools
-    python3
-    python3-pip
-    python3-venv
+    # python3
+    # python3-pip
+    # python3-venv
     rlwrap
     sqlite3
-    subversion
     traceroute
     tree
     universal-ctags
@@ -231,13 +230,14 @@ install_lazygit() {
 }
 
 install_neovim() {
-  log_working "Installing neovim"
-  sudo add-apt-repository -y ppa:neovim-ppa/unstable > /dev/null
-  _apt update && _apt install neovim
-  log_done
-  log_working "Installing plugins and TS parsers"
-  nvim --headless "+Lazy! install" "+MasonUpdate" +qa
-  log_done
+  # log_working "Installing neovim"
+  # # sudo add-apt-repository -y ppa:neovim-ppa/unstable > /dev/null
+  # sudo add-apt-repository -y ppa:neovim-ppa/stable > /dev/null
+  # _apt update && _apt install neovim
+  # log_done
+  # log_working "Installing plugins and TS parsers"
+  # nvim --headless "+Lazy! install" "+MasonUpdate" +qa
+  # log_done
   # WSL Only
   if [[ -n "${WSL_DISTRO_NAME-}" ]]; then
     log_working "Installing clipboard provider: win32yank"

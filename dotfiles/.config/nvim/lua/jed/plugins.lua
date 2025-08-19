@@ -1,5 +1,9 @@
 return {
   {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+  },
+  {
     "AndrewRadev/sideways.vim",
     enabled = false,
     cmd = { "SidewaysLeft", "SidewaysRight" },

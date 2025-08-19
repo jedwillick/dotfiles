@@ -115,13 +115,6 @@ if exists pygmentize; then
   }
 fi
 
-if exists nvim; then
-  export EDITOR=nvim
-else
-  export EDITOR=vim
-fi
-export VISUAL=$EDITOR
-
 # Oh My Posh Prompt
 if exists oh-my-posh; then
   export POSH_THEME=~/.local/share/poshthemes/basic.omp.json
@@ -209,3 +202,11 @@ export NP_RUNTIME=bwrap
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/share/bob/nvim-bin/:$PATH"
+
+if exists nvim; then
+  export EDITOR=$(which nvim)
+else
+  export EDITOR=vim
+fi
+export VISUAL=$EDITOR

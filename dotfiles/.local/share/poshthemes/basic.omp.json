@@ -1,60 +1,71 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "pwd": "osc99",
   "blocks": [
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#ffffff",
-          "style": "plain",
-          "template": "{{.Icon}} ",
-          "type": "os"
-        },
-        {
-          "foreground": "#DDB15F",
-          "style": "plain",
-          "template": "{{ .UserName }}@{{ .HostName }}<#ffffff>:</>",
-          "type": "session"
-        },
-        {
-          "foreground": "#61afef",
           "properties": {
+            "cache_duration": "1h"
+          },
+          "template": "{{.Icon}} ",
+          "foreground": "#ffffff",
+          "type": "os",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": "{{ .UserName }}@{{ .HostName }}<#ffffff>:</>",
+          "foreground": "#DDB15F",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "hide_root_location": false,
             "mapped_locations": {
               "/mnt/c": "C:"
             },
-            "hide_root_location": false,
             "mapped_locations_enabled": true,
             "max_depth": 2,
             "style": "agnoster_short"
           },
-          "style": "plain",
           "template": "{{ .Path }}",
-          "type": "path"
+          "foreground": "#61afef",
+          "type": "path",
+          "style": "plain"
         },
         {
-          "foreground": "lightRed",
           "properties": {
-            "branch_icon": ""
+            "branch_icon": "",
+            "cache_duration": "none"
           },
           "template": " ({{ .HEAD }})",
-          "style": "plain",
-          "type": "git"
+          "foreground": "lightRed",
+          "type": "git",
+          "style": "plain"
         },
         {
-          "foreground": "#ffffff",
-          "foreground_templates": ["{{ if ne .Code 0 }}#e91e63{{ end }}"],
           "properties": {
-            "always_enabled": true
+            "always_enabled": true,
+            "cache_duration": "none"
           },
+          "template": "{{ if eq .OS \"windows\"}}❯{{ else }}${{ end }}",
+          "foreground": "#ffffff",
+          "type": "exit",
           "style": "plain",
-          "template": "{{ if eq .OS \"windows\"}}\u276f{{ else }}${{ end }}",
-          "type": "exit"
+          "foreground_templates": [
+            "{{ if ne .Code 0 }}#e91e63{{ end }}"
+          ]
         }
-      ],
-      "type": "prompt"
+      ]
     }
   ],
-  "final_space": true,
-  "pwd": "osc99",
-  "version": 2
+  "version": 3,
+  "final_space": true
 }

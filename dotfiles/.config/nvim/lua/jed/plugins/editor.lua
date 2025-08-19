@@ -266,12 +266,32 @@ return {
     },
     init = function()
       vim.g.neo_tree_remove_legacy_commands = 1
+      -- vim.api.nvim_create_autocmd("BufRead", {
+      --   callback = function()
+      --     -- Open Neo-tree if it's not already open
+      --     if not vim.g.neo_tree_open then
+      --       vim.cmd("Neotree  show")
+      --       vim.g.neo_tree_open = true
+      --     end
+      --   end,
+      -- })
     end,
     opts = {
+      event_handlers = {
+
+        {
+          event = "neo_tree_window_after_open",
+          handler = function(_)
+            vim.cmd("wincmd =")
+          end,
+        },
+      },
+      close_if_last_window = true,
       source_selector = {
         winbar = true,
       },
       window = {
+        width = 40,
         mappings = {
           ["<space>"] = false,
         },

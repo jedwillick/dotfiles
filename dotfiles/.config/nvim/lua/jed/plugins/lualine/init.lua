@@ -1,6 +1,7 @@
 return {
   {
     "jedwillick/version.nvim",
+    enabled = false,
     config = true,
   },
   {

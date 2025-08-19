@@ -61,8 +61,8 @@ install_deb_from_github() {
 # $4 - name (defaults to repo name)
 install_binary_from_github() {
   local arch url
-  arch=$(dpkg --print-architecture)
-  url=$(jq -r ".. .browser_download_url? // empty | select(contains(\"$arch\") and contains(\"linux\") and ((contains(\"musl\") or test(\"\\\.[a-zA-Z0-9]+\$\"))  | not ))" <<< "$1")
+  # arch=$(dpkg --print-architecture)
+  url=$(jq -r ".. .browser_download_url? // empty | select(contains(\"x86_64\") and contains(\"linux\") and ((contains(\"musl\") or test(\"\\\.[a-zA-Z0-9]+\$\"))  | not ))" <<< "$1")
 
   if [[ -z "$url" ]]; then
     return 1

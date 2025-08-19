@@ -28,8 +28,10 @@ return {
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/dev" },
       auto_session_use_git_branch = true,
+      pre_save_cmds = { "tabdo Neotree close" },
       pre_restore_cmds = {
         function()
+          vim.cmd("Neotree close")
           if vim.o.filetype == "lazy" then
             vim.g.lazy_auto_session = true
             vim.cmd.close()
@@ -42,6 +44,18 @@ return {
             require("lazy").show()
           end
         end,
+        -- "Neotree",
+        -- function()
+        --   for _, win in ipairs(vim.api.nvim_list_wins()) do
+        --     local buf = vim.api.nvim_win_get_buf(win)
+        --     local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+        --     if ft == "neo-tree" then
+        --       vim.api.nvim_win_set_width(win, 40)
+        --       break
+        --     end
+        --   end
+        -- end,
+        -- "wincmd =",
       },
     },
   },
