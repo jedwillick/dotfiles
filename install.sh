@@ -144,10 +144,11 @@ install_node() {
   log_done
 
   log_working "Installing node"
-  fnm use 17 --install-if-missing
+  fnm use lts/* --install-if-missing
   log_done
 
   log_working "Installing npm packages"
+  npm install --no-fund -g npm
   npm install --no-fund --location=global tree-sitter-cli neovim
   log_done
 }
