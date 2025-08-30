@@ -42,12 +42,38 @@ log_done() {
 
 }
 
-install_apt() {
-  if ! exists apt-get; then
-    log_warn "apt-get not found... skipping"
-    return
+install_packages() {
+  if exists apt; then
+    _install_apt
+  elif exists dnf; then
+    _install_dnf
+  else
+    log_warn "Unknown package manager.... skipping"
   fi
+}
 
+_install_dnf() {
+  local packages=(
+    dnf5-plugins
+    direnv
+    jq
+    ripgrep
+    zoxide
+    fd-find
+    @development-tools
+    @c-development
+  )
+
+  log_working "Installing dnf packages"
+  sudo dnf install "${packages[@]}"
+  log_done
+
+  # Github CLI
+  sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo --overwrite
+  sudo dnf install gh --repo gh-cli
+}
+
+install_apt() {
   local ppas=(
     git-core/ppa
   )
@@ -63,9 +89,9 @@ install_apt() {
     gdb
     git
     jq
-#    keychain
+    #    keychain
     libsqlite3-dev
- #   lolcat
+    #   lolcat
     manpages-posix
     ncat
     ncdu
@@ -297,7 +323,7 @@ USAGE: $0 [-h] [INSTALL]...
 
 If no INSTALL is specified then all will be run.
 INSTALL can be any of:
-  - apt         Install apt packages.
+  - packages    Install from package manager.
   - btop        Install btop.
   - debs        Install deb packages from github.
   - exercism    Install exercism CLI.
@@ -320,7 +346,7 @@ EOF
 
 main() {
   local validOptions=(
-    apt
+    packages
     btop
     debs
     exercism
