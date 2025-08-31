@@ -74,7 +74,7 @@ return {
           goto continue
         end
 
-        if lsp_opts.prefer_local then
+        if lsp_opts.prefer_local and vim.fn.executable(lsp_opts.prefer_local[1]) == 1 then
           local default_conf = require("lspconfig.configs." .. lsp)
           lsp_opts.cmd = vim.list_extend(lsp_opts.prefer_local, lsp_opts.cmd or default_conf.default_config.cmd)
         end

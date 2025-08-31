@@ -67,7 +67,9 @@ return true
             --     config.settings.python.pythonPath = get_python_path(config.root_dir)
             --   end,
             -- },
-            basedpyright = {}
+            basedpyright = {
+              prefer_local = { "uv", "run" },
+            },
           },
         },
       },
