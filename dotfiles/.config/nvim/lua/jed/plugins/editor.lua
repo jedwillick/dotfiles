@@ -297,7 +297,9 @@ return {
         },
       },
       filesystem = {
-        follow_current_file = true,
+        follow_current_file = {
+          enabled = true
+        },
         use_libuv_file_watcher = true,
         filtered_items = {
           hide_dotfiles = false,
