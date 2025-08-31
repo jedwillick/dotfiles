@@ -47,9 +47,30 @@ install_packages() {
     _install_apt
   elif exists dnf; then
     _install_dnf
+  elif exists pacman; then
+    _install_arch
   else
     log_warn "Unknown package manager.... skipping"
   fi
+}
+
+_install_arch() {
+  local packages=(
+    base-devel
+    ripgrep
+    fd
+    direnv
+    jq
+    zoxide
+    github-cli
+    hexyl
+    bat
+  )
+  log_working "Updating packages and refreshing mirrors"
+  sudo pacman -Syyu
+  log_done
+  log_working  "Installing pacman packages"
+  sudo pacman -Syy "${packages[@]}"
 }
 
 _install_dnf() {
